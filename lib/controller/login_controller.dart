@@ -26,7 +26,8 @@ class LoginController {
             "dataNascimento": dataNascimento,
             "cpf": cpf,
             "genero": genero,
-            "telefone": telefone
+            "telefone": telefone,
+            "funcionario": false
           },
         );
 
