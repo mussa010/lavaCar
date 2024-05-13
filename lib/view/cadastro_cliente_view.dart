@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../controller/login_controller.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CadastrarView extends StatefulWidget {
   const CadastrarView({super.key});
@@ -21,6 +22,21 @@ class _CadastrarViewState extends State<CadastrarView> {
   var txtGenero = TextEditingController();
   var txtTelefone = TextEditingController();
   var txtOutroGenero = TextEditingController();
+
+  var maskCpf = MaskTextInputFormatter(
+    mask: '###.###.###-##',
+    filter: {"#": RegExp(r'[0-9]')}
+  );
+
+  var maskData = MaskTextInputFormatter(
+    mask: '##/##/####',
+    filter: {"#": RegExp(r'[0-9]')}
+  );
+
+  var maskTelefone = MaskTextInputFormatter(
+    mask: '(##) #####-####',
+    filter: {"#": RegExp(r'[0-9]')}
+  );
 
   var generos = [
     'Masculino',
@@ -63,6 +79,7 @@ class _CadastrarViewState extends State<CadastrarView> {
             SizedBox(height: 15),
             TextField(
               controller: txtDataNascimento,
+              inputFormatters: [maskData],
               decoration: InputDecoration(
                   labelText: 'Data de nascimento',
                   prefixIcon: Icon(Icons.date_range),
@@ -71,6 +88,7 @@ class _CadastrarViewState extends State<CadastrarView> {
             SizedBox(height: 15),
             TextField(
               controller: txtCpf,
+              inputFormatters: [maskCpf],
               decoration: InputDecoration(
                   labelText: 'CPF',
                   prefixIcon: Icon(Icons.person),
@@ -114,6 +132,7 @@ class _CadastrarViewState extends State<CadastrarView> {
             SizedBox(height: 15),
             TextField(
               controller: txtTelefone,
+              inputFormatters: [maskTelefone],
               decoration: InputDecoration(
                   labelText: 'Telefone',
                   prefixIcon: Icon(Icons.phone),

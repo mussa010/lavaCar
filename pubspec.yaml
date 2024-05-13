@@ -13,11 +13,12 @@ dependencies:
   firebase_core: ^2.31.0
   flutter:
     sdk: flutter
+  mask_text_input_formatter: ^2.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true
