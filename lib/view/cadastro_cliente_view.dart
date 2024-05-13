@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../controller/login_controller.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:mask/mask.dart';
 
 class CadastrarView extends StatefulWidget {
   const CadastrarView({super.key});
@@ -23,21 +23,6 @@ class _CadastrarViewState extends State<CadastrarView> {
   var txtTelefone = TextEditingController();
   var txtOutroGenero = TextEditingController();
 
-  var maskCpf = MaskTextInputFormatter(
-    mask: '###.###.###-##',
-    filter: {"#": RegExp(r'[0-9]')}
-  );
-
-  var maskData = MaskTextInputFormatter(
-    mask: '##/##/####',
-    filter: {"#": RegExp(r'[0-9]')}
-  );
-
-  var maskTelefone = MaskTextInputFormatter(
-    mask: '(##) #####-####',
-    filter: {"#": RegExp(r'[0-9]')}
-  );
-
   var generos = [
     'Masculino',
     'Feminino',
@@ -51,6 +36,19 @@ class _CadastrarViewState extends State<CadastrarView> {
   String valorPadraoDropDown = 'Masculino';
 
   bool ativado = false;
+
+  dialogBox(context, titulo, mensagem) {
+    return showDialog(
+      context: context, 
+      builder: (BuildContext context) => AlertDialog.adaptive(
+        title: Text(titulo),
+        content: Text(mensagem),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, 'Voltar'),
+          child: const Text('Voltar'))
+        ],
+      ));
+  }
 
   @override
   void initState() {
@@ -78,8 +76,11 @@ class _CadastrarViewState extends State<CadastrarView> {
             ),
             SizedBox(height: 15),
             TextField(
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                Mask.date()
+              ],
               controller: txtDataNascimento,
-              inputFormatters: [maskData],
               decoration: InputDecoration(
                   labelText: 'Data de nascimento',
                   prefixIcon: Icon(Icons.date_range),
@@ -88,9 +89,10 @@ class _CadastrarViewState extends State<CadastrarView> {
             SizedBox(height: 15),
             TextField(
               controller: txtCpf,
-              inputFormatters: [maskCpf],
+              inputFormatters: [Mask.cpfOrCnpj()],
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                  labelText: 'CPF',
+                  labelText: 'CPF/CNPJ',
                   prefixIcon: Icon(Icons.person),
                   border: OutlineInputBorder()),
             ),
@@ -99,25 +101,27 @@ class _CadastrarViewState extends State<CadastrarView> {
               Text('Gênero:'), 
               SizedBox(width: 15),
               DropdownButton(
-              value: valorPadraoDropDown,
-              items: generos.map((String generos) {
-                return DropdownMenuItem( 
-                    value: generos, 
-                    child: Text(generos), 
-                  ); 
-              }).toList(), 
-            onChanged: (String? novoValor) {
-              setState(() {
-                valorPadraoDropDown = novoValor!;
-                if(valorPadraoDropDown == 'Outro') {
-                  ativado = true;
-                } else {
-                  setState(() {
-                    txtGenero.clear();
-                    ativado = false;
-                  });
-                }
-              });
+                icon: Icon(Icons.arrow_drop_down_rounded),
+                value: valorPadraoDropDown,
+                items: generos.map((String generos) {
+                  return DropdownMenuItem( 
+                      value: generos, 
+                      child: Text(generos),
+
+                    ); 
+                }).toList(), 
+                onChanged: (String? novoValor) {
+                setState(() {
+                  valorPadraoDropDown = novoValor!;
+                  if(valorPadraoDropDown == 'Outro') {
+                    ativado = true;
+                  } else {
+                    setState(() {
+                      txtGenero.clear();
+                      ativado = false;
+                    });
+                  }
+                });
             }),]),
             SizedBox(height: 15),
             TextField(
@@ -126,13 +130,13 @@ class _CadastrarViewState extends State<CadastrarView> {
                   labelText: 'Gênero',
                   prefixIcon: Icon(IconData(0xed6f, fontFamily: 'MaterialIcons')),
                   enabled: ativado,
-                  border: OutlineInputBorder()
+                  border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 15),
             TextField(
               controller: txtTelefone,
-              inputFormatters: [maskTelefone],
+              inputFormatters: [Mask.generic(masks: ['(##) ####-####', '(##) #####-####'])],
               decoration: InputDecoration(
                   labelText: 'Telefone',
                   prefixIcon: Icon(Icons.phone),
@@ -183,32 +187,35 @@ class _CadastrarViewState extends State<CadastrarView> {
                     minimumSize: Size(140, 40),
                   ),
                   onPressed: () {
-                    if(valorPadraoDropDown == 'Outro') {
-                      LoginController().criarConta(
-                        context, 
-                        txtNome.text, 
-                        txtEmail.text, 
-                        txtSenha.text, 
-                        txtDataNascimento.text, 
-                        txtCpf.text, 
-                        txtGenero.text, 
-                        txtTelefone.text
-                      );
-                      print('deu certo');
+                    if(txtSenha.text == txtConfirmarSenha.text) {
+                      if(valorPadraoDropDown == 'Outro') {
+                        LoginController().criarConta(
+                          context,
+                          txtNome.text,
+                          txtEmail.text,
+                          txtSenha.text,
+                          txtDataNascimento.text,
+                          txtCpf.text,
+                          txtGenero.text,
+                          txtTelefone.text
+                        );
+                      } else {
+                        LoginController().criarConta(
+                          context, 
+                          txtNome.text, 
+                          txtEmail.text, 
+                          txtSenha.text, 
+                          txtDataNascimento.text, 
+                          txtCpf.text, 
+                          valorPadraoDropDown, 
+                          txtTelefone.text
+                        );
+                      }
                     } else {
-                      LoginController().criarConta(
-                        context, 
-                        txtNome.text, 
-                        txtEmail.text, 
-                        txtSenha.text, 
-                        txtDataNascimento.text, 
-                        txtCpf.text, 
-                        valorPadraoDropDown, 
-                        txtTelefone
-                      );
-                      print('deu certo');
+                      dialogBox(context, 'Erro', 'As senhas não são iguais');
+                      txtSenha.clear();
+                      txtConfirmarSenha.clear();
                     }
-                    
                   },
                   child: Text('salvar'),
                 ),

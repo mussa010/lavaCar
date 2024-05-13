@@ -14,8 +14,7 @@ class LoginController {
         .createUserWithEmailAndPassword(
       email: email,
       password: senha,
-    )
-        .then(
+    ).then(
       (resultado) {
         //Usuário criado com sucesso!
 
