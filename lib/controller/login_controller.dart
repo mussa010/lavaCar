@@ -20,7 +20,7 @@ class LoginController {
         //Usuário criado com sucesso!
 
         //Armazenar o NOME e UID do usuário no Firestore
-        FirebaseFirestore.instance.collection("usuarios").add(
+        FirebaseFirestore.instance.collection("cliente").add(
           {
             "uid": resultado.user!.uid,
             "nome": nome,
@@ -31,11 +31,11 @@ class LoginController {
           },
         );
 
-        sucesso(context, 'Cliente cadastrado com sucesso!');
+        sucesso(context, 'Cliente criado com sucesso!');
         Navigator.pop(context);
       },
     ).catchError((e) {
-      //Erro durante a criação do usuário
+      //Erro durante a criação do cliente
       switch (e.code) {
         case 'email-already-in-use':
           erro(context, 'O email já foi cadastrado.');

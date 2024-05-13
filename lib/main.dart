@@ -1,11 +1,23 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lava_car/view/cadastro_cliente_view.dart';
 import 'package:lava_car/view/principal_view.dart';
 
+import 'firebase_options.dart';
 import 'view/login_view.dart';
 
 Future main() async{
-  runApp(const MainApp());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(
+    DevicePreview(
+      enabled: false,
+      builder: (context) => const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {

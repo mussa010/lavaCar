@@ -175,6 +175,7 @@ class _CadastrarViewState extends State<CadastrarView> {
                         txtGenero.text, 
                         txtTelefone.text
                       );
+                      print('deu certo');
                     } else {
                       LoginController().criarConta(
                         context, 
@@ -186,7 +187,9 @@ class _CadastrarViewState extends State<CadastrarView> {
                         valorPadraoDropDown, 
                         txtTelefone
                       );
+                      print('deu certo');
                     }
+                    
                   },
                   child: Text('salvar'),
                 ),
