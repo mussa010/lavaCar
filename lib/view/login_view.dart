@@ -17,6 +17,9 @@ class _LoginViewState extends State<LoginView> {
   var txtSenha = TextEditingController();
   var txtEmailEsqueceuSenha = TextEditingController();
 
+  var visibilidadeSenha = Icon(Icons.visibility_off);
+  bool naoVisivel = true;
+
   @override
   void initState() {
     super.initState();
@@ -44,10 +47,33 @@ class _LoginViewState extends State<LoginView> {
             SizedBox(height: 15),
             TextField(
               controller: txtSenha,
-              obscureText: true,
+              obscureText: naoVisivel,
               decoration: InputDecoration(
                   labelText: 'Senha',
                   prefixIcon: Icon(Icons.password),
+                  suffixIcon: IconButton(
+                    style: ButtonStyle(iconColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                      if(states.contains(MaterialState.pressed)) {
+                        return Colors.blue;
+                      } else {
+                        return null;
+                      } 
+                    })),
+                    icon: visibilidadeSenha,
+                    onPressed: () {
+                      if(naoVisivel == true) {
+                        setState(() {
+                          visibilidadeSenha = Icon(Icons.visibility);
+                          naoVisivel = false;
+                        });
+                      } else {
+                        setState(() {
+                          visibilidadeSenha = Icon(Icons.visibility_off);
+                          naoVisivel = true;
+                        });
+                      }
+                    },
+                  ),
                   border: OutlineInputBorder()),
             ),
             Align(
@@ -58,6 +84,7 @@ class _LoginViewState extends State<LoginView> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
+                        backgroundColor: Colors.teal[400],
                         title: Text("Esqueceu a senha?"),
                         content: Container(
                           height: 150,
