@@ -27,7 +27,8 @@ class LoginController {
             "cpf": cpf,
             "genero": genero,
             "telefone": telefone,
-            "funcionario": false
+            "funcionario": false,
+            "email": email,
           },
         );
 
@@ -89,5 +90,12 @@ class LoginController {
   //
   idUsuarioLogado() {
     return FirebaseAuth.instance.currentUser!.uid;
+  }
+
+  // Retorna inforações do cliente logado
+  listarInformacoesClienteLogado() {
+    return FirebaseFirestore.instance
+    .collection('cliente')
+    .where('uid', isEqualTo: LoginController().idUsuarioLogado());
   }
 }

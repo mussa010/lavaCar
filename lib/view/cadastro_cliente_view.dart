@@ -211,6 +211,13 @@ class _CadastrarViewState extends State<CadastrarView> {
                           txtTelefone.text
                         );
                       }
+                      txtNome.clear();
+                      txtEmail.clear();
+                      txtSenha.clear();
+                      txtDataNascimento.clear();
+                      txtCpf.clear();
+                      txtGenero.clear();
+                      txtTelefone.clear();
                     } else {
                       dialogBox(context, 'Erro', 'As senhas não são iguais');
                       txtSenha.clear();
@@ -224,7 +231,7 @@ class _CadastrarViewState extends State<CadastrarView> {
             SizedBox(height: 40),
           ],
         ),
-      ),)
+      ))
     );
   }
 }

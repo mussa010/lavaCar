@@ -48,6 +48,7 @@ class _LoginViewState extends State<LoginView> {
             TextField(
               controller: txtSenha,
               obscureText: naoVisivel,
+              obscuringCharacter: '*',
               decoration: InputDecoration(
                   labelText: 'Senha',
                   prefixIcon: Icon(Icons.password),
@@ -149,6 +150,8 @@ class _LoginViewState extends State<LoginView> {
                     txtEmail.text,
                     txtSenha.text,
                   );
+                  txtEmail.clear();
+                  txtSenha.clear();
                 } else {
                   erro(context, 'Campo de email ou senha está vazio!');
                 }
