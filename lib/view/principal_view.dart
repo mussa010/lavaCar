@@ -19,7 +19,7 @@ class _PrincipalView extends State<PrincipalView> {
       drawer: Drawer(
         child: 
         StreamBuilder<QuerySnapshot>(
-              stream: LoginController().listarInformacoesClienteLogado(), 
+              stream: LoginController().listarInformacoesClienteLogado().snapshot(), 
               
               builder: (context, snapshot) {
                 switch(snapshot.connectionState) {
@@ -39,19 +39,24 @@ class _PrincipalView extends State<PrincipalView> {
                       ListView.builder(
                         itemCount: dados.size,
                         itemBuilder: (context, index) {
-                          String id;
+                          String id = dados.docs[0].id;
+                          dynamic doc = dados.docs[0].data();
+                          return ListView(
+                            padding: EdgeInsets.zero,
+                            children: [
+                              UserAccountsDrawerHeader(accountName: doc['nome'], accountEmail: doc['email'])
+                            ],
+                          );
+
                         },
                       );
-                    }
+                    } 
                 }
+                throw Exception(ex);
               }
-            ),
-            UserAccountsDrawerHeader(accountName: Text(usuario.getNome()), accountEmail: Text(usuario.getEmail())),
-            const ListTile(
-              leading: Icon(Icons.directions_car, color: Colors.white,),
-              title: Text('Cadastrar carro', style: TextStyle(color: Colors.white)),
             ),
       ),
     );
   }
+  Exception ex(int codigoStatus) => throw Exception(const Dialog(child: Text('Erro')));
 }
