@@ -63,13 +63,13 @@ class _PrincipalView extends State<PrincipalView> {
                     selected: inicioSelecionado,
                     title: const Text('Incício'),
                     onTap: () {
-                     setState(() {
+                      Scaffold.of(context).closeDrawer();
+                      setState(() {
                         inicioSelecionado = true;
                         agendarSelecionado = false;
                         editarContaSelecionado = false;
                         adicionarCarro = false;
                      });
-                     Navigator.pop(context);
                     },
                   ),
                   ListTile(
@@ -77,13 +77,13 @@ class _PrincipalView extends State<PrincipalView> {
                     selected: agendarSelecionado,
                     title: const Text('Agendar lavagem'),
                     onTap: () {
+                      Scaffold.of(context).closeDrawer();
                       setState(() {
                         inicioSelecionado = false;
                         agendarSelecionado = true;
                         editarContaSelecionado = false;
                         adicionarCarro = false;
                       });
-                      Navigator.pop(context);
                     },
                   ),
                   ListTile(
@@ -95,13 +95,13 @@ class _PrincipalView extends State<PrincipalView> {
                     ),
                     title: const Text('Adicionar carro'),
                     onTap: () {
+                      Scaffold.of(context).closeDrawer();
                       setState(() {
                         inicioSelecionado = false;
                         agendarSelecionado = false;
                         editarContaSelecionado = false;
                         adicionarCarro = true;
                       });
-                      Navigator.pop(context);
                     },
                   ),
                   ListTile(
@@ -109,13 +109,13 @@ class _PrincipalView extends State<PrincipalView> {
                     title: const Text('Editar conta'),
                     selected: editarContaSelecionado,
                     onTap: () {
+                      Scaffold.of(context).closeDrawer();
                       setState(() {
                         inicioSelecionado = false;
                         agendarSelecionado = false;
                         editarContaSelecionado = true;
                         adicionarCarro = false;
                       });
-                      Navigator.pop(context);
                     },
                   ),
                   ListTile(

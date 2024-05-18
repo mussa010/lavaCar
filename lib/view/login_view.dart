@@ -87,7 +87,7 @@ class _LoginViewState extends State<LoginView> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        backgroundColor: Colors.teal[400],
+                        backgroundColor: Colors.white,
                         title: Text("Esqueceu a senha?"),
                         content: Container(
                           height: 150,
