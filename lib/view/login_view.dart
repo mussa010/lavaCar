@@ -17,7 +17,7 @@ class _LoginViewState extends State<LoginView> {
   var txtSenha = TextEditingController();
   var txtEmailEsqueceuSenha = TextEditingController();
 
-  var visibilidadeSenha = Icon(Icons.visibility_off);
+  var visibilidadeSenha = Icon(Icons.visibility_off_outlined);
   bool naoVisivel = true;
 
   @override
@@ -66,12 +66,12 @@ class _LoginViewState extends State<LoginView> {
                     onPressed: () {
                       if(naoVisivel == true) {
                         setState(() {
-                          visibilidadeSenha = Icon(Icons.visibility);
+                          visibilidadeSenha = Icon(Icons.visibility_outlined);
                           naoVisivel = false;
                         });
                       } else {
                         setState(() {
-                          visibilidadeSenha = Icon(Icons.visibility_off);
+                          visibilidadeSenha = Icon(Icons.visibility_off_outlined);
                           naoVisivel = true;
                         });
                       }

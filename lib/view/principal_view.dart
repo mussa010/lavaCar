@@ -1,5 +1,8 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import '../controller/login_controller.dart';
 class PrincipalView extends StatefulWidget {
   const PrincipalView({super.key});
@@ -10,7 +13,7 @@ class PrincipalView extends StatefulWidget {
 
 class _PrincipalView extends State<PrincipalView> {
   @override
-  bool inicioSelecionado = true, agendarSelecionado = false, minhaContaSelecionado = false;
+  bool inicioSelecionado = true, agendarSelecionado = false, editarContaSelecionado = false, adicionarCarro = false;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -57,22 +60,34 @@ class _PrincipalView extends State<PrincipalView> {
                   ),
                   ListTile(
                     leading: const Icon(Icons.home),
-                    selected: true,
+                    selected: inicioSelecionado,
                     title: const Text('Incício'),
                     onTap: () {
-                      Navigator.pop(context);
-                      
+                     setState(() {
+                        inicioSelecionado = true;
+                        agendarSelecionado = false;
+                        editarContaSelecionado = false;
+                        adicionarCarro = false;
+                     });
+                     Navigator.pop(context);
                     },
                   ),
                   ListTile(
                     leading: const Icon(Icons.edit_calendar_outlined),
+                    selected: agendarSelecionado,
                     title: const Text('Agendar lavagem'),
                     onTap: () {
+                      setState(() {
+                        inicioSelecionado = false;
+                        agendarSelecionado = true;
+                        editarContaSelecionado = false;
+                        adicionarCarro = false;
+                      });
                       Navigator.pop(context);
-                      //Navegar para outra página
                     },
                   ),
                   ListTile(
+                    selected: adicionarCarro,
                     leading: Image.asset('lib/images/carro-esportivo.png', 
                     width: 30,
                     height: 30,
@@ -80,16 +95,27 @@ class _PrincipalView extends State<PrincipalView> {
                     ),
                     title: const Text('Adicionar carro'),
                     onTap: () {
+                      setState(() {
+                        inicioSelecionado = false;
+                        agendarSelecionado = false;
+                        editarContaSelecionado = false;
+                        adicionarCarro = true;
+                      });
                       Navigator.pop(context);
-                      //Navegar para outra página
                     },
                   ),
                   ListTile(
                     leading: const Icon(Icons.person),
                     title: const Text('Editar conta'),
+                    selected: editarContaSelecionado,
                     onTap: () {
+                      setState(() {
+                        inicioSelecionado = false;
+                        agendarSelecionado = false;
+                        editarContaSelecionado = true;
+                        adicionarCarro = false;
+                      });
                       Navigator.pop(context);
-                      //Navegar para outra página
                     },
                   ),
                   ListTile(
@@ -107,9 +133,10 @@ class _PrincipalView extends State<PrincipalView> {
         },
       )
       ),
-      body: Scaffold(
-        
-      ),
+      body: const Padding(
+        padding: EdgeInsets.all(20),
+        child: Text('Desenvolvendo', textAlign: TextAlign.center),
+      )
     );
   }
 }
