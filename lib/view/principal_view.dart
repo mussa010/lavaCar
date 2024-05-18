@@ -12,8 +12,8 @@ class PrincipalView extends StatefulWidget {
 }
 
 class _PrincipalView extends State<PrincipalView> {
-  @override
   bool inicioSelecionado = true, agendarSelecionado = false, editarContaSelecionado = false, adicionarCarro = false;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
