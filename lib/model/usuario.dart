@@ -12,10 +12,10 @@ class Usuario {
   }
 
   String getNome() {
-    return this.nome;
+    return nome;
   }
 
   String getEmail() {
-    return this.email;
+    return email;
   }
 }

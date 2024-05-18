@@ -93,9 +93,9 @@ class LoginController {
   }
 
   // Retorna inforações do cliente logado
-  listarInformacoesClienteLogado() {
+   listarInformacoesClienteLogado()   {
     return FirebaseFirestore.instance
-    .collection('cliente')
-    .where('uid', isEqualTo: LoginController().idUsuarioLogado());
+      .collection('cliente')
+      .where('uid',isEqualTo: LoginController().idUsuarioLogado());
   }
 }
