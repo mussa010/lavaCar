@@ -15,6 +15,7 @@ class _PrincipalView extends State<PrincipalView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
+        
       ),
       drawer: Drawer(child: 
         StreamBuilder<QuerySnapshot> (
@@ -62,7 +63,11 @@ class _PrincipalView extends State<PrincipalView> {
                     },
                   ),
                   ListTile(
-                    leading: const Icon(Icons.edit_calendar_outlined),
+                    leading: Image.asset('lib/images/carro-esportivo.png', 
+                    width: 30,
+                    height: 30,
+                      color: Colors.black,
+                    ),
                     title: const Text('Adicionar carro'),
                     onTap: () {
                       Navigator.pop(context);
