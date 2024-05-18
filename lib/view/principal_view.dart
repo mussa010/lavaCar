@@ -15,9 +15,19 @@ class _PrincipalView extends State<PrincipalView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        
+        leading: Builder(
+            builder: (context) {
+              return IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                }, 
+                icon: const Icon(Icons.menu, color: Colors.white,)
+              );
+            }
+          ),
       ),
-      drawer: Drawer(child: 
+      drawer: Drawer(
+        child: 
         StreamBuilder<QuerySnapshot> (
         stream: LoginController().listarInformacoesClienteLogado().snapshots(),
 
@@ -97,7 +107,9 @@ class _PrincipalView extends State<PrincipalView> {
         },
       )
       ),
-      body: Scaffold(),
+      body: Scaffold(
+        
+      ),
     );
   }
 }
