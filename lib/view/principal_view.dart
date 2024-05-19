@@ -2,6 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../controller/login_controller.dart';
+
+import 'cadastrar_carro_view.dart';
+import 'agendar_lavagem_view.dart';
+
 class PrincipalView extends StatefulWidget {
   const PrincipalView({super.key});
 
@@ -11,10 +15,25 @@ class PrincipalView extends StatefulWidget {
 
 class _PrincipalView extends State<PrincipalView> {
   bool inicioSelecionado = true, agendarSelecionado = false, editarContaSelecionado = false, adicionarCarro = false;
+  int itemSelecionado = 0;
+
+  // Opções das páginas do BottomNavigationBar
+  static const List<Widget> opcaoWidget = <Widget> [
+    Text('Home'),
+    Text('Página 2'),
+    Text('Consultando veículo')
+  ];
+
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text(
+          'Início',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.blue,
         leading: Builder(
             builder: (context) {
@@ -80,12 +99,7 @@ class _PrincipalView extends State<PrincipalView> {
                     title: const Text('Adicionar carro'),
                     onTap: () {
                       Scaffold.of(context).closeDrawer();
-                      setState(() {
-                        inicioSelecionado = false;
-                        agendarSelecionado = false;
-                        editarContaSelecionado = false;
-                        adicionarCarro = true;
-                      });
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const CadastrarCarro()));
                     },
                   ),
                   ListTile(
@@ -94,12 +108,7 @@ class _PrincipalView extends State<PrincipalView> {
                     title: const Text('Agendar lavagem'),
                     onTap: () {
                       Scaffold.of(context).closeDrawer();
-                      setState(() {
-                        inicioSelecionado = false;
-                        agendarSelecionado = true;
-                        editarContaSelecionado = false;
-                        adicionarCarro = false;
-                      });
+                      Navigator.of(context).push(MaterialPageRoute(builder:  ((context) => const AgendarLavagem())));
                     },
                   ),
                   ListTile(
@@ -108,14 +117,9 @@ class _PrincipalView extends State<PrincipalView> {
                     selected: editarContaSelecionado,
                     onTap: () {
                       Scaffold.of(context).closeDrawer();
-                      setState(() {
-                        inicioSelecionado = false;
-                        agendarSelecionado = false;
-                        editarContaSelecionado = true;
-                        adicionarCarro = false;
-                      });
                     },
                   ),
+                  const Divider(color: Colors.black,),
                   ListTile(
                     leading: const Icon(Icons.exit_to_app),
                     title: const Text('Sair'),
@@ -131,15 +135,35 @@ class _PrincipalView extends State<PrincipalView> {
         },
       )
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(20),
-        child: Center(),
+      
+      body:  Padding(
+        padding: const EdgeInsets.all(20),
+        child: opcaoWidget.elementAt(itemSelecionado),
 
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
-          
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+             label: 'Home',
+            ),
+            BottomNavigationBarItem(
+            icon: Icon(Icons.access_alarm_rounded),
+             label: 'Tela 2',
+            ),
+            BottomNavigationBarItem(
+            icon: Icon(Icons.directions_car_outlined),
+             label: 'Consultar carro',
+            )
         ],
+        backgroundColor: Colors.blue,
+        currentIndex: itemSelecionado,
+        selectedItemColor: Colors.white,
+        onTap: (int indice) {
+          setState(() {
+            itemSelecionado = indice;
+          });
+        },
       ),
     );
   }
