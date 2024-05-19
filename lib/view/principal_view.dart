@@ -1,8 +1,6 @@
-import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../controller/login_controller.dart';
 class PrincipalView extends StatefulWidget {
   const PrincipalView({super.key});
@@ -73,20 +71,6 @@ class _PrincipalView extends State<PrincipalView> {
                     },
                   ),
                   ListTile(
-                    leading: const Icon(Icons.edit_calendar_outlined),
-                    selected: agendarSelecionado,
-                    title: const Text('Agendar lavagem'),
-                    onTap: () {
-                      Scaffold.of(context).closeDrawer();
-                      setState(() {
-                        inicioSelecionado = false;
-                        agendarSelecionado = true;
-                        editarContaSelecionado = false;
-                        adicionarCarro = false;
-                      });
-                    },
-                  ),
-                  ListTile(
                     selected: adicionarCarro,
                     leading: Image.asset('lib/images/carro-esportivo.png', 
                     width: 30,
@@ -101,6 +85,20 @@ class _PrincipalView extends State<PrincipalView> {
                         agendarSelecionado = false;
                         editarContaSelecionado = false;
                         adicionarCarro = true;
+                      });
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.edit_calendar_outlined),
+                    selected: agendarSelecionado,
+                    title: const Text('Agendar lavagem'),
+                    onTap: () {
+                      Scaffold.of(context).closeDrawer();
+                      setState(() {
+                        inicioSelecionado = false;
+                        agendarSelecionado = true;
+                        editarContaSelecionado = false;
+                        adicionarCarro = false;
                       });
                     },
                   ),
@@ -135,8 +133,14 @@ class _PrincipalView extends State<PrincipalView> {
       ),
       body: const Padding(
         padding: EdgeInsets.all(20),
-        child: Text('Desenvolvendo', textAlign: TextAlign.center),
-      )
+        child: Center(),
+
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          
+        ],
+      ),
     );
   }
 }

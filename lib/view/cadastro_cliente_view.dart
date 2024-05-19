@@ -22,6 +22,10 @@ class _CadastrarViewState extends State<CadastrarView> {
   var txtGenero = TextEditingController();
   var txtTelefone = TextEditingController();
   var txtOutroGenero = TextEditingController();
+  var txtConfirmarEmail = TextEditingController();
+
+  var visibilidadeSenha = Icon(Icons.visibility_off_outlined), visibilidadeConfirmarSenha = Icon(Icons.visibility_off_outlined);
+  bool senhaNaoVisivel = true, confirmarSenhaNaoVisivel = true;
 
   var generos = [
     'Masculino',
@@ -152,23 +156,77 @@ class _CadastrarViewState extends State<CadastrarView> {
             ),
             SizedBox(height: 15),
             TextField(
+              controller: txtConfirmarEmail,
+              decoration: InputDecoration(
+                  labelText: 'Confirmar email',
+                  prefixIcon: Icon(Icons.email),
+                  border: OutlineInputBorder()),
+            ),
+            SizedBox(height: 15),
+            TextField(
               controller: txtSenha,
-              obscureText: true,
+              obscureText: senhaNaoVisivel,
               obscuringCharacter: '*',
               decoration: InputDecoration(
                   labelText: 'Senha',
                   prefixIcon: Icon(Icons.password),
+                  suffixIcon: IconButton(
+                    style: ButtonStyle(iconColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                      if(states.contains(MaterialState.pressed)) {
+                        return Colors.blue;
+                      } else {
+                        return null;
+                      } 
+                    })),
+                    icon: visibilidadeSenha,
+                    onPressed: () {
+                      if(senhaNaoVisivel == true) {
+                        setState(() {
+                          visibilidadeSenha = Icon(Icons.visibility_outlined);
+                          senhaNaoVisivel = false;
+                        });
+                      } else {
+                        setState(() {
+                          visibilidadeSenha = Icon(Icons.visibility_off_outlined);
+                          senhaNaoVisivel = true;
+                        });
+                      }
+                    },
+                  ),
                   border: OutlineInputBorder()
               ),
             ),
             SizedBox(height: 15),
             TextField(
               controller: txtConfirmarSenha,
-              obscureText: true,
+              obscureText: confirmarSenhaNaoVisivel,
               obscuringCharacter: '*',
               decoration: InputDecoration(
                   labelText: 'Confirmar senha',
                   prefixIcon: Icon(Icons.password),
+                  suffixIcon: IconButton(
+                    style: ButtonStyle(iconColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                      if(states.contains(MaterialState.pressed)) {
+                        return Colors.blue;
+                      } else {
+                        return null;
+                      } 
+                    })),
+                    icon: visibilidadeConfirmarSenha,
+                    onPressed: () {
+                      if(confirmarSenhaNaoVisivel == true) {
+                        setState(() {
+                          visibilidadeConfirmarSenha = Icon(Icons.visibility_outlined);
+                          confirmarSenhaNaoVisivel = false;
+                        });
+                      } else {
+                        setState(() {
+                          visibilidadeConfirmarSenha = Icon(Icons.visibility_off_outlined);
+                          confirmarSenhaNaoVisivel = true;
+                        });
+                      }
+                    },
+                  ),
                   border: OutlineInputBorder()
               ),
             ),
@@ -187,7 +245,7 @@ class _CadastrarViewState extends State<CadastrarView> {
                     minimumSize: Size(140, 40),
                   ),
                   onPressed: () {
-                    if(txtSenha.text == txtConfirmarSenha.text) {
+                    if(txtSenha.text == txtConfirmarSenha.text && txtEmail.text == txtConfirmarEmail.text) {
                       if(valorPadraoDropDown == 'Outro') {
                         LoginController().criarConta(
                           context,
