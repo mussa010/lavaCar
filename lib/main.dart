@@ -8,13 +8,14 @@ import 'firebase_options.dart';
 import 'view/login_view.dart';
 
 Future main() async{
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
   runApp(
     DevicePreview(
-      enabled: true,
+      enabled: false,
       builder: (context) => const MainApp(),
     ),
   );
