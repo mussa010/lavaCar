@@ -78,7 +78,7 @@ class _PrincipalView extends State<PrincipalView> {
                   ListTile(
                     leading: const Icon(Icons.home),
                     selected: inicioSelecionado,
-                    title: const Text('Incício'),
+                    title: const Text('Início'),
                     onTap: () {
                       Scaffold.of(context).closeDrawer();
                       setState(() {
