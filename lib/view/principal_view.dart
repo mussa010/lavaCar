@@ -99,7 +99,7 @@ class _PrincipalView extends State<PrincipalView> {
                     height: 30,
                       color: Colors.black,
                     ),
-                    title: const Text('Adicionar carro'),
+                    title: const Text('Cadastrar carro'),
                     onTap: () {
                       Scaffold.of(context).closeDrawer();
                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const CadastrarCarro()));
