@@ -172,7 +172,6 @@ class _PrincipalView extends State<PrincipalView> {
     );
   }
 
-
   // lavagensCliente() {
   //   return Center(
   //     child: Padding(
