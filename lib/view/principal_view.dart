@@ -5,6 +5,7 @@ import '../controller/login_controller.dart';
 
 import 'cadastrar_carro_view.dart';
 import 'agendar_lavagem_view.dart';
+import '../model/usuario.dart';
 
 class PrincipalView extends StatefulWidget {
   const PrincipalView({super.key});
@@ -73,7 +74,10 @@ class _PrincipalView extends State<PrincipalView> {
                     decoration: const BoxDecoration(color: Colors.blue),
                     accountEmail: Text(doc['email']),
                     accountName: Text(doc['nome']),
-                    currentAccountPicture: const CircleAvatar(child: Icon(Icons.person)),
+                    currentAccountPicture: CircleAvatar(
+                      child: Text(doc['nome'][0], 
+                      style: const TextStyle(fontSize: 30))
+                    ),
                   ),
                   ListTile(
                     leading: const Icon(Icons.home),
@@ -96,7 +100,7 @@ class _PrincipalView extends State<PrincipalView> {
                     height: 30,
                       color: Colors.black,
                     ),
-                    title: const Text('Adicionar carro'),
+                    title: const Text('Cadastrar carro'),
                     onTap: () {
                       Scaffold.of(context).closeDrawer();
                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const CadastrarCarro()));
@@ -167,4 +171,17 @@ class _PrincipalView extends State<PrincipalView> {
       ),
     );
   }
+
+  // lavagensCliente() {
+  //   return Center(
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(20),
+  //       child: Column(
+  //         children: [
+
+  //         ],
+  //       ),
+  //     )
+  //   );
+  // }
 }
