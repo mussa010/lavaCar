@@ -73,7 +73,10 @@ class _PrincipalView extends State<PrincipalView> {
                     decoration: const BoxDecoration(color: Colors.blue),
                     accountEmail: Text(doc['email']),
                     accountName: Text(doc['nome']),
-                    currentAccountPicture: const CircleAvatar(child: Icon(Icons.person)),
+                    currentAccountPicture: CircleAvatar(
+                      child: Text(doc['nome'][0], 
+                      style: const TextStyle(fontSize: 30))
+                    ),
                   ),
                   ListTile(
                     leading: const Icon(Icons.home),
