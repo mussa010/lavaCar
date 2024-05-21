@@ -81,20 +81,14 @@ class _PrincipalView extends State<PrincipalView> {
                   ),
                   ListTile(
                     leading: const Icon(Icons.home),
-                    selected: inicioSelecionado,
+                    selected: true,
                     title: const Text('Início'),
                     onTap: () {
                       Scaffold.of(context).closeDrawer();
-                      setState(() {
-                        inicioSelecionado = true;
-                        agendarSelecionado = false;
-                        editarContaSelecionado = false;
-                        adicionarCarro = false;
-                     });
                     },
                   ),
                   ListTile(
-                    selected: adicionarCarro,
+                    selected: false,
                     leading: Image.asset('lib/images/carro-esportivo.png', 
                     width: 30,
                     height: 30,
@@ -108,7 +102,7 @@ class _PrincipalView extends State<PrincipalView> {
                   ),
                   ListTile(
                     leading: const Icon(Icons.edit_calendar_outlined),
-                    selected: agendarSelecionado,
+                    selected: false,
                     title: const Text('Agendar lavagem'),
                     onTap: () {
                       Scaffold.of(context).closeDrawer();
@@ -118,7 +112,7 @@ class _PrincipalView extends State<PrincipalView> {
                   ListTile(
                     leading: const Icon(Icons.person),
                     title: const Text('Editar conta'),
-                    selected: editarContaSelecionado,
+                    selected: false,
                     onTap: () {
                       Scaffold.of(context).closeDrawer();
                     },

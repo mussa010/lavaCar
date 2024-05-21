@@ -54,10 +54,6 @@ class _CadastrarViewState extends State<CadastrarView> {
       ));
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
