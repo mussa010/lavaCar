@@ -17,4 +17,8 @@ class LavagemController {
 
     
   }
+
+  agendarLavagem(context, nomeCliente, cpfCliente, contatoCliente, uidCliente, nomeCarro, modeloCarro, tipoCarro, data, horario) {
+    return FirebaseFirestore.instance.collection('agendamento');
+  }
 }

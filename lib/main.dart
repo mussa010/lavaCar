@@ -32,7 +32,9 @@ class MainApp extends StatelessWidget {
       routes: {
         'login': (context) => const LoginView(),
         'cadastrar': (context) => const CadastrarView(),
-        'principal': (context) => const PrincipalView()
+        'principal': (context) => const PrincipalView(),
+        // 'cadastroVeiculo'
+
       }
     );
   }
