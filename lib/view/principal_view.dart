@@ -1,7 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../controller/login_controller.dart';
 
 import 'cadastrar_carro_view.dart';
@@ -18,28 +17,39 @@ class _PrincipalView extends State<PrincipalView> {
   bool inicioSelecionado = true, agendarSelecionado = false, editarContaSelecionado = false, adicionarCarro = false;
   int itemSelecionado = 0;
 
-  // Opções das páginas do BottomNavigationBar
-  static const List<Widget> opcaoWidget = <Widget> [
+  @override
+  Widget build(BuildContext context) {
+
+    // Opções das páginas do BottomNavigationBar
+  List<Widget> opcaoWidget = <Widget> [
     //menu Home -> mostra lavagens do dia do cliente e histórico de lavagens
     Center(
-      child: Padding(
-        padding:  EdgeInsets.all(20),
-        child: Column(
+      child: Column(
           children: [
-            Text('Lavagem do dia', style: TextStyle(fontSize: 30))
+            Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration:   const BoxDecoration(
+                    color: Colors.blue, 
+                    borderRadius: BorderRadius.vertical( bottom: Radius.circular(50))
+                  ),
+                  child: const Column(
+                    children: [
+                      Center(
+                        child: Text('Lavagem do dia', style: TextStyle( fontSize: 30, color: Colors.white))
+                      ),
+                      SizedBox(height: 300,)
+                    ]
+                  )
+            )
+            
 
           ],
         ),
-      )
+      
     ),
     Text('Página 2'),
     Text('Consultando veículo')
   ];
-
-  
-
-  @override
-  Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -147,10 +157,13 @@ class _PrincipalView extends State<PrincipalView> {
         )
         ),
         
-        body:  Padding(
-          padding: const EdgeInsets.all(20),
-          child: opcaoWidget.elementAt(itemSelecionado),
-      
+        body:  SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 5), 
+              opcaoWidget.elementAt(itemSelecionado)
+              ]
+            ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           items: const [
