@@ -42,7 +42,6 @@ class MainApp extends StatelessWidget {
         'cadastrar': (context) => const CadastrarView(),
         'principal': (context) => const PrincipalView(),
         // 'cadastroVeiculo'
-
       }
     );
   }

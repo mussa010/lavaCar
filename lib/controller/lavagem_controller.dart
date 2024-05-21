@@ -10,9 +10,11 @@ class LavagemController {
 
     final docRef = db.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado()).
     get().then((querySnapshot) {
+      
       for(var docSnapshot in querySnapshot.docs) {
 
       }
+      return ;
     }); 
 
     

@@ -1,6 +1,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lava_car/controller/carro_controller.dart';
+import 'package:lava_car/controller/lavagem_controller.dart';
 import '../controller/login_controller.dart';
 
 import 'cadastrar_carro_view.dart';
@@ -32,12 +34,47 @@ class _PrincipalView extends State<PrincipalView> {
                     color: Colors.blue, 
                     borderRadius: BorderRadius.vertical( bottom: Radius.circular(50))
                   ),
-                  child: const Column(
+                  child:  Column(
                     children: [
-                      Center(
+                       const Center(
                         child: Text('Lavagem do dia', style: TextStyle( fontSize: 30, color: Colors.white))
                       ),
-                      SizedBox(height: 300,)
+                      StreamBuilder<QuerySnapshot>(
+                       stream: LavagemController().listarLavagensCliente().snapshots(), 
+
+                        builder: (context, snapshot) {
+                          switch(snapshot.connectionState) {
+                            case ConnectionState.none:
+                              return const Center(child: Text('Erro de conexão'));
+
+                            case ConnectionState.waiting:
+                              return  const CircularProgressIndicator(color: Colors.white);
+
+                            default:
+                              final dados = snapshot.requireData;
+
+                              if(dados.size > 0) {
+                                return ListView.builder(
+                                  itemCount: dados.size,
+                                  itemBuilder: (context, index) {
+                                    
+                                  },
+                                );
+                              } else {
+                                return const Center(
+                                  child: Text(
+                                    'Não há lavagem', 
+                                    style: TextStyle(
+                                      fontSize: 30, 
+                                      color: Colors.white
+                                      )
+                                    )
+                                  );
+                              }
+                          }
+                        },
+                      ),
+                      // StreamBuilder<QuerySnapshot>(),
                     ]
                   )
             )
@@ -47,8 +84,8 @@ class _PrincipalView extends State<PrincipalView> {
         ),
       
     ),
-    Text('Página 2'),
-    Text('Consultando veículo')
+    const Text('Página 2'),
+    const Text('Consultando veículo')
   ];
     return PopScope(
       canPop: false,
