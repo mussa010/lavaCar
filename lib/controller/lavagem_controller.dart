@@ -8,16 +8,11 @@ class LavagemController {
     final db = FirebaseFirestore.instance;
     DateTime data = DateTime.timestamp().toLocal();
 
-    final docRef = db.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado()).
-    get().then((querySnapshot) {
-      
-      for(var docSnapshot in querySnapshot.docs) {
+    // final docRef = db.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado()).
+    // get().then((querySnapshot) {
 
-      }
-      return ;
-    }); 
-
-    
+    // }); 
+    return FirebaseFirestore.instance.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado());
   }
 
   agendarLavagem(context, nomeCliente, cpfCliente, contatoCliente, uidCliente, nomeCarro, modeloCarro, tipoCarro, data, horario) {

@@ -1,7 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:lava_car/controller/carro_controller.dart';
 import 'package:lava_car/controller/lavagem_controller.dart';
 import '../controller/login_controller.dart';
 
@@ -39,6 +38,7 @@ class _PrincipalView extends State<PrincipalView> {
                        const Center(
                         child: Text('Lavagem do dia', style: TextStyle( fontSize: 30, color: Colors.white))
                       ),
+                      const SizedBox(height: 10),
                       StreamBuilder<QuerySnapshot>(
                        stream: LavagemController().listarLavagensCliente().snapshots(), 
 
@@ -57,7 +57,12 @@ class _PrincipalView extends State<PrincipalView> {
                                 return ListView.builder(
                                   itemCount: dados.size,
                                   itemBuilder: (context, index) {
-                                    
+                                    dynamic doc = dados.docs[index].data();
+                                    return const Card(
+                                      child: ListTile(
+
+                                      ),
+                                    );
                                   },
                                 );
                               } else {
@@ -65,7 +70,7 @@ class _PrincipalView extends State<PrincipalView> {
                                   child: Text(
                                     'Não há lavagem', 
                                     style: TextStyle(
-                                      fontSize: 30, 
+                                      fontSize: 20, 
                                       color: Colors.white
                                       )
                                     )
