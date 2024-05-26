@@ -294,7 +294,7 @@ class _PrincipalView extends State<PrincipalView> {
     );
   }
 
-
+  // Carregamento das informações que aparecerão no Drawer
   carregando() {
     return ListView(
                 padding: EdgeInsets.zero,
