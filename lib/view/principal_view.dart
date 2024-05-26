@@ -348,6 +348,15 @@ class _PrincipalView extends State<PrincipalView> {
                   ),
                   const Divider(color: Colors.black,),
                   ListTile(
+                      leading:  Icon(Icons.help_outline_rounded, color: Colors.grey.shade900),
+                      title: const Text('Sobre o aplicativo'),
+                      selected: false,
+                      onTap: () {
+                        Scaffold.of(context).closeDrawer();
+                        Navigator.pushNamed(context, 'sobre');
+                      },
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.exit_to_app),
                     title: const Text('Sair'),
                     onTap: () {
