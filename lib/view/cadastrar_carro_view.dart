@@ -13,7 +13,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
     return PopScope(
       canPop: true,
       onPopInvoked: (didPop) {
-        Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, 'principal');
       },
       child: Scaffold(
         appBar: AppBar(

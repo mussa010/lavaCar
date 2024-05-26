@@ -13,8 +13,8 @@ class _EditarConta extends State<EditarConta> {
     return PopScope ( 
       canPop: true,
       onPopInvoked: (didPop) {
-        Navigator.pop(context);
-      } ,
+        Navigator.pushReplacementNamed(context, 'principal');
+      },
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Editar conta', style: TextStyle(color: Colors.white)),
