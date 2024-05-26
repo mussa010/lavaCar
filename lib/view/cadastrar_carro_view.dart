@@ -10,18 +10,24 @@ class CadastrarCarro extends StatefulWidget {
 class _CadastrarCarro extends State<CadastrarCarro> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Cadastrar carro', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.blue,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded) ,
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, 'principal');
-          },
-          color: Colors.white,
-        ), 
-      ),
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
+        Navigator.pop(context);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Cadastrar carro', style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.blue,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded) ,
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, 'principal');
+            },
+            color: Colors.white,
+          ), 
+        ),
+      )
     );
   }
 }

@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
-class AgendarLavagem extends StatefulWidget {
-  const AgendarLavagem({super.key});
+class EditarConta extends StatefulWidget {
+  const EditarConta({super.key});
 
   @override
-  State<AgendarLavagem> createState() => _AgendarLavagem();
+  State<EditarConta> createState() => _EditarConta();
 }
 
-class _AgendarLavagem extends State<AgendarLavagem> {
+class _EditarConta extends State<EditarConta> {
   @override
   Widget build(BuildContext context) {
-    return PopScope(
+    return PopScope ( 
       canPop: true,
       onPopInvoked: (didPop) {
         Navigator.pop(context);
-      },
+      } ,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Agendar lavagem', style: TextStyle(color: Colors.white)),
+          title: const Text('Editar conta', style: TextStyle(color: Colors.white)),
           backgroundColor: Colors.blue,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded) ,
@@ -27,7 +27,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
             color: Colors.white,
           ), 
         ),
-      )
+    )
     );
   }
 }

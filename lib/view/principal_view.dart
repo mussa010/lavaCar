@@ -1,7 +1,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lava_car/controller/lavagem_controller.dart';
+import 'package:lava_car/view/editar_conta_view.dart';
 import '../controller/login_controller.dart';
 
 import 'cadastrar_carro_view.dart';
@@ -27,18 +30,13 @@ class _PrincipalView extends State<PrincipalView> {
     Center(
       child: Column(
           children: [
-            Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration:   const BoxDecoration(
-                    color: Colors.blue, 
-                    borderRadius: BorderRadius.vertical( bottom: Radius.circular(50))
-                  ),
-                  child:  Column(
+            Column(
                     children: [
                        const Center(
-                        child: Text('Lavagem do dia', style: TextStyle( fontSize: 30, color: Colors.white))
+                        child: Text('Lavagem do dia', style: TextStyle( fontSize: 30, color: Colors.black))
                       ),
                       const SizedBox(height: 10),
+                      //Mostra lavagem do dia do cliente
                       StreamBuilder<QuerySnapshot>(
                        stream: LavagemController().listarLavagensCliente().snapshots(), 
 
@@ -48,7 +46,7 @@ class _PrincipalView extends State<PrincipalView> {
                               return const Center(child: Text('Erro de conexão'));
 
                             case ConnectionState.waiting:
-                              return  const CircularProgressIndicator(color: Colors.white);
+                              return  const CircularProgressIndicator(color: Colors.black);
 
                             default:
                               final dados = snapshot.requireData;
@@ -66,25 +64,79 @@ class _PrincipalView extends State<PrincipalView> {
                                   },
                                 );
                               } else {
-                                return const Center(
-                                  child: Text(
-                                    'Não há lavagem', 
-                                    style: TextStyle(
-                                      fontSize: 20, 
-                                      color: Colors.white
-                                      )
-                                    )
-                                  );
+                                return const Column(
+                                  children: [
+                                    Center(
+                                      child: Text(
+                                          'Não há lavagem', 
+                                          style: TextStyle(
+                                            fontSize: 20, 
+                                            color: Colors.black,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                    SizedBox(height: 20)
+                                  ]
+                                );
                               }
                           }
                         },
                       ),
-                      // StreamBuilder<QuerySnapshot>(),
+                      const SizedBox(height: 10),
+                      const Center(
+                        child: Text('Lavagens anteriores', style: TextStyle( fontSize: 30, color: Colors.black))
+                      ),
+                      const SizedBox(height: 10),
+                      //Mostra lavagens anteriores do cliente
+                      StreamBuilder<QuerySnapshot>(
+                       stream: LavagemController().listarLavagensCliente().snapshots(), 
+
+                        builder: (context, snapshot) {
+                          switch(snapshot.connectionState) {
+                            case ConnectionState.none:
+                              return const Center(child: Text('Erro de conexão'));
+
+                            case ConnectionState.waiting:
+                              return  const CircularProgressIndicator(color: Colors.black);
+
+                            default:
+                              final dados = snapshot.requireData;
+
+                              if(dados.size > 0) {
+                                return ListView.builder(
+                                  itemCount: dados.size,
+                                  itemBuilder: (context, index) {
+                                    dynamic doc = dados.docs[index].data();
+                                    return const Card(
+                                      child: ListTile(
+
+                                      ),
+                                    );
+                                  },
+                                );
+                              } else {
+                                return const Column(
+                                  children: [
+                                    Center(
+                                      child: Text(
+                                          'Não há lavagem', 
+                                          style: TextStyle(
+                                            fontSize: 20, 
+                                            color: Colors.black,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                    SizedBox(height: 20)
+                                  ]
+                                );
+                              }
+                          }
+                        },
+                      ),
                     ]
                   )
-            )
-            
-
           ],
         ),
       
@@ -113,6 +165,7 @@ class _PrincipalView extends State<PrincipalView> {
             ),
         ),
         drawer: Drawer(
+          backgroundColor: Colors.white,
           child: 
           StreamBuilder<QuerySnapshot> (
           stream: LoginController().listarInformacoesClienteLogado().snapshots(),
@@ -155,9 +208,9 @@ class _PrincipalView extends State<PrincipalView> {
                     ListTile(
                       selected: false,
                       leading: Image.asset('lib/images/carro-esportivo.png', 
-                      width: 30,
-                      height: 30,
-                        color: Colors.black,
+                        width: 30,
+                        height: 30,
+                        color: Colors.grey.shade900
                       ),
                       title: const Text('Cadastrar carro'),
                       onTap: () {
@@ -166,7 +219,7 @@ class _PrincipalView extends State<PrincipalView> {
                       },
                     ),
                     ListTile(
-                      leading: const Icon(Icons.edit_calendar_outlined),
+                      leading: Icon(Icons.edit_calendar_outlined, color: Colors.grey.shade900),
                       selected: false,
                       title: const Text('Agendar lavagem'),
                       onTap: () {
@@ -175,16 +228,26 @@ class _PrincipalView extends State<PrincipalView> {
                       },
                     ),
                     ListTile(
-                      leading: const Icon(Icons.person),
+                      leading: Icon(Icons.person, color: Colors.grey.shade900),
                       title: const Text('Editar conta'),
                       selected: false,
                       onTap: () {
                         Scaffold.of(context).closeDrawer();
+                        Navigator.of(context).push(MaterialPageRoute(builder:  ((context) => const EditarConta())));
                       },
                     ),
                     const Divider(color: Colors.black,),
                     ListTile(
-                      leading: const Icon(Icons.exit_to_app),
+                      leading:  Icon(Icons.help_outline_rounded, color: Colors.grey.shade900),
+                      title: const Text('Sobre o aplicativo'),
+                      selected: false,
+                      onTap: () {
+                        Scaffold.of(context).closeDrawer();
+                        Navigator.pushNamed(context, 'sobre');
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.exit_to_app, color: Colors.grey.shade900),
                       title: const Text('Sair'),
                       onTap: () {
                         LoginController().logout();
@@ -194,7 +257,6 @@ class _PrincipalView extends State<PrincipalView> {
                   ],
                 );
             }
-            
           },
         )
         ),
@@ -284,6 +346,7 @@ class _PrincipalView extends State<PrincipalView> {
                     selected: false,
                     onTap: () {
                       Scaffold.of(context).closeDrawer();
+                      Navigator.of(context).push(MaterialPageRoute(builder:  ((context) => const EditarConta())));
                     },
                   ),
                   const Divider(color: Colors.black,),
