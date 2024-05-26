@@ -1,8 +1,5 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lava_car/controller/lavagem_controller.dart';
 import 'package:lava_car/view/editar_conta_view.dart';
 import '../controller/login_controller.dart';
