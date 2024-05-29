@@ -20,7 +20,7 @@ class CarroController {
 
   listarCarrosCliente(context) {
     return FirebaseFirestore.instance.collection('veiculo cliente').
-    where('uidCliente', isEqualTo: LoginController().idUsuarioLogado());
+      where('uidCliente', isEqualTo: LoginController().idUsuarioLogado());
   }
 
   editarCarroCliente(context) {
