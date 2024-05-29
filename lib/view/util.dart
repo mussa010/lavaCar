@@ -21,7 +21,7 @@ void erro(context, String msg) {
 void sucesso(context, String msg) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      backgroundColor: const Color.fromARGB(255, 68, 233, 255).withOpacity(0.4),
+      backgroundColor: Color.fromARGB(255, 5, 217, 245).withOpacity(0.4),
       content: Text(
         msg,
         style: const TextStyle(color: Colors.white),
