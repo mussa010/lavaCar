@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:lava_car/view/util.dart';
+import '../controller/login_controller.dart';
 
 import '../model/veiculo.dart';
 
@@ -17,4 +18,12 @@ class CarroController {
     });
   }
 
+  listarCarrosCliente(context) {
+    return FirebaseFirestore.instance.collection('veiculo cliente').
+    where('uidCliente', isEqualTo: LoginController().idUsuarioLogado());
+  }
+
+  editarCarroCliente(context) {
+
+  }
 }
