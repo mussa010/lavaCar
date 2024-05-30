@@ -11,7 +11,7 @@ class _EditarConta extends State<EditarConta> {
   @override
   Widget build(BuildContext context) {
     return PopScope ( 
-      canPop: true,
+      canPop: false,
       onPopInvoked: (didPop) {
         Navigator.pushReplacementNamed(context, 'principal');
       },

@@ -14,6 +14,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
   var txtModeloCarro = TextEditingController();
   var txtMarca = TextEditingController();
   var txtCor = TextEditingController();
+  var formKey = GlobalKey<FormState>();
 
   var tipos = [
     'Hatchback',
@@ -52,9 +53,8 @@ class _CadastrarCarro extends State<CadastrarCarro> {
 
   @override
   Widget build(BuildContext context) {
-
     return PopScope(
-      canPop: true,
+      canPop: false,
       onPopInvoked: (didPop) {
         Navigator.pushReplacementNamed(context, 'principal');
       },
@@ -176,22 +176,6 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                   ElevatedButton(
                     style:  ButtonStyle(
                       minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                      shadowColor: MaterialStateProperty.all<Color>(Colors.green)
-                    ),
-                    child: const Center(
-                      child: Text('Salvar',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    
-                    onPressed: () {
-                      // Parou aqui
-                    },
-                  ),
-                  ElevatedButton(
-                    style:  ButtonStyle(
-                      minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
                       shadowColor: MaterialStateProperty.all<Color>(Colors.red)
                     ),
@@ -203,6 +187,22 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                     
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, 'principal');
+                    },
+                  ),
+                  ElevatedButton(
+                    style:  ButtonStyle(
+                      minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
+                      backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                      shadowColor: MaterialStateProperty.all<Color>(Colors.green)
+                    ),
+                    child: const Center(
+                      child: Text('Salvar',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    
+                    onPressed: () {
+                      // Parou aqui
                     },
                   ),
                 ]

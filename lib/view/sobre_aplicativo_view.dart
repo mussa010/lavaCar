@@ -15,7 +15,7 @@ class _SobreAplicativo extends State<SobreAplicativo> {
     ''';
 
     return PopScope(
-      canPop: true,
+      canPop: false,
       onPopInvoked: (didPop) {
         Navigator.pushReplacementNamed(context, 'principal');
       },

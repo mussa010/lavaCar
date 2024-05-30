@@ -13,7 +13,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: true,
+      canPop: false,
       onPopInvoked: (didPop) {
         Navigator.pushReplacementNamed(context, 'principal');
       },

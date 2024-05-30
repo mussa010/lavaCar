@@ -143,6 +143,8 @@ class _PrincipalView extends State<PrincipalView> {
   ];
     return PopScope(
       canPop: false,
+      onPopInvoked: (didPop) {
+      },
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
