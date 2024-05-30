@@ -61,6 +61,8 @@ class LoginController {
           erro(context, 'O formato do e-mail é inválido.');
         case 'invalid-credential':
           erro(context, 'Usuário e/ou senha inválida.');
+        case 'network-request-failed':
+          erro(context, 'Sem conexão com a internet');
         default:
           erro(context, 'ERRO: ${e.code.toString()}');
       }

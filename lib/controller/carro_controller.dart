@@ -18,7 +18,7 @@ class CarroController {
     });
   }
 
-  listarCarrosCliente(context) {
+  listarCarrosCliente() {
     return FirebaseFirestore.instance.collection('veiculo cliente').
       where('uidCliente', isEqualTo: LoginController().idUsuarioLogado());
   }
