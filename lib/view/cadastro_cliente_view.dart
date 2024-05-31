@@ -34,10 +34,11 @@ class _CadastrarViewState extends State<CadastrarView> {
     'Agênero',
     'Gênero fluido',
     'Transexual',
-    'Outro'
+    'Outro',
+    'Selecione'
   ];
 
-  String valorPadraoDropDown = 'Masculino';
+  String valorPadraoDropDown = 'Selecione';
 
   bool ativado = false;
 
@@ -113,6 +114,10 @@ class _CadastrarViewState extends State<CadastrarView> {
                 onChanged: (String? novoValor) {
                 setState(() {
                   valorPadraoDropDown = novoValor!;
+                  if(generos.contains('Selecione') && valorPadraoDropDown != 'Selecione') {
+                          generos.remove('Selecione');
+                  }
+                  
                   if(valorPadraoDropDown == 'Outro') {
                     ativado = true;
                   } else {

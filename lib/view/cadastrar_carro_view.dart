@@ -25,11 +25,13 @@ class _CadastrarCarro extends State<CadastrarCarro> {
     'Caminhonete',
     'Perua',
     'Carro Esportivo',
-    'Carro de Luxo'
+    'Carro de Luxo',
+    'Selecione'
   ];
   
 
   var motorizacao = [
+    'Selecione',
     '1.0',
     '1.4',
     '1.6',
@@ -37,15 +39,13 @@ class _CadastrarCarro extends State<CadastrarCarro> {
     '2.0'
   ];
 
-    String valorPadraoDropDownMotorizacao = '', valorPadraoDropDownTipos = '';
+    String valorPadraoDropDownMotorizacao = 'Selecione', valorPadraoDropDownTipos = 'Selecione';
 
   @override
   void initState() {
     super.initState();
     tipos.sort();
     motorizacao.sort();
-    valorPadraoDropDownMotorizacao = motorizacao.first;
-    valorPadraoDropDownTipos = tipos.first;
   }
 
 
@@ -141,6 +141,9 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                     onChanged: (String? novoValor) {
                       setState(() {
                         valorPadraoDropDownMotorizacao = novoValor!;
+                        if(motorizacao.contains('Selecione') && valorPadraoDropDownMotorizacao != 'Selecione') {
+                          motorizacao.remove('Selecione');
+                        }
                       });
                     }
                   )
@@ -162,6 +165,9 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                     onChanged: (String? novoValor) {
                       setState(() {
                         valorPadraoDropDownTipos = novoValor!;
+                        if(tipos.contains('Selecione') && valorPadraoDropDownTipos != 'Selecione') {
+                          tipos.remove('Selecione');
+                        }
                       });
                     }
                   )
