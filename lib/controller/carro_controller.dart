@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:lava_car/view/util.dart';
 import '../controller/login_controller.dart';
 
@@ -24,6 +23,6 @@ class CarroController {
   }
 
   editarCarroCliente(context) {
-
+    
   }
 }

@@ -7,6 +7,9 @@ class LavagemController {
   listarLavagensCliente() {
     final db = FirebaseFirestore.instance;
     DateTime data = DateTime.timestamp().toLocal();
+    int dia = data.day;
+    int mes = data.month;
+    int ano = data.year;
 
     // final docRef = db.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado()).
     // get().then((querySnapshot) {
