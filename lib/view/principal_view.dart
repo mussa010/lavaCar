@@ -24,121 +24,10 @@ class _PrincipalView extends State<PrincipalView> {
     // Opções das páginas do BottomNavigationBar
   List<Widget> opcaoWidget = <Widget> [
     //menu Home -> mostra lavagens do dia do cliente e histórico de lavagens
-    Center(
-      child: Column(
-          children: [
-            Column(
-                    children: [
-                       const Center(
-                        child: Text('Lavagem do dia', style: TextStyle( fontSize: 30, color: Colors.black))
-                      ),
-                      const SizedBox(height: 10),
-                      //Mostra lavagem do dia do cliente
-                      StreamBuilder<QuerySnapshot>(
-                       stream: LavagemController().listarLavagensCliente().snapshots(), 
-
-                        builder: (context, snapshot) {
-                          switch(snapshot.connectionState) {
-                            case ConnectionState.none:
-                              return const Center(child: Text('Erro de conexão'));
-
-                            case ConnectionState.waiting:
-                              return  const CircularProgressIndicator(color: Colors.black);
-
-                            default:
-                              final dados = snapshot.requireData;
-
-                              if(dados.size > 0) {
-                                return ListView.builder(
-                                  itemCount: dados.size,
-                                  itemBuilder: (context, index) {
-                                    dynamic doc = dados.docs[index].data();
-                                    return const Card(
-                                      child: ListTile(
-
-                                      ),
-                                    );
-                                  },
-                                );
-                              } else {
-                                return const Column(
-                                  children: [
-                                    Center(
-                                      child: Text(
-                                          'Não há lavagem', 
-                                          style: TextStyle(
-                                            fontSize: 20, 
-                                            color: Colors.black,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                    ),
-                                    SizedBox(height: 20)
-                                  ]
-                                );
-                              }
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      const Center(
-                        child: Text('Lavagens anteriores', style: TextStyle( fontSize: 30, color: Colors.black))
-                      ),
-                      const SizedBox(height: 10),
-                      //Mostra lavagens anteriores do cliente
-                      StreamBuilder<QuerySnapshot>(
-                       stream: LavagemController().listarLavagensCliente().snapshots(), 
-
-                        builder: (context, snapshot) {
-                          switch(snapshot.connectionState) {
-                            case ConnectionState.none:
-                              return const Center(child: Text('Erro de conexão'));
-
-                            case ConnectionState.waiting:
-                              return  const CircularProgressIndicator(color: Colors.black);
-
-                            default:
-                              final dados = snapshot.requireData;
-
-                              if(dados.size > 0) {
-                                return ListView.builder(
-                                  itemCount: dados.size,
-                                  itemBuilder: (context, index) {
-                                    dynamic doc = dados.docs[index].data();
-                                    return const Card(
-                                      child: ListTile(
-
-                                      ),
-                                    );
-                                  },
-                                );
-                              } else {
-                                return const Column(
-                                  children: [
-                                    Center(
-                                      child: Text(
-                                          'Não há lavagem', 
-                                          style: TextStyle(
-                                            fontSize: 20, 
-                                            color: Colors.black,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                    ),
-                                    SizedBox(height: 20)
-                                  ]
-                                );
-                              }
-                          }
-                        },
-                      ),
-                    ]
-                  )
-          ],
-        ),
-      
-    ),
-    const Text('Página 2'),
+    home(),
+    // Menu Carros do cliente -> mostra todos os carros do cliente
+    carrosCliente(),
+    // Menu Consultar vaículo
     const Text('Consultando veículo')
   ];
     return PopScope(
@@ -276,7 +165,7 @@ class _PrincipalView extends State<PrincipalView> {
               ),
               BottomNavigationBarItem(
               icon: Icon(Icons.access_alarm_rounded),
-               label: 'Tela 2',
+               label: 'Carros do cliente',
               ),
               BottomNavigationBarItem(
               icon: Icon(Icons.directions_car_outlined),
@@ -369,4 +258,126 @@ class _PrincipalView extends State<PrincipalView> {
                 ],
               );
   }
+}
+
+
+home() {
+    return Center(
+      child: Column(
+          children: [
+            Column(
+                    children: [
+                       const Center(
+                        child: Text('Lavagem do dia', style: TextStyle( fontSize: 30, color: Colors.black))
+                      ),
+                      const SizedBox(height: 10),
+                      //Mostra lavagem do dia do cliente
+                      StreamBuilder<QuerySnapshot>(
+                       stream: LavagemController().listarLavagemDoDia().snapshots(), 
+
+                        builder: (context, snapshot) {
+                          switch(snapshot.connectionState) {
+                            case ConnectionState.none:
+                              return const Center(child: Text('Erro de conexão'));
+
+                            case ConnectionState.waiting:
+                              return  const CircularProgressIndicator(color: Colors.black);
+
+                            default:
+                              final dados = snapshot.requireData;
+
+                              if(dados.size > 0) {
+                                return ListView.builder(
+                                  itemCount: dados.size,
+                                  itemBuilder: (context, index) {
+                                    dynamic doc = dados.docs[index].data();
+                                    return const Card(
+                                      child: ListTile(
+
+                                      ),
+                                    );
+                                  },
+                                );
+                              } else {
+                                return const Column(
+                                  children: [
+                                    Center(
+                                      child: Text(
+                                          'Não há lavagem', 
+                                          style: TextStyle(
+                                            fontSize: 20, 
+                                            color: Colors.black,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                    SizedBox(height: 20)
+                                  ]
+                                );
+                              }
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      const Center(
+                        child: Text('Lavagens anteriores', style: TextStyle( fontSize: 30, color: Colors.black))
+                      ),
+                      const SizedBox(height: 10),
+                      //Mostra lavagens anteriores do cliente
+                      StreamBuilder<QuerySnapshot>(
+                       stream: LavagemController().listarLavagemDoDia().snapshots(), 
+
+                        builder: (context, snapshot) {
+                          switch(snapshot.connectionState) {
+                            case ConnectionState.none:
+                              return const Center(child: Text('Erro de conexão'));
+
+                            case ConnectionState.waiting:
+                              return  const CircularProgressIndicator(color: Colors.black);
+
+                            default:
+                              final dados = snapshot.requireData;
+
+                              if(dados.size > 0) {
+                                return ListView.builder(
+                                  itemCount: dados.size,
+                                  itemBuilder: (context, index) {
+                                    dynamic doc = dados.docs[index].data();
+                                    return const Card(
+                                      child: ListTile(
+
+                                      ),
+                                    );
+                                  },
+                                );
+                              } else {
+                                return const Column(
+                                  children: [
+                                    Center(
+                                      child: Text(
+                                          'Não há lavagem', 
+                                          style: TextStyle(
+                                            fontSize: 20, 
+                                            color: Colors.black,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                    SizedBox(height: 20)
+                                  ]
+                                );
+                              }
+                          }
+                        },
+                      ),
+                    ]
+                  )
+          ],
+        ),
+      
+    );
+  }
+
+carrosCliente() {
+  return Center();
 }

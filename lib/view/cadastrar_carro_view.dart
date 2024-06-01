@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lava_car/controller/login_controller.dart';
+import 'package:lava_car/model/veiculo.dart';
+import '../controller/carro_controller.dart';
 
 class CadastrarCarro extends StatefulWidget {
   const CadastrarCarro({super.key});
@@ -69,153 +72,218 @@ class _CadastrarCarro extends State<CadastrarCarro> {
           ), 
         ),
         body: SingleChildScrollView(
+
           child: Padding(
             padding: const EdgeInsets.all(20),
-            child: Column(
-            children: [
-              TextField(
-                controller: txtMarca,
-                keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
-                  labelText: 'Marca',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20)
-                    )
-                  )
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: txtModeloCarro,
-                keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
-                  labelText: 'Modelo',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20)
-                    )
-                  )
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: txtAno,
-                keyboardType: TextInputType.number,
-                maxLength: 4,
-                decoration: const InputDecoration(
-                  labelText: 'Ano',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20)
-                    )
-                  )
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: txtCor,
-                keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
-                  labelText: 'Cor',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20)
-                    )
-                  )
-                ),
-              ),
-              const SizedBox(height: 20),
-              Row(
+            child: Form(
+              key: formKey,
+              child: Column(
                 children: [
-                  const Text('Motorização:'),
-                  const SizedBox(width: 15),
-                  DropdownButton(
-                    value: valorPadraoDropDownMotorizacao,
-                    items: motorizacao.map((String motorizacao) {
-                      return DropdownMenuItem(
-                        value: motorizacao,
-                        child: Text(motorizacao),
-                      );
-                    }).toList(), 
-                    onChanged: (String? novoValor) {
-                      setState(() {
-                        valorPadraoDropDownMotorizacao = novoValor!;
-                        if(motorizacao.contains('Selecione') && valorPadraoDropDownMotorizacao != 'Selecione') {
-                          motorizacao.remove('Selecione');
-                        }
-                      });
-                    }
-                  )
-                ]
-              ), 
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text('Tipo:'),
-                  const SizedBox(width: 15),
-                  DropdownButton(
-                    value: valorPadraoDropDownTipos,
-                    items: tipos.map((String tipos) {
-                      return DropdownMenuItem(
-                        value: tipos,
-                        child: Text(tipos),
-                      );
-                    }).toList(), 
-                    onChanged: (String? novoValor) {
-                      setState(() {
-                        valorPadraoDropDownTipos = novoValor!;
-                        if(tipos.contains('Selecione') && valorPadraoDropDownTipos != 'Selecione') {
-                          tipos.remove('Selecione');
-                        }
-                      });
-                    }
-                  )
-                ]
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton(
-                    style:  ButtonStyle(
-                      minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                      shadowColor: MaterialStateProperty.all<Color>(Colors.red)
+                  TextFormField(
+                    controller: txtMarca,
+                    keyboardType: TextInputType.name,
+                    decoration: const InputDecoration(
+                      labelText: 'Marca',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20)
+                        )
+                      )
                     ),
-                    child: const Center(
-                      child: Text('Cancelar',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, 'principal');
+                    validator: (value) {
+                      if(value == null) {
+                        return 'Campo vazio';
+                      } else if(value.isEmpty) {
+                        return 'Campo vazio';
+                      } 
+                      return null;
                     },
                   ),
-                  ElevatedButton(
-                    style:  ButtonStyle(
-                      minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                      shadowColor: MaterialStateProperty.all<Color>(Colors.green)
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: txtModeloCarro,
+                    keyboardType: TextInputType.name,
+                    decoration: const InputDecoration(
+                      labelText: 'Modelo',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20)
+                        )
+                      )
                     ),
-                    child: const Center(
-                      child: Text('Salvar',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    
-                    onPressed: () {
-                      // Parou aqui
+                    validator: (value) {
+                      if(value == null) {
+                        return 'Campo vazio';
+                      } else if(value.isEmpty) {
+                        return 'Campo vazio';
+                      } 
+                      return null;
                     },
                   ),
-                ]
-            )
-            ],
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: txtAno,
+                    keyboardType: TextInputType.number,
+                    maxLength: 4,
+                    decoration: const InputDecoration(
+                      labelText: 'Ano',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20)
+                        )
+                      )
+                    ),
+                    validator: (value) {
+                      if(value == null) {
+                        return 'Campo vazio';
+                      } else if(value.isEmpty) {
+                        return 'Campo vazio';
+                      } 
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: txtCor,
+                    keyboardType: TextInputType.name,
+                    decoration: const InputDecoration(
+                      labelText: 'Cor',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20)
+                        )
+                      )
+                    ),
+                    validator: (value) {
+                      if(value == null) {
+                        return 'Campo vazio';
+                      } else if(value.isEmpty) {
+                        return 'Campo vazio';
+                      } 
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      const Text('Motorização:'),
+                      const SizedBox(width: 15),
+                      DropdownButton(
+                        value: valorPadraoDropDownMotorizacao,
+                        items: motorizacao.map((String motorizacao) {
+                          return DropdownMenuItem(
+                            value: motorizacao,
+                            child: Text(motorizacao),
+                          );
+                        }).toList(), 
+                        onChanged: (String? novoValor) {
+                          setState(() {
+                            valorPadraoDropDownMotorizacao = novoValor!;
+                            if(motorizacao.contains('Selecione') && valorPadraoDropDownMotorizacao != 'Selecione') {
+                              motorizacao.remove('Selecione');
+                            }
+                          });
+                        }
+                      )
+                    ]
+                  ), 
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      const Text('Tipo:'),
+                      const SizedBox(width: 15),
+                      DropdownButton(
+                        value: valorPadraoDropDownTipos,
+                        items: tipos.map((String tipos) {
+                          return DropdownMenuItem(
+                            value: tipos,
+                            child: Text(tipos),
+                          );
+                        }).toList(), 
+                        onChanged: (String? novoValor) {
+                          setState(() {
+                            valorPadraoDropDownTipos = novoValor!;
+                            if(tipos.contains('Selecione') && valorPadraoDropDownTipos != 'Selecione') {
+                              tipos.remove('Selecione');
+                            }
+                          });
+                        }
+                      )
+                    ]
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        style:  ButtonStyle(
+                          minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                          shadowColor: MaterialStateProperty.all<Color>(Colors.red)
+                        ),
+                        child: const Center(
+                          child: Text('Cancelar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, 'principal');
+                        },
+                      ),
+                      ElevatedButton(
+                        style:  ButtonStyle(
+                          minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                          shadowColor: MaterialStateProperty.all<Color>(Colors.green)
+                        ),
+                        child: const Center(
+                          child: Text('Salvar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        
+                        onPressed: () {
+                          if(formKey.currentState!.validate()) {
+                            if(valorPadraoDropDownMotorizacao == 'Selecione' || valorPadraoDropDownTipos == 'Selecione') {
+                              dialogBox(context, 'Erro', 'Selecione a motorização ou tipo');
+                            } else {
+                              Veiculo v = Veiculo(txtModeloCarro.text, txtMarca.text, int.parse(txtAno.text), valorPadraoDropDownMotorizacao, txtCor.text, valorPadraoDropDownTipos, LoginController().idUsuarioLogado());
+                              CarroController().adicionarCarroDeCliente(context, v);
+                              Navigator.pushReplacementNamed(context, 'principal');
+                            }
+                          }
+                        },
+                      ),
+                    ]
+                )
+                ],
           ),
+            )
           )
         )
       )
     );
   }
 }
+
+dialogBox(context, titulo, mensagem) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text(titulo),
+        content: Text(mensagem),
+        actions: [
+          TextButton(
+            style: const ButtonStyle(
+              elevation: MaterialStatePropertyAll(30),
+              backgroundColor: MaterialStatePropertyAll(Colors.green),
+            ),
+            onPressed: () => Navigator.pop(context, 'ok'),
+            child: const Text('ok', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
