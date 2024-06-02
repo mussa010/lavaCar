@@ -67,11 +67,11 @@ class _CadastrarCarro extends State<CadastrarCarro> {
       }
     }
     
-    return cadastrarCarro();
+    return cadastrarCarro(docId);
   }
 
   // Cadastro de carro do cliente
-  cadastrarCarro() {
+  cadastrarCarro(docId) {
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
@@ -267,7 +267,11 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                               dialogBox(context, 'Erro', 'Selecione a motorização ou tipo');
                             } else {
                               Veiculo v = Veiculo(txtModeloCarro.text, txtMarca.text, int.parse(txtAno.text), valorPadraoDropDownMotorizacao, txtCor.text, valorPadraoDropDownTipos, LoginController().idUsuarioLogado());
-                              CarroController().adicionarCarroDeCliente(context, v);
+                              if(docId == null) {
+                                CarroController().adicionarCarroDeCliente(context, v);
+                              } else {
+                                CarroController().editarCarroCliente(context, v, docId);
+                              }
                             }
                           }
                         },

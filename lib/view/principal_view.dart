@@ -439,7 +439,7 @@ carrosCliente() {
                               style: const TextStyle(color: Colors.white),
                             ),
                             trailing: SizedBox(
-                              width: 80,
+                              width: 100,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
