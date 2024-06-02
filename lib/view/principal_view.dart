@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lava_car/controller/carro_controller.dart';
 import 'package:lava_car/controller/lavagem_controller.dart';
 import 'package:lava_car/view/editar_conta_view.dart';
 import '../controller/login_controller.dart';
@@ -17,6 +18,9 @@ class PrincipalView extends StatefulWidget {
 class _PrincipalView extends State<PrincipalView> {
   bool inicioSelecionado = true, agendarSelecionado = false, editarContaSelecionado = false, adicionarCarro = false;
   int itemSelecionado = 0;
+
+  Color corConsultarCarro = Colors.black;
+  Color corlistarCarrosCliente = Colors.black;
 
   @override
   Widget build(BuildContext context) {
@@ -158,24 +162,43 @@ class _PrincipalView extends State<PrincipalView> {
             ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-               label: 'Home',
+          items:   [
+             const BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
               ),
               BottomNavigationBarItem(
-              icon: Icon(Icons.access_alarm_rounded),
-               label: 'Carros do cliente',
+                icon: Image.asset('lib/images/chave-do-carro.png',
+                  width: 30,
+                  height: 30,
+                  color: corlistarCarrosCliente,
+                ),
+                label: 'Carros do cliente',
               ),
               BottomNavigationBarItem(
-              icon: Icon(Icons.directions_car_outlined),
-               label: 'Consultar carro',
+                icon: Image.asset('lib/images/consulta-carro.png',
+                  width: 30,
+                  height: 30,
+                  color: corConsultarCarro,
+                ),
+                label: 'Consultar carro',
               )
           ],
           backgroundColor: Colors.blue,
           currentIndex: itemSelecionado,
           selectedItemColor: Colors.white,
           onTap: (int indice) {
+            if(indice == 1) {
+              corlistarCarrosCliente = Colors.white;
+            } else {
+              corlistarCarrosCliente = Colors.black;
+            }
+
+            if(indice == 2) {
+              corConsultarCarro = Colors.white;
+            } else {
+              corConsultarCarro = Colors.black;
+            }
             setState(() {
               itemSelecionado = indice;
             });
@@ -379,5 +402,65 @@ home() {
   }
 
 carrosCliente() {
-  return Center();
+  return Center(
+    child: Column(
+      children: [
+        const Text('Carros do cliente', style: TextStyle(fontSize: 30, color: Colors.black)),
+        const SizedBox(height: 10),
+        StreamBuilder<QuerySnapshot>(
+          stream: CarroController().listarCarrosCliente().snapshots(),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+                return const Center(child: Text('Erro de conexão'));
+              case ConnectionState.waiting:
+                return const CircularProgressIndicator(color: Colors.black);
+              default:
+                final dados = snapshot.requireData;
+                if (dados.size > 0) {
+                  return ListView.builder(
+                      shrinkWrap: true, // Defina shrinkWrap como true
+                      scrollDirection: Axis.vertical,
+                      itemCount: dados.size,
+                      itemBuilder: (context, index) {
+                        String id = dados.docs[index].id;
+                        dynamic doc = dados.docs[index].data();
+                        return Card(
+                          color: const Color.fromARGB(255, 0, 110, 255),
+                          child: ListTile(
+                            onLongPress: () {
+                              
+                            },
+                            title: Text(doc['marca'],
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.white,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            subtitle: Text('Modelo: ${doc['modelo']}\nAno: ${doc['ano']}\nMotorização: ${doc['motorização']}\nCor: ${doc['cor']}\nTipo: ${doc['tipoCarro']}',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          )
+                        );
+                      },
+                    );
+                } else {
+                  return const Center(
+                    child: Text(
+                      'Não há carro cadastrado',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                }
+            }
+          },
+        )
+      ],
+    ),
+  );
 }
