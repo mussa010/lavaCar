@@ -9,9 +9,9 @@ import '../model/veiculo.dart';
 
 class CarroController {
   //adicionar veículo de cliente específico
-  adicionarCarroDeCliente (context, Veiculo v){
+  adicionarCarroDeCliente (context, Carro c){
     return FirebaseFirestore.instance.collection('veiculo cliente').add(
-      v.toJson()
+      c.toJson()
     ).
     then((resultado) {
       Navigator.pushReplacementNamed(context, 'principal');
@@ -29,9 +29,9 @@ class CarroController {
     doc(docId).snapshots().first;
   }
 
-  editarCarroCliente(context, Veiculo v, docId) {
+  editarCarroCliente(context, Carro c, docId) {
     return FirebaseFirestore.instance.collection('veiculo cliente').
-    doc(docId).update(v.toJson()).then((value) => sucesso(context, 'Carro atualizado com sucesso'))
+    doc(docId).update(c.toJson()).then((value) => sucesso(context, 'Carro atualizado com sucesso'))
     .catchError((e) => erro(context, 'Não foi possível atualizar o carro'))
     .whenComplete(() => Navigator.pushReplacementNamed(context, 'principal'));
   }

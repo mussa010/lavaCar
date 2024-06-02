@@ -18,60 +18,16 @@ class _CadastrarCarro extends State<CadastrarCarro> {
   var txtCor = TextEditingController();
   var formKey = GlobalKey<FormState>();
 
-  var tipos = [
-    'Hatchback',
-    'Sedan',
-    'SUV',
-    'Crossover',
-    'Coupe',
-    'Conversível',
-    'Minivan',
-    'Caminhonete',
-    'Perua',
-    'Carro Esportivo',
-    'Carro de Luxo',
-    'Selecione'
-  ];
-  
-
-  var motorizacao = [
-    'Selecione',
-    '1.0',
-    '1.4',
-    '1.6',
-    '1.8',
-    '2.0',
-    'Outro'
-  ];
-
-  String valorPadraoDropDownMotorizacao = 'Selecione', valorPadraoDropDownTipos = 'Selecione';
-
-  @override
-  void initState() {
-    super.initState();
-    tipos.sort();
-    motorizacao.sort();
-  }
-
-
   @override
   Widget build(BuildContext context) {
     final docId = ModalRoute.of(context)!.settings.arguments;
-
-    if(docId != null) {
-      editarCarro(docId);
-
-      if(tipos.contains('Selecione') && valorPadraoDropDownTipos != 'Selecione' && motorizacao.contains('Selecione') && valorPadraoDropDownMotorizacao != 'Selecione') {
-        tipos.remove('Selecione');
-        motorizacao.remove('Selecione');
-      }
-    }
     
-    return cadastrarCarro(docId);
-  }
 
-  // Cadastro de carro do cliente
-  cadastrarCarro(docId) {
+    if (docId != null) {
+      // Carrega os dados do carro selecionado
+      carregarDadosCarro(docId);
+    }
+
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
@@ -79,18 +35,17 @@ class _CadastrarCarro extends State<CadastrarCarro> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Cadastrar carro', style: TextStyle(color: Colors.white)),
+          title: Text(docId == null ? 'Cadastrar carro' : 'Editar carro', style: const TextStyle(color: Colors.white)),
           backgroundColor: Colors.blue,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded) ,
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
             onPressed: () {
               Navigator.pushReplacementNamed(context, 'principal');
             },
             color: Colors.white,
-          ), 
+          ),
         ),
         body: SingleChildScrollView(
-
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Form(
@@ -109,11 +64,9 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                       )
                     ),
                     validator: (value) {
-                      if(value == null) {
+                      if (value == null || value.isEmpty) {
                         return 'Campo vazio';
-                      } else if(value.isEmpty) {
-                        return 'Campo vazio';
-                      } 
+                      }
                       return null;
                     },
                   ),
@@ -130,11 +83,9 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                       )
                     ),
                     validator: (value) {
-                      if(value == null) {
+                      if (value == null || value.isEmpty) {
                         return 'Campo vazio';
-                      } else if(value.isEmpty) {
-                        return 'Campo vazio';
-                      } 
+                      }
                       return null;
                     },
                   ),
@@ -152,11 +103,9 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                       )
                     ),
                     validator: (value) {
-                      if(value == null) {
+                      if (value == null || value.isEmpty) {
                         return 'Campo vazio';
-                      } else if(value.isEmpty) {
-                        return 'Campo vazio';
-                      } 
+                      }
                       return null;
                     },
                   ),
@@ -173,138 +122,78 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                       )
                     ),
                     validator: (value) {
-                      if(value == null) {
+                      if (value == null || value.isEmpty) {
                         return 'Campo vazio';
-                      } else if(value.isEmpty) {
-                        return 'Campo vazio';
-                      } 
+                      }
                       return null;
                     },
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      const Text('Motorização:'),
-                      const SizedBox(width: 15),
-                      DropdownButton(
-                        value: valorPadraoDropDownMotorizacao,
-                        items: motorizacao.map((String motorizacao) {
-                          return DropdownMenuItem(
-                            value: motorizacao,
-                            child: Text(motorizacao),
-                          );
-                        }).toList(), 
-                        onChanged: (String? novoValor) {
-                          setState(() {
-                            valorPadraoDropDownMotorizacao = novoValor!;
-                            if(motorizacao.contains('Selecione') && valorPadraoDropDownMotorizacao != 'Selecione') {
-                              motorizacao.remove('Selecione');
-                            }
-                          });
-                        }
-                      )
-                    ]
-                  ), 
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      const Text('Tipo:'),
-                      const SizedBox(width: 15),
-                      DropdownButton(
-                        value: valorPadraoDropDownTipos,
-                        items: tipos.map((String tipos) {
-                          return DropdownMenuItem(
-                            value: tipos,
-                            child: Text(tipos),
-                          );
-                        }).toList(), 
-                        onChanged: (String? novoValor) {
-                          setState(() {
-                            valorPadraoDropDownTipos = novoValor!;
-                            if(tipos.contains('Selecione') && valorPadraoDropDownTipos != 'Selecione') {
-                              tipos.remove('Selecione');
-                            }
-                          });
-                        }
-                      )
-                    ]
                   ),
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       ElevatedButton(
-                        style:  ButtonStyle(
+                        style: ButtonStyle(
                           minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
                           backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
                           shadowColor: MaterialStateProperty.all<Color>(Colors.red)
                         ),
                         child: const Center(
-                          child: Text('Cancelar',
-                            style: TextStyle(color: Colors.white),
-                          ),
+                          child: Text('Cancelar', style: TextStyle(color: Colors.white)),
                         ),
-                        
                         onPressed: () {
                           Navigator.pushReplacementNamed(context, 'principal');
                         },
                       ),
                       ElevatedButton(
-                        style:  ButtonStyle(
+                        style: ButtonStyle(
                           minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
                           backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
                           shadowColor: MaterialStateProperty.all<Color>(Colors.green)
                         ),
                         child: const Center(
-                          child: Text('Salvar',
-                            style: TextStyle(color: Colors.white),
-                          ),
+                          child: Text('Salvar', style: TextStyle(color: Colors.white)),
                         ),
-                        
                         onPressed: () {
-                          if(formKey.currentState!.validate()) {
-                            if(valorPadraoDropDownMotorizacao == 'Selecione' || valorPadraoDropDownTipos == 'Selecione') {
-                              dialogBox(context, 'Erro', 'Selecione a motorização ou tipo');
-                            } else {
-                              Veiculo v = Veiculo(txtModeloCarro.text, txtMarca.text, int.parse(txtAno.text), valorPadraoDropDownMotorizacao, txtCor.text, valorPadraoDropDownTipos, LoginController().idUsuarioLogado());
-                              if(docId == null) {
-                                CarroController().adicionarCarroDeCliente(context, v);
+                          if (formKey.currentState!.validate()) {
+                            if(txtAno.text.length == 4) {
+                              Carro c = Carro(txtModeloCarro.text, txtMarca.text, int.parse(txtAno.text), txtCor.text, LoginController().idUsuarioLogado());
+                              if (docId == null) {
+                                CarroController().adicionarCarroDeCliente(context, c);
                               } else {
-                                CarroController().editarCarroCliente(context, v, docId);
+                                CarroController().editarCarroCliente(context, c, docId);
                               }
+                            } else {
+                              dialogBox(context, 'Erro', 'Tamanho do ano incorreto!');
                             }
                           }
                         },
                       ),
                     ]
-                )
+                  )
                 ],
+              ),
+            ),
           ),
-            )
-          )
-        )
-      )
+        ),
+      ),
     );
   }
 
-
   // Carrega dados de carro selecionado na tela principal
-  editarCarro(docId) {
-    Future<DocumentSnapshot<Object?>> future = CarroController().listaCarroEspecifico(docId);
-
-      future.then((value) {
-        dynamic doc = value.data();
-        txtMarca.text = doc['marca'].toString();
-        txtModeloCarro.text = doc['modelo'].toString();
-        txtAno.text = doc['ano'].toString();
-        txtCor.text = doc['cor'].toString();
-        valorPadraoDropDownMotorizacao = doc['motorização'].toString();
-        valorPadraoDropDownTipos = doc['tipoCarro'].toString();
-      });
+  Future<void> carregarDadosCarro(docId) async {
+    final DocumentSnapshot<Object?> snapshot = await CarroController().listaCarroEspecifico(docId);
+    if (snapshot.exists) {
+      final data = snapshot.data() as Map<String, dynamic>;
+      final Carro c = Carro.fromJson(data);
+        txtMarca.text = c.getMarca();
+        txtModeloCarro.text = c.getModelo();
+        txtAno.text = c.getAno();
+        txtCor.text = c.getCor();
+    }
   }
-}
 
-dialogBox(context, titulo, mensagem) {
+  dialogBox(BuildContext context, String titulo, String mensagem) {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -324,3 +213,4 @@ dialogBox(context, titulo, mensagem) {
       ),
     );
   }
+}

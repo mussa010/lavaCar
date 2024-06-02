@@ -434,7 +434,7 @@ carrosCliente() {
                                 fontWeight: FontWeight.bold
                               ),
                             ),
-                            subtitle: Text('Modelo: ${doc['modelo']}\nAno: ${doc['ano']}\nMotorização: ${doc['motorização']}\nCor: ${doc['cor']}\nTipo: ${doc['tipoCarro']}',
+                            subtitle: Text('Modelo: ${doc['modelo']}\nAno: ${doc['ano']}\nCor: ${doc['cor']}',
                               textAlign: TextAlign.center,
                               style: const TextStyle(color: Colors.white),
                             ),
