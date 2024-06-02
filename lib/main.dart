@@ -26,7 +26,7 @@ Future main() async{
 
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (context) => const MainApp(),
     ),
   );
@@ -42,7 +42,7 @@ class MainApp extends StatelessWidget {
       initialRoute: 'login',
       routes: {
         'login': (context) => const LoginView(),
-        'cadastrar': (context) => const CadastrarView(),
+        'cadastrar': (context) => const CadastrarCliente(),
         'principal': (context) => const PrincipalView(),
         'sobre' : (context) => const SobreAplicativo(),
         'editarConta' : (context) => const EditarConta(),

@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import '../controller/login_controller.dart';
 import 'package:mask/mask.dart';
 
-class CadastrarView extends StatefulWidget {
-  const CadastrarView({super.key});
+class CadastrarCliente extends StatefulWidget {
+  const CadastrarCliente({super.key});
 
   @override
-  State<CadastrarView> createState() => _CadastrarViewState();
+  State<CadastrarCliente> createState() => _CadastrarCliente();
 }
 
-class _CadastrarViewState extends State<CadastrarView> {
+class _CadastrarCliente extends State<CadastrarCliente> {
   var txtNome = TextEditingController();
   var txtEmail = TextEditingController();
   var txtSenha = TextEditingController();
@@ -23,6 +23,7 @@ class _CadastrarViewState extends State<CadastrarView> {
   var txtTelefone = TextEditingController();
   var txtOutroGenero = TextEditingController();
   var txtConfirmarEmail = TextEditingController();
+  var formKey = GlobalKey<FormState>();
 
   var visibilidadeSenha = Icon(Icons.visibility_off_outlined), visibilidadeConfirmarSenha = Icon(Icons.visibility_off_outlined);
   bool senhaNaoVisivel = true, confirmarSenhaNaoVisivel = true;
@@ -58,239 +59,341 @@ class _CadastrarViewState extends State<CadastrarView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(child: Padding(
-        padding: EdgeInsets.fromLTRB(30, 50, 30, 50),
-        child: Column(
-          children: [
-            Text(
-              'Criar Conta',
-              style: TextStyle(fontSize: 60),
-            ),
-            SizedBox(height: 60),
-            TextField(
-              controller: txtNome,
-              decoration: InputDecoration(
-                  labelText: 'Nome',
-                  prefixIcon: Icon(Icons.person),
-                  border: OutlineInputBorder()),
-            ),
-            SizedBox(height: 15),
-            TextField(
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                Mask.date()
-              ],
-              controller: txtDataNascimento,
-              decoration: InputDecoration(
-                  labelText: 'Data de nascimento',
-                  prefixIcon: Icon(Icons.date_range),
-                  border: OutlineInputBorder()),
-            ),
-            SizedBox(height: 15),
-            TextField(
-              controller: txtCpf,
-              inputFormatters: [Mask.cpfOrCnpj()],
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  labelText: 'CPF/CNPJ',
-                  prefixIcon: Icon(Icons.person),
-                  border: OutlineInputBorder()),
-            ),
-            SizedBox(height: 15),
-            Row(children: [
-              Text('Gênero:'), 
-              SizedBox(width: 15),
-              DropdownButton(
-                icon: Icon(Icons.arrow_drop_down_rounded),
-                value: valorPadraoDropDown,
-                items: generos.map((String generos) {
-                  return DropdownMenuItem( 
-                      value: generos, 
-                      child: Text(generos),
+    final docId = ModalRoute.of(context)!.settings.arguments;
+    // Cadastro de cliente
+    if(docId == null) {
+      return criarUsuario();
+    } else {
+      return editarUsuario();
+    }
+  }
 
-                    ); 
-                }).toList(), 
-                onChanged: (String? novoValor) {
-                setState(() {
-                  valorPadraoDropDown = novoValor!;
-                  if(generos.contains('Selecione') && valorPadraoDropDown != 'Selecione') {
-                          generos.remove('Selecione');
-                  }
-                  
-                  if(valorPadraoDropDown == 'Outro') {
-                    ativado = true;
-                  } else {
-                    setState(() {
-                      txtGenero.clear();
-                      ativado = false;
-                    });
-                  }
-                });
-            }),]),
-            SizedBox(height: 15),
-            TextField(
-              controller: txtOutroGenero,
-              decoration: InputDecoration(
-                  labelText: 'Gênero',
-                  prefixIcon: Icon(IconData(0xed6f, fontFamily: 'MaterialIcons')),
-                  enabled: ativado,
-                  border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 15),
-            TextField(
-              controller: txtTelefone,
-              inputFormatters: [Mask.generic(masks: ['(##) ####-####', '(##) #####-####'])],
-              decoration: InputDecoration(
-                  labelText: 'Telefone',
-                  prefixIcon: Icon(Icons.phone),
-                  border: OutlineInputBorder()),
-            ),
-            SizedBox(height: 15),
-            TextField(
-              controller: txtEmail,
-              decoration: InputDecoration(
-                  labelText: 'Email',
-                  prefixIcon: Icon(Icons.email),
-                  border: OutlineInputBorder()),
-            ),
-            SizedBox(height: 15),
-            TextField(
-              controller: txtConfirmarEmail,
-              decoration: InputDecoration(
-                  labelText: 'Confirmar email',
-                  prefixIcon: Icon(Icons.email),
-                  border: OutlineInputBorder()),
-            ),
-            SizedBox(height: 15),
-            TextField(
-              controller: txtSenha,
-              obscureText: senhaNaoVisivel,
-              obscuringCharacter: '*',
-              decoration: InputDecoration(
-                  labelText: 'Senha',
-                  prefixIcon: Icon(Icons.password),
-                  suffixIcon: IconButton(
-                    style: ButtonStyle(iconColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                      if(states.contains(MaterialState.pressed)) {
-                        return Colors.blue;
-                      } else {
-                        return null;
-                      } 
-                    })),
-                    icon: visibilidadeSenha,
-                    onPressed: () {
-                      if(senhaNaoVisivel == true) {
-                        setState(() {
-                          visibilidadeSenha = Icon(Icons.visibility_outlined);
-                          senhaNaoVisivel = false;
-                        });
-                      } else {
-                        setState(() {
-                          visibilidadeSenha = Icon(Icons.visibility_off_outlined);
-                          senhaNaoVisivel = true;
-                        });
-                      }
-                    },
-                  ),
-                  border: OutlineInputBorder()
-              ),
-            ),
-            SizedBox(height: 15),
-            TextField(
-              controller: txtConfirmarSenha,
-              obscureText: confirmarSenhaNaoVisivel,
-              obscuringCharacter: '*',
-              decoration: InputDecoration(
-                  labelText: 'Confirmar senha',
-                  prefixIcon: Icon(Icons.password),
-                  suffixIcon: IconButton(
-                    style: ButtonStyle(iconColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                      if(states.contains(MaterialState.pressed)) {
-                        return Colors.blue;
-                      } else {
-                        return null;
-                      } 
-                    })),
-                    icon: visibilidadeConfirmarSenha,
-                    onPressed: () {
-                      if(confirmarSenhaNaoVisivel == true) {
-                        setState(() {
-                          visibilidadeConfirmarSenha = Icon(Icons.visibility_outlined);
-                          confirmarSenhaNaoVisivel = false;
-                        });
-                      } else {
-                        setState(() {
-                          visibilidadeConfirmarSenha = Icon(Icons.visibility_off_outlined);
-                          confirmarSenhaNaoVisivel = true;
-                        });
-                      }
-                    },
-                  ),
-                  border: OutlineInputBorder()
-              ),
-            ),
-            SizedBox(height: 40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+  criarUsuario() {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        Navigator.pushReplacementNamed(context, 'login');
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(child: Padding(
+          padding: EdgeInsets.fromLTRB(30, 50, 30, 50),
+          child: Form(
+            key: formKey,
+            child: Column(
               children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('cancelar'),
+                Text(
+                  'Criar Conta',
+                  style: TextStyle(fontSize: 60),
                 ),
-                ElevatedButton(
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: Size(140, 40),
-                  ),
-                  onPressed: () {
-                    if(txtSenha.text == txtConfirmarSenha.text && txtEmail.text == txtConfirmarEmail.text) {
-                      if(valorPadraoDropDown == 'Outro') {
-                        LoginController().criarConta(
-                          context,
-                          txtNome.text,
-                          txtEmail.text,
-                          txtSenha.text,
-                          txtDataNascimento.text,
-                          txtCpf.text,
-                          txtGenero.text,
-                          txtTelefone.text
-                        );
-                      } else {
-                        LoginController().criarConta(
-                          context, 
-                          txtNome.text, 
-                          txtEmail.text, 
-                          txtSenha.text, 
-                          txtDataNascimento.text, 
-                          txtCpf.text, 
-                          valorPadraoDropDown, 
-                          txtTelefone.text
-                        );
+                SizedBox(height: 60),
+                TextFormField(
+                  controller: txtNome,
+                  validator: (value) {
+                    if(value == null) {
+                      return 'Campo vazio';
+                    } else if(value.isEmpty) {
+                      return 'Campo vazio';
+                    } 
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'Nome',
+                      prefixIcon: Icon(Icons.person),
+                      border: OutlineInputBorder()),
+                ),
+                SizedBox(height: 15),
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    Mask.date()
+                  ],
+                  controller: txtDataNascimento,
+                  validator: (value) {
+                    if(value == null) {
+                      return 'Campo vazio';
+                    } else if(value.isEmpty) {
+                      return 'Campo vazio';
+                    } 
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'Data de nascimento',
+                      prefixIcon: Icon(Icons.date_range),
+                      border: OutlineInputBorder()),
+                ),
+                SizedBox(height: 15),
+                TextFormField(
+                  controller: txtCpf,
+                  inputFormatters: [Mask.cpfOrCnpj()],
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if(value == null) {
+                      return 'Campo vazio';
+                    } else if(value.isEmpty) {
+                      return 'Campo vazio';
+                    } 
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'CPF/CNPJ',
+                      prefixIcon: Icon(Icons.person),
+                      border: OutlineInputBorder()),
+                ),
+                SizedBox(height: 15),
+                Row(children: [
+                  Text('Gênero:'), 
+                  SizedBox(width: 15),
+                  DropdownButton(
+                    icon: Icon(Icons.arrow_drop_down_rounded),
+                    value: valorPadraoDropDown,
+                    items: generos.map((String generos) {
+                      return DropdownMenuItem( 
+                          value: generos, 
+                          child: Text(generos),
+
+                        ); 
+                    }).toList(), 
+                    onChanged: (String? novoValor) {
+                    setState(() {
+                      valorPadraoDropDown = novoValor!;
+                      if(generos.contains('Selecione') && valorPadraoDropDown != 'Selecione') {
+                              generos.remove('Selecione');
                       }
-                      txtNome.clear();
-                      txtEmail.clear();
-                      txtSenha.clear();
-                      txtDataNascimento.clear();
-                      txtCpf.clear();
-                      txtGenero.clear();
-                      txtTelefone.clear();
-                    } else {
-                      dialogBox(context, 'Erro', 'As senhas não são iguais');
-                      txtSenha.clear();
-                      txtConfirmarSenha.clear();
+                      
+                      if(valorPadraoDropDown == 'Outro') {
+                        ativado = true;
+                      } else {
+                        setState(() {
+                          txtGenero.clear();
+                          ativado = false;
+                        });
+                      }
+                    });
+                }),]),
+                SizedBox(height: 15),
+                TextFormField(
+                  controller: txtOutroGenero,
+                  decoration: InputDecoration(
+                      labelText: 'Gênero',
+                      prefixIcon: Icon(IconData(0xed6f, fontFamily: 'MaterialIcons')),
+                      enabled: ativado,
+                      border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if(valorPadraoDropDown == 'Outro') {
+                      if(value == null) {
+                        return 'Campo vazio';
+                      } else if(value.isEmpty) {
+                        return 'Campo vazio';
+                      }
                     }
+                    return null;
                   },
-                  child: Text('salvar'),
                 ),
+                SizedBox(height: 15),
+                TextFormField(
+                  controller: txtTelefone,
+                  inputFormatters: [Mask.generic(masks: ['(##) ####-####', '(##) #####-####'])],
+                  decoration: InputDecoration(
+                      labelText: 'Telefone',
+                      prefixIcon: Icon(Icons.phone),
+                      border: OutlineInputBorder()
+                  ),
+                  validator: (value) {
+                    if(value == null) {
+                      return 'Campo vazio';
+                    } else if(value.isEmpty) {
+                      return 'Campo vazio';
+                    } 
+                    return null;
+                  },
+                ),
+                SizedBox(height: 15),
+                TextFormField(
+                  controller: txtEmail,
+                  validator: (value) {
+                    if(value == null) {
+                      return 'Campo vazio';
+                    } else if(value.isEmpty) {
+                      return 'Campo vazio';
+                    } 
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'Email',
+                      prefixIcon: Icon(Icons.email),
+                      border: OutlineInputBorder()),
+                ),
+                SizedBox(height: 15),
+                TextFormField(
+                  controller: txtConfirmarEmail,
+                  validator: (value) {
+                    if(value == null) {
+                      return 'Campo vazio';
+                    } else if(value.isEmpty) {
+                      return 'Campo vazio';
+                    } 
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'Confirmar email',
+                      prefixIcon: Icon(Icons.email),
+                      border: OutlineInputBorder()),
+                ),
+                SizedBox(height: 15),
+                TextFormField(
+                  controller: txtSenha,
+                  obscureText: senhaNaoVisivel,
+                  obscuringCharacter: '*',
+                  validator: (value) {
+                    if(value == null) {
+                      return 'Campo vazio';
+                    } else if(value.isEmpty) {
+                      return 'Campo vazio';
+                    } 
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'Senha',
+                      prefixIcon: Icon(Icons.password),
+                      suffixIcon: IconButton(
+                        style: ButtonStyle(iconColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                          if(states.contains(MaterialState.pressed)) {
+                            return Colors.blue;
+                          } else {
+                            return null;
+                          } 
+                        })),
+                        icon: visibilidadeSenha,
+                        onPressed: () {
+                          if(senhaNaoVisivel == true) {
+                            setState(() {
+                              visibilidadeSenha = Icon(Icons.visibility_outlined);
+                              senhaNaoVisivel = false;
+                            });
+                          } else {
+                            setState(() {
+                              visibilidadeSenha = Icon(Icons.visibility_off_outlined);
+                              senhaNaoVisivel = true;
+                            });
+                          }
+                        },
+                      ),
+                      border: OutlineInputBorder()
+                  ),
+                ),
+                SizedBox(height: 15),
+                TextFormField(
+                  controller: txtConfirmarSenha,
+                  obscureText: confirmarSenhaNaoVisivel,
+                  obscuringCharacter: '*',
+                  validator: (value) {
+                    if(value == null) {
+                      return 'Campo vazio';
+                    } else if(value.isEmpty) {
+                      return 'Campo vazio';
+                    } 
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'Confirmar senha',
+                      prefixIcon: Icon(Icons.password),
+                      suffixIcon: IconButton(
+                        style: ButtonStyle(iconColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                          if(states.contains(MaterialState.pressed)) {
+                            return Colors.blue;
+                          } else {
+                            return null;
+                          } 
+                        })),
+                        icon: visibilidadeConfirmarSenha,
+                        onPressed: () {
+                          if(confirmarSenhaNaoVisivel == true) {
+                            setState(() {
+                              visibilidadeConfirmarSenha = Icon(Icons.visibility_outlined);
+                              confirmarSenhaNaoVisivel = false;
+                            });
+                          } else {
+                            setState(() {
+                              visibilidadeConfirmarSenha = Icon(Icons.visibility_off_outlined);
+                              confirmarSenhaNaoVisivel = true;
+                            });
+                          }
+                        },
+                      ),
+                      border: OutlineInputBorder()
+                  ),
+                ),
+                SizedBox(height: 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, 'login');
+                      },
+                      child: Text('cancelar'),
+                    ),
+                    ElevatedButton(
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: Size(140, 40),
+                      ),
+                      onPressed: () {
+                        if(formKey.currentState!.validate()) {
+                          if(txtSenha.text == txtConfirmarSenha.text && txtEmail.text == txtConfirmarEmail.text) {
+                            if(valorPadraoDropDown == 'Outro') {
+                              LoginController().criarConta(
+                                context,
+                                txtNome.text,
+                                txtEmail.text,
+                                txtSenha.text,
+                                txtDataNascimento.text,
+                                txtCpf.text,
+                                txtGenero.text,
+                                txtTelefone.text
+                              );
+                            } else {
+                              LoginController().criarConta(
+                                context, 
+                                txtNome.text, 
+                                txtEmail.text, 
+                                txtSenha.text, 
+                                txtDataNascimento.text, 
+                                txtCpf.text, 
+                                valorPadraoDropDown, 
+                                txtTelefone.text
+                              );
+                            }
+                            txtNome.clear();
+                            txtEmail.clear();
+                            txtSenha.clear();
+                            txtDataNascimento.clear();
+                            txtCpf.clear();
+                            txtGenero.clear();
+                            txtTelefone.clear();
+                            txtConfirmarEmail.clear();
+                            txtConfirmarSenha.clear();
+                          } else {
+                            dialogBox(context, 'Erro', 'As senhas não são iguais');
+                            txtSenha.clear();
+                            txtConfirmarSenha.clear();
+                          }
+                        }
+                      },
+                      child: Text('salvar'),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 40),
               ],
             ),
-            SizedBox(height: 40),
-          ],
-        ),
-      ))
+          )
+        ))
+      )
     );
+  }
+
+  editarUsuario() {
+    return Text('Editar usuário');;
   }
 }

@@ -33,7 +33,7 @@ class LoginController {
         );
 
         sucesso(context, 'Cliente criado com sucesso!');
-        Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, 'login');
       },
     ).catchError((e) {
       //Erro durante a criação do cliente

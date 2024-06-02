@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:lava_car/controller/carro_controller.dart';
-import 'package:lava_car/controller/lavagem_controller.dart';
+import '../controller/carro_controller.dart';
+import '../controller/lavagem_controller.dart';
 import 'package:lava_car/view/editar_conta_view.dart';
 import '../controller/login_controller.dart';
 
@@ -428,9 +428,6 @@ carrosCliente() {
                         return Card(
                           color: const Color.fromARGB(255, 0, 110, 255),
                           child: ListTile(
-                            onLongPress: () {
-                              
-                            },
                             title: Text(doc['marca'],
                               textAlign: TextAlign.center,
                               style: const TextStyle(color: Colors.white,
@@ -440,6 +437,20 @@ carrosCliente() {
                             subtitle: Text('Modelo: ${doc['modelo']}\nAno: ${doc['ano']}\nMotorização: ${doc['motorização']}\nCor: ${doc['cor']}\nTipo: ${doc['tipoCarro']}',
                               textAlign: TextAlign.center,
                               style: const TextStyle(color: Colors.white),
+                            ),
+                            trailing: SizedBox(
+                              width: 70,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, 'cadastrarCarro', arguments: id);
+                                    }, 
+                                    icon: const Icon(Icons.mode_edit_outlined, color: Colors.white,)
+                                  )
+                                ],
+                              ),
                             ),
                           )
                         );

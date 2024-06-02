@@ -54,6 +54,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
 
   @override
   Widget build(BuildContext context) {
+    final docId = ModalRoute.of(context)!.settings.arguments;
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
