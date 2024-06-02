@@ -14,6 +14,7 @@ class CarroController {
       v.toJson()
     ).
     then((resultado) {
+      Navigator.pushReplacementNamed(context, 'principal');
       sucesso(context, 'Veículo cadastrado com sucesso');
     });
   }
@@ -23,7 +24,21 @@ class CarroController {
       where('uidCliente', isEqualTo: LoginController().idUsuarioLogado());
   }
 
-  editarCarroCliente(context) {
-    
+  listaCarroEspecifico(docId) {
+    return FirebaseFirestore.instance.collection('veiculo cliente').
+    doc(docId).snapshots().first;
+  }
+
+  editarCarroCliente(context, Veiculo v, docId) {
+    return FirebaseFirestore.instance.collection('veiculo cliente').
+    doc(docId).update(v.toJson()).then((value) => sucesso(context, 'Carro atualizado com sucesso'))
+    .catchError((e) => erro(context, 'Não foi possível atualizar o carro'))
+    .whenComplete(() => Navigator.pushReplacementNamed(context, 'principal'));
+  }
+
+  removerCarro(context, docId) {
+    return FirebaseFirestore.instance.collection('veiculo cliente').
+    doc(docId).delete().then((value) => sucesso(context, 'Carro removido com sucesso'))
+    .catchError((e) => erro(context, 'Não foi possível remover o carro'));
   }
 }

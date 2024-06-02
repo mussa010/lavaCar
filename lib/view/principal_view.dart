@@ -439,7 +439,7 @@ carrosCliente() {
                               style: const TextStyle(color: Colors.white),
                             ),
                             trailing: SizedBox(
-                              width: 70,
+                              width: 80,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -448,6 +448,12 @@ carrosCliente() {
                                       Navigator.pushNamed(context, 'cadastrarCarro', arguments: id);
                                     }, 
                                     icon: const Icon(Icons.mode_edit_outlined, color: Colors.white,)
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      CarroController().removerCarro(context, id);
+                                    }, 
+                                    icon: const Icon(Icons.delete_outline_outlined, color: Colors.white,)
                                   )
                                 ],
                               ),
