@@ -1,16 +1,4 @@
 class FuncionarioController {
 
-
-
-
-
-
-
-
-
-
-
-
-
   
 }

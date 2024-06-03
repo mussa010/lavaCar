@@ -7,22 +7,6 @@ class Carro {
 
   Carro(this.modelo, this.marca, this.ano, this.cor,this.uidCliente);
 
-  String getModelo() {
-    return modelo;
-  }
-
-  String getCor() {
-    return cor;
-  }
-
-  String getMarca() {
-    return marca;
-  }
-
-  String getAno() {
-    return ano.toString();
-  }
-
   factory Carro.fromJson(Map<String, dynamic> json) {
     return Carro(
       json['modelo'], 
@@ -41,5 +25,21 @@ class Carro {
       'ano' : ano,
       'cor' : cor,
     };
+  }
+
+  String getModelo() {
+    return modelo;
+  }
+
+  String getCor() {
+    return cor;
+  }
+
+  String getMarca() {
+    return marca;
+  }
+
+  String getAno() {
+    return ano.toString();
   }
 }

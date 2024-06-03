@@ -32,7 +32,7 @@ class _PrincipalView extends State<PrincipalView> {
     // Menu Carros do cliente -> mostra todos os carros do cliente
     carrosCliente(),
     // Menu Consultar vaículo
-    const Text('Consultando veículo')
+    consultaCarroCliente() 
   ];
     return PopScope(
       canPop: false,
@@ -480,4 +480,9 @@ carrosCliente() {
       ],
     ),
   );
+}
+
+// Consulta, em uma API, sobre o(s) carro(s) do cliente, retornando os valores de cada carro
+consultaCarroCliente() {
+  return const Text('Consultando carro');
 }
