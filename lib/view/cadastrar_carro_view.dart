@@ -59,14 +59,12 @@ class _CadastrarCarro extends State<CadastrarCarro> {
       Future<DocumentSnapshot<Object?>> future = CarroController().listaCarroEspecifico(docId);
         future.then((value) {
           dynamic doc = value.data();
-          print(doc);
           txtMarca.text = doc['marca'].toString();
           txtModeloCarro.text = doc['modelo'].toString();
           txtAno.text = doc['ano'].toString();
           txtCor.text = doc['cor'].toString();
           valorPadraoDropDownMotorizacao = doc['motorizacao'].toString();
           valorPadraoDropDownTipos = doc['tipoCarro'].toString();
-          print('$valorPadraoDropDownTipos\n$valorPadraoDropDownMotorizacao');
         });
       
       if(docId != null) {
@@ -74,7 +72,6 @@ class _CadastrarCarro extends State<CadastrarCarro> {
           tipos.remove('Selecione');
           motorizacao.remove('Selecione');
         }
-
       }
     });
   }
