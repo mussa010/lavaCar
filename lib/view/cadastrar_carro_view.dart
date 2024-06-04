@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lava_car/controller/login_controller.dart';
-import 'package:lava_car/model/veiculo.dart';
+import 'package:lava_car/model/carro.dart';
 import '../controller/carro_controller.dart';
 
 class CadastrarCarro extends StatefulWidget {
@@ -44,34 +44,46 @@ class _CadastrarCarro extends State<CadastrarCarro> {
     'Outro'
   ];
 
-  // String valorPadraoDropDownMotorizacao = 'Selecione', valorPadraoDropDownTipos = 'Selecione';
+  String valorPadraoDropDownMotorizacao = 'Selecione', valorPadraoDropDownTipos = 'Selecione', motor = '', tipo = '';
 
   @override
   void initState() {
     super.initState();
     tipos.sort();
     motorizacao.sort();
+
+    // Carrega dados de carro selecionado na tela principal
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final docId = ModalRoute.of(context)!.settings.arguments;
+
+      Future<DocumentSnapshot<Object?>> future = CarroController().listaCarroEspecifico(docId);
+        future.then((value) {
+          dynamic doc = value.data();
+          print(doc);
+          txtMarca.text = doc['marca'].toString();
+          txtModeloCarro.text = doc['modelo'].toString();
+          txtAno.text = doc['ano'].toString();
+          txtCor.text = doc['cor'].toString();
+          valorPadraoDropDownMotorizacao = doc['motorizacao'].toString();
+          valorPadraoDropDownTipos = doc['tipoCarro'].toString();
+          print('$valorPadraoDropDownTipos\n$valorPadraoDropDownMotorizacao');
+        });
+      
+      if(docId != null) {
+        if(tipos.contains('Selecione') && valorPadraoDropDownTipos != 'Selecione' && motorizacao.contains('Selecione') && valorPadraoDropDownMotorizacao != 'Selecione') {
+          tipos.remove('Selecione');
+          motorizacao.remove('Selecione');
+        }
+
+      }
+    });
   }
 
 
   @override
   Widget build(BuildContext context) {
     final docId = ModalRoute.of(context)!.settings.arguments;
-
-    if(docId != null) {
-      editarCarro(docId);
-
-      // if(tipos.contains('Selecione') && valorPadraoDropDownTipos != 'Selecione' && motorizacao.contains('Selecione') && valorPadraoDropDownMotorizacao != 'Selecione') {
-      //   tipos.remove('Selecione');
-      //   motorizacao.remove('Selecione');
-      // }
-    }
     
-    return cadastrarCarro(docId);
-  }
-
-  // Cadastro de carro do cliente
-  cadastrarCarro(docId) {
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
@@ -182,54 +194,54 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  // Row(
-                  //   children: [
-                  //     const Text('Motorização:'),
-                  //     const SizedBox(width: 15),
-                  //     DropdownButton(
-                  //       value: valorPadraoDropDownMotorizacao,
-                  //       items: motorizacao.map((String motorizacao) {
-                  //         return DropdownMenuItem(
-                  //           value: motorizacao,
-                  //           child: Text(motorizacao),
-                  //         );
-                  //       }).toList(), 
-                  //       onChanged: (String? novoValor) {
-                  //         setState(() {
-                  //           valorPadraoDropDownMotorizacao = novoValor!;
-                  //           if(motorizacao.contains('Selecione') && valorPadraoDropDownMotorizacao != 'Selecione') {
-                  //             motorizacao.remove('Selecione');
-                  //           }
-                  //         });
-                  //       }
-                  //     )
-                  //   ]
-                  // ), 
-                  // const SizedBox(height: 20),
-                  // Row(
-                  //   children: [
-                  //     const Text('Tipo:'),
-                  //     const SizedBox(width: 15),
-                  //     DropdownButton(
-                  //       value: valorPadraoDropDownTipos,
-                  //       items: tipos.map((String tipos) {
-                  //         return DropdownMenuItem(
-                  //           value: tipos,
-                  //           child: Text(tipos),
-                  //         );
-                  //       }).toList(), 
-                  //       onChanged: (String? novoValor) {
-                  //         setState(() {
-                  //           valorPadraoDropDownTipos = novoValor!;
-                  //           if(tipos.contains('Selecione') && valorPadraoDropDownTipos != 'Selecione') {
-                  //             tipos.remove('Selecione');
-                  //           }
-                  //         });
-                  //       }
-                  //     )
-                  //   ]
-                  // ),
-                  // const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      const Text('Motorização:'),
+                      const SizedBox(width: 15),
+                      DropdownButton(
+                        value: valorPadraoDropDownMotorizacao,
+                        items: motorizacao.map((String motorizacao) {
+                          return DropdownMenuItem(
+                            value: motorizacao,
+                            child: Text(motorizacao),
+                          );
+                        }).toList(), 
+                        onChanged: (String? novoValor) {
+                          setState(() {
+                            valorPadraoDropDownMotorizacao = novoValor!;
+                            if(motorizacao.contains('Selecione') && valorPadraoDropDownMotorizacao != 'Selecione') {
+                              motorizacao.remove('Selecione');
+                            }
+                          });
+                        }
+                      )
+                    ]
+                  ), 
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      const Text('Tipo:'),
+                      const SizedBox(width: 15),
+                      DropdownButton(
+                        value: valorPadraoDropDownTipos,
+                        items: tipos.map((String tipos) {
+                          return DropdownMenuItem(
+                            value: tipos,
+                            child: Text(tipos),
+                          );
+                        }).toList(), 
+                        onChanged: (String? novoValor) {
+                          setState(() {
+                            valorPadraoDropDownTipos = novoValor!;
+                            if(tipos.contains('Selecione') && valorPadraoDropDownTipos != 'Selecione') {
+                              tipos.remove('Selecione');
+                            }
+                          });
+                        }
+                      )
+                    ]
+                  ),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -263,7 +275,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                         
                         onPressed: () {
                           if(formKey.currentState!.validate()) {
-                              Carro c = Carro(txtModeloCarro.text, txtMarca.text, int.parse(txtAno.text), txtCor.text, LoginController().idUsuarioLogado());
+                              Carro c = Carro(txtModeloCarro.text, txtMarca.text, int.parse(txtAno.text), txtCor.text, valorPadraoDropDownMotorizacao, valorPadraoDropDownTipos, LoginController().idUsuarioLogado());
                               if(docId == null) {
                                 CarroController().adicionarCarroDeCliente(context, c);
                               } else {
@@ -281,23 +293,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
         )
       )
     );
-  }
-
-
-  // Carrega dados de carro selecionado na tela principal
-  editarCarro(docId) {
-    Future<DocumentSnapshot<Object?>> future = CarroController().listaCarroEspecifico(docId);
-
-      future.then((value) {
-        dynamic doc = value.data();
-        txtMarca.text = doc['marca'].toString();
-        txtModeloCarro.text = doc['modelo'].toString();
-        txtAno.text = doc['ano'].toString();
-        txtCor.text = doc['cor'].toString();
-        // valorPadraoDropDownMotorizacao = doc['motorização'].toString();
-        // valorPadraoDropDownTipos = doc['tipoCarro'].toString();
-      });
-  }
+  }  
 }
 
 dialogBox(context, titulo, mensagem) {

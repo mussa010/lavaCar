@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lava_car/view/util.dart';
 import '../controller/login_controller.dart';
 
-import '../model/veiculo.dart';
+import '../model/carro.dart';
 
 
 
