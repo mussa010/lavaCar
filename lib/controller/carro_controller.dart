@@ -41,4 +41,13 @@ class CarroController {
     doc(docId).delete().then((value) => sucesso(context, 'Carro removido com sucesso'))
     .catchError((e) => erro(context, 'Não foi possível remover o carro'));
   }
+
+  teste() {
+    Map<String, dynamic>? m;
+    FirebaseFirestore.instance.collection('veiculo cliente').
+      where('uidCliente', isEqualTo: LoginController().idUsuarioLogado()).
+      snapshots();
+
+    return m;
+  }
 }

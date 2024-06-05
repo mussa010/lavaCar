@@ -274,7 +274,12 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                           if(formKey.currentState!.validate()) {
                               Carro c = Carro(txtModeloCarro.text, txtMarca.text, int.parse(txtAno.text), txtCor.text, valorPadraoDropDownMotorizacao, valorPadraoDropDownTipos, LoginController().idUsuarioLogado());
                               if(docId == null) {
-                                CarroController().adicionarCarroDeCliente(context, c);
+                                if(valorPadraoDropDownMotorizacao == 'Selecione'|| valorPadraoDropDownTipos == 'Selecione') {
+                                  dialogBox(context, 'Erro', 'Motorização ou tipo não selecionado');
+                                } else {
+                                  CarroController().adicionarCarroDeCliente(context, c);
+                                }
+                                
                               } else {
                                 CarroController().editarCarroCliente(context, c, docId);
                               }

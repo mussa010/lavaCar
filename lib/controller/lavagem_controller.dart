@@ -1,11 +1,20 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:lava_car/controller/login_controller.dart';
+import 'package:flutter/material.dart';
+
+import '../controller/login_controller.dart';
+import '../view/util.dart';
+import '../model/lavagem.dart';
 
 class LavagemController {
   // Função para agendar lavagem de cliente
-  agendarLavagem(context, nomeCliente, cpfCliente, contatoCliente, uidCliente, nomeCarro, modeloCarro, tipoCarro, data, horario) {
-    return FirebaseFirestore.instance.collection('agendamento');
+  agendarLavagem(context, Lavagem l) {
+    return FirebaseFirestore.instance.collection('agendamento').add(
+      l.toJson()
+    ).
+    then((resultado) {
+      Navigator.pushReplacementNamed(context, 'principal');
+      sucesso(context, 'Agendamento realizado com sucesso');
+    });
   }
 
   // Função para retornar lavagem(ns) do dia do cliente
@@ -20,7 +29,7 @@ class LavagemController {
     // get().then((querySnapshot) {
 
     // }); 
-    return FirebaseFirestore.instance.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado());
+    return FirebaseFirestore.instance.collection('lavagem').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado());
   }
 
    // Função para retornar lavagens anteriores do cliente
@@ -30,6 +39,15 @@ class LavagemController {
     int dia = data.day;
     int mes = data.month;
     int ano = data.year;
+
+    
+  }
+
+  editarLavagem(context, Lavagem l, docId) {
+    return FirebaseFirestore.instance.collection('lavagem').
+    doc(docId).update(l.toJson()).then((value) => sucesso(context, 'Agendamento atualizado com sucesso'))
+    .catchError((e) => erro(context, 'Não foi possível atualizar o agendamento'))
+    .whenComplete(() => Navigator.pushReplacementNamed(context, 'principal'));
   }
 
   
