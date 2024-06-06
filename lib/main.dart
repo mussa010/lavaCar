@@ -10,6 +10,7 @@ import 'view/login_view.dart';
 import 'view/sobre_aplicativo_view.dart';
 import 'view/editar_conta_view.dart';
 import 'view/cadastrar_carro_view.dart';
+import 'view/agendar_lavagem_view.dart';
 
 
 Future main() async{
@@ -46,7 +47,8 @@ class MainApp extends StatelessWidget {
         'principal': (context) => const PrincipalView(),
         'sobre' : (context) => const SobreAplicativo(),
         'editarConta' : (context) => const EditarConta(),
-        'cadastrarCarro': (context) => const CadastrarCarro()
+        'cadastrarCarro': (context) => const CadastrarCarro(),
+        'agendarlavagem' : (context) => const AgendarLavagem()
       }
     );
   }

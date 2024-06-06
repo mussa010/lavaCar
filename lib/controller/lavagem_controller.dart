@@ -29,7 +29,7 @@ class LavagemController {
     // get().then((querySnapshot) {
 
     // }); 
-    return FirebaseFirestore.instance.collection('lavagem').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado());
+    return FirebaseFirestore.instance.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado());
   }
 
    // Função para retornar lavagens anteriores do cliente
@@ -43,8 +43,12 @@ class LavagemController {
     
   }
 
+  listarTodasAsLavagens() {
+    return FirebaseFirestore.instance.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado());
+  }
+
   editarLavagem(context, Lavagem l, docId) {
-    return FirebaseFirestore.instance.collection('lavagem').
+    return FirebaseFirestore.instance.collection('agendamento').
     doc(docId).update(l.toJson()).then((value) => sucesso(context, 'Agendamento atualizado com sucesso'))
     .catchError((e) => erro(context, 'Não foi possível atualizar o agendamento'))
     .whenComplete(() => Navigator.pushReplacementNamed(context, 'principal'));

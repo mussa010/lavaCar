@@ -21,26 +21,16 @@ class _AgendarLavagem extends State<AgendarLavagem> {
     'Selecione'
   ];
 
-  String nomeCliente = '', cpfCliente = '', telefoneCliente = '',  marcaCarro = '', modeloCarro = '', tipoCarro = '', valorPadraoDropDownCarro = '';
+  String nomeCliente = '', cpfCliente = '', telefoneCliente = '',  marcaCarro = '', modeloCarro = '', tipoCarro = '', valorPadraoDropDownCarro = 'Selecione';
   var uidCliente = LoginController().idUsuarioLogado();
 
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final docId = ModalRoute.of(context)!.settings.arguments;
       if(docId == null) {
-        Future<QuerySnapshot<Map<String, dynamic>>> future = LoginController().listarDadosCliente();
-
-        future.then((value) {
-          dynamic doc = value.docs[0].data();
-          nomeCliente = doc['nome'];
-          cpfCliente = doc['cpf'];
-          telefoneCliente = doc['telefone'];
-        });
-
-        future = CarroController().listarCarrosCliente().get();
+        Future<QuerySnapshot<Map<String, dynamic>>>  future = CarroController().listarCarrosCliente().get();
         future.then((value) {
           dynamic doc;
           for(int i = 0; i < value.size; i++) {
@@ -51,17 +41,27 @@ class _AgendarLavagem extends State<AgendarLavagem> {
             tipoCarro = doc['tipoCarro'];
           }
         });
+
+        future = LoginController().listarDadosCliente();
+
+        future.then((value) {
+          dynamic doc = value.docs[0].data();
+          nomeCliente = doc['nome'];
+          cpfCliente = doc['cpf'];
+          telefoneCliente = doc['telefone'];
+        });
       } else {
 
       }
-      valorPadraoDropDownCarro = 'Selecione';
     });
+    
   }
 
 
   @override
   Widget build(BuildContext context) {
     final docId = ModalRoute.of(context)!.settings.arguments;
+
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
@@ -92,7 +92,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                         return const Center(child: Text('Erro de conexão'));
 
                       case ConnectionState.waiting:
-                        return  const CircularProgressIndicator(color: Colors.black);
+                        return  const Text('');
 
                       default:
                         final dados = snapshot.requireData;
