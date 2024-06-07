@@ -29,6 +29,10 @@ class CarroController {
     doc(docId).snapshots().first;
   }
 
+  listarCarroNomeEspecifico(String nome) {
+    return FirebaseFirestore.instance.collection('veiculo cliente').where('modeloCarro', isEqualTo: nome).snapshots().first;
+  }
+
   editarCarroCliente(context, Carro c, docId) {
     return FirebaseFirestore.instance.collection('veiculo cliente').
     doc(docId).update(c.toJson()).then((value) => sucesso(context, 'Carro atualizado com sucesso'))

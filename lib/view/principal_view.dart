@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lava_car/controller/usuario_controller.dart';
 import '../controller/carro_controller.dart';
 import '../controller/lavagem_controller.dart';
 import 'package:lava_car/view/editar_conta_view.dart';
@@ -60,7 +61,7 @@ class _PrincipalView extends State<PrincipalView> {
           backgroundColor: Colors.white,
           child: 
           StreamBuilder<QuerySnapshot> (
-          stream: LoginController().listarInformacoesClienteLogado().snapshots(),
+          stream: UsuarioController().listarInformacoesClienteLogado().snapshots(),
       
           builder: (context, snapshot) {
             switch(snapshot.connectionState) {
@@ -400,82 +401,76 @@ home() {
                       const SizedBox(height: 10),
                       //Mostra lavagens anteriores do cliente
                       StreamBuilder<QuerySnapshot>(
-                       stream: LavagemController().listarTodasAsLavagens().snapshots(), 
+          stream: LavagemController().listarTodasAsLavagens(),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+                return const Center(child: Text('Erro de conexão'));
+              case ConnectionState.waiting:
+                return const CircularProgressIndicator(color: Colors.black);
+              default:
+                final dados = snapshot.requireData;
+                if (dados.size > 0) {
+                  return ListView.builder(
+                      shrinkWrap: true, // Defina shrinkWrap como true
+                      scrollDirection: Axis.vertical,
+                      itemCount: dados.size,
+                      itemBuilder: (context, index) {
+                        String id = dados.docs[index].id;
+                        dynamic doc = dados.docs[index].data();
+                        return Card(
+                          color: const Color.fromARGB(255, 0, 110, 255),
+                          child: ListTile(
+                            title: Text('${index+1}ª lavagem',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.white,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            subtitle: Text('Data: ${doc['data']}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            trailing: SizedBox(
+                              width: 100,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, 'agendarlavagem', arguments: id);
+                                    }, 
+                                    icon: const Icon(Icons.mode_edit_outlined, color: Colors.white,)
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      // Remover cancelar lavagem
+                                    }, 
+                                    icon: const Icon(Icons.delete_outline_outlined, color: Colors.white,)
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
 
-                        builder: (context, snapshot) {
-                          switch(snapshot.connectionState) {
-                            case ConnectionState.none:
-                              return const Center(child: Text('Erro de conexão'));
-
-                            case ConnectionState.waiting:
-                              return  const CircularProgressIndicator(color: Colors.black);
-
-                            default:
-                              final dados = snapshot.requireData;
-
-                              if(dados.size > 0) {
-                                return ListView.builder(
-                                  itemCount: dados.size,
-                                  itemBuilder: (context, index) {
-                                    dynamic doc = dados.docs[index].data();
-                                    String id = dados.docs[index].id;
-                                    return Card(
-                                      color: const Color.fromARGB(255, 0, 110, 255),
-                                      child: ListTile(
-                                        title: Text(doc['Lavagem ${index + 1}'],
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(color: Colors.white,
-                                            fontWeight: FontWeight.bold
-                                          ),
-                                        ),
-                                        subtitle: Text('Nome do cliente: ${doc['nomeCliente']}\nCPF do cliente: ${doc['cpfCliente']}\nTelefone do cliente: ${doc['telefoneCliente']}\nUid do cliente: ${doc['uidCliente']}\nData: ${doc['data']}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}',
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(color: Colors.white),
-                                        ),
-                                        trailing: SizedBox(
-                                          width: 100,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: [
-                                              IconButton(
-                                                onPressed: () {
-                                                  Navigator.pushNamed(context, 'agendarLavagem', arguments: id);
-                                                }, 
-                                                icon: const Icon(Icons.mode_edit_outlined, color: Colors.white,)
-                                              ),
-                                              IconButton(
-                                                onPressed: () {
-                                                  // CarroController().removerCarro(context, id);
-                                                }, 
-                                                icon: const Icon(Icons.delete_outline_outlined, color: Colors.white,)
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              } else {
-                                return const Column(
-                                  children: [
-                                    Center(
-                                      child: Text(
-                                          'Não há lavagem', 
-                                          style: TextStyle(
-                                            fontSize: 20, 
-                                            color: Colors.black,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                    ),
-                                    SizedBox(height: 20)
-                                  ]
-                                );
-                              }
-                          }
-                        },
+                } else {
+                  return const Center(
+                    child: Text(
+                      'Não há carro cadastrado',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
                       ),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                }
+            }
+          },
+        )
                     ]
                   )
           ],

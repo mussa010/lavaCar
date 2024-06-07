@@ -44,7 +44,11 @@ class LavagemController {
   }
 
   listarTodasAsLavagens() {
-    return FirebaseFirestore.instance.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado());
+    return FirebaseFirestore.instance.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado()).snapshots();
+  }
+
+  listarLavagemEspecifica(docId) {
+    return FirebaseFirestore.instance.collection('agendamento').doc(docId).snapshots().first;
   }
 
   editarLavagem(context, Lavagem l, docId) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lava_car/controller/lavagem_controller.dart';
 import 'package:lava_car/controller/login_controller.dart';
 import '../controller/carro_controller.dart';
+import '../controller/usuario_controller.dart';
 import '../model/lavagem.dart';
 
 class AgendarLavagem extends StatefulWidget {
@@ -11,6 +12,12 @@ class AgendarLavagem extends StatefulWidget {
   @override
   State<AgendarLavagem> createState() => _AgendarLavagem();
 }
+
+// 
+// Falta criar um mapa para guardar todas informações de todos os carros;
+// Quando o cliente selecionar o carro, deve-se percorrer o mapa e salvar os dados específicos do carro;
+// Tmambém falta fazer a parte de edição
+// 
 
 class _AgendarLavagem extends State<AgendarLavagem> {
   var formKey = GlobalKey<FormState>();
@@ -29,30 +36,45 @@ class _AgendarLavagem extends State<AgendarLavagem> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final docId = ModalRoute.of(context)!.settings.arguments;
+      Future<QuerySnapshot<Map<String, dynamic>>> future;
       if(docId == null) {
-        Future<QuerySnapshot<Map<String, dynamic>>>  future = CarroController().listarCarrosCliente().get();
+        future = CarroController().listarCarrosCliente().get();
         future.then((value) {
           dynamic doc;
           for(int i = 0; i < value.size; i++) {
             doc = value.docs[i].data();
             listaCarrosCliente.add(doc['modelo']);
-            marcaCarro = doc['marca'];
-            modeloCarro = doc['modelo'];
-            tipoCarro = doc['tipoCarro'];
+            marcaCarro = doc['marca'].toString();
+            modeloCarro = doc['modelo'].toString();
+            tipoCarro = doc['tipoCarro'].toString();
           }
         });
 
-        future = LoginController().listarDadosCliente();
-
         future.then((value) {
           dynamic doc = value.docs[0].data();
-          nomeCliente = doc['nome'];
-          cpfCliente = doc['cpf'];
-          telefoneCliente = doc['telefone'];
+          nomeCliente = doc['nome'].toString();
+          cpfCliente = doc['cpf'].toString();
+          telefoneCliente = doc['telefone'].toString();
         });
       } else {
-
+        Future<DocumentSnapshot<Map<String, dynamic>>>futuro = LavagemController().listarLavagemEspecifica(docId);
+        futuro.then((value) {
+          dynamic doc = value.data();
+          setState(() {
+            print(doc.toString());
+            valorPadraoDropDownCarro = doc['modeloCarro'].toString();
+            txtData.text = doc['data'].toString();
+            txtHorario.text = doc['horario'].toString();
+            nomeCliente = doc['nomeCliente'].toString();
+            cpfCliente = doc['cpfCliente'].toString();
+            telefoneCliente = doc['telefoneCliente'].toString();
+            marcaCarro = doc['marcaCarro'].toString();
+            modeloCarro = doc['modeloCarro'].toString();
+            tipoCarro = doc['tipoCarro'].toString();
+          });
+        });
       }
+      future = UsuarioController().listarDadosCliente();
     });
     
   }

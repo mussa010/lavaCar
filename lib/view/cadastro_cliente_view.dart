@@ -43,32 +43,25 @@ class _CadastrarCliente extends State<CadastrarCliente> {
 
   bool ativado = false;
 
-  dialogBox(context, titulo, mensagem) {
-    return showDialog(
-      context: context, 
-      builder: (BuildContext context) => AlertDialog.adaptive(
-        title: Text(titulo),
-        content: Text(mensagem),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context, 'Voltar'),
-          child: const Text('Voltar'))
-        ],
-      ));
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
+      final docId = ModalRoute.of(context)!.settings.arguments;
+
+      if(docId != null) {
+        
+      }
+    });
   }
+
+  
 
 
   @override
   Widget build(BuildContext context) {
     final docId = ModalRoute.of(context)!.settings.arguments;
     // Cadastro de cliente
-    if(docId == null) {
-      return criarUsuario();
-    } else {
-      return editarUsuario();
-    }
-  }
-
-  criarUsuario() {
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
@@ -393,7 +386,19 @@ class _CadastrarCliente extends State<CadastrarCliente> {
     );
   }
 
-  editarUsuario() {
-    return Text('Editar usuário');;
-  }
 }
+
+
+
+dialogBox(context, titulo, mensagem) {
+    return showDialog(
+      context: context, 
+      builder: (BuildContext context) => AlertDialog.adaptive(
+        title: Text(titulo),
+        content: Text(mensagem),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, 'Voltar'),
+          child: const Text('Voltar'))
+        ],
+      ));
+  }
