@@ -58,5 +58,10 @@ class LavagemController {
     .whenComplete(() => Navigator.pushReplacementNamed(context, 'principal'));
   }
 
-  
+  cancelarLavagem(context, docId) {
+    return FirebaseFirestore.instance.collection('agendamento').
+    doc(docId).delete().then((value) => sucesso(context, 'Lavagem cancelada com sucesso'))
+    .catchError((e) => erro(context, 'Não foi possível cancelar a lavage'))
+    .whenComplete(() => Navigator.pushReplacementNamed(context, 'principal'));;
+  }
 }

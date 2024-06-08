@@ -30,7 +30,7 @@ class CarroController {
   }
 
   listarCarroNomeEspecifico(String nome) {
-    return FirebaseFirestore.instance.collection('veiculo cliente').where('modeloCarro', isEqualTo: nome).snapshots().first;
+    return FirebaseFirestore.instance.collection('veiculo cliente').where('modelo', isEqualTo: nome).snapshots().first;
   }
 
   editarCarroCliente(context, Carro c, docId) {

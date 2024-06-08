@@ -28,8 +28,9 @@ class _AgendarLavagem extends State<AgendarLavagem> {
     'Selecione'
   ];
 
-  String nomeCliente = '', cpfCliente = '', telefoneCliente = '',  marcaCarro = '', modeloCarro = '', tipoCarro = '', valorPadraoDropDownCarro = 'Selecione';
+  String nomeCliente = '', cpfCliente = '', telefoneCliente = '',  marcaCarro = '', modeloCarro = '', tipoCarro = '', valorPadraoDropDownCarro = 'Selecione', uidLavagem = '';
   var uidCliente = LoginController().idUsuarioLogado();
+  bool podeApagar = false;
 
   @override
   void initState() {
@@ -37,31 +38,27 @@ class _AgendarLavagem extends State<AgendarLavagem> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final docId = ModalRoute.of(context)!.settings.arguments;
       Future<QuerySnapshot<Map<String, dynamic>>> future;
-      if(docId == null) {
-        future = CarroController().listarCarrosCliente().get();
-        future.then((value) {
-          dynamic doc;
-          for(int i = 0; i < value.size; i++) {
-            doc = value.docs[i].data();
-            listaCarrosCliente.add(doc['modelo']);
-            marcaCarro = doc['marca'].toString();
-            modeloCarro = doc['modelo'].toString();
-            tipoCarro = doc['tipoCarro'].toString();
-          }
-        });
+      future = CarroController().listarCarrosCliente().get();
+      future.then((value) {
+        dynamic doc;
+        for(int i = 0; i < value.size; i++) {
+          doc = value.docs[i].data();
+          listaCarrosCliente.add(doc['modelo']);
+        }
+      });
 
+      future = UsuarioController().listarInformacoesClienteLogado().snapshots().first;
         future.then((value) {
           dynamic doc = value.docs[0].data();
           nomeCliente = doc['nome'].toString();
           cpfCliente = doc['cpf'].toString();
           telefoneCliente = doc['telefone'].toString();
         });
-      } else {
+      if(docId != null) {
         Future<DocumentSnapshot<Map<String, dynamic>>>futuro = LavagemController().listarLavagemEspecifica(docId);
         futuro.then((value) {
           dynamic doc = value.data();
           setState(() {
-            print(doc.toString());
             valorPadraoDropDownCarro = doc['modeloCarro'].toString();
             txtData.text = doc['data'].toString();
             txtHorario.text = doc['horario'].toString();
@@ -71,10 +68,15 @@ class _AgendarLavagem extends State<AgendarLavagem> {
             marcaCarro = doc['marcaCarro'].toString();
             modeloCarro = doc['modeloCarro'].toString();
             tipoCarro = doc['tipoCarro'].toString();
+            uidLavagem = doc['uidLavagem'].toString();
+            // Preciso fazer a verificação da data para cancelar a lavagem ou não
+            // DateTime data = DateTime.parse(txtData.text);
+            // if(data.year < DateTime.now().yaer) {
+
+            // }
           });
         });
-      }
-      future = UsuarioController().listarDadosCliente();
+      } 
     });
     
   }
@@ -222,11 +224,11 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                     ElevatedButton(
                                       style:  ButtonStyle(
                                         minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
-                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                                        shadowColor: MaterialStateProperty.all<Color>(Colors.red)
+                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                                        shadowColor: MaterialStateProperty.all<Color>(Colors.blue)
                                       ),
                                       child: const Center(
-                                        child: Text('Cancelar',
+                                        child: Text('Voltar',
                                           style: TextStyle(color: Colors.white),
                                         ),
                                       ),
@@ -249,24 +251,54 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                       
                                       onPressed: () {
                                         if(formKey.currentState!.validate()) {
-                                            Lavagem l = Lavagem(LoginController().idUsuarioLogado(), nomeCliente, cpfCliente, telefoneCliente, marcaCarro, modeloCarro, tipoCarro, txtData.text, txtHorario.text);
-                                            if(docId == null) {
-                                              if(valorPadraoDropDownCarro == 'Selecione') {
-                                                dialogBox(context, 'Erro', 'Selecione o carro');
-                                              } else {
-                                                LavagemController().agendarLavagem(context, l);
-                                              }
-                                              
+                                            if(valorPadraoDropDownCarro == 'Selecione') {
+                                              dialogBox(context, 'Erro', 'Selecione o veículo');
                                             } else {
-                                              LavagemController().editarLavagem(context, l, docId);
+                                              Future<QuerySnapshot<Map<String, dynamic>>> future = CarroController().listarCarroNomeEspecifico(valorPadraoDropDownCarro);
+                                              future.then((value) {
+                                                dynamic doc = value.docs.first.data();
+                                                marcaCarro = doc['marca'].toString();
+                                                modeloCarro = doc['modelo'].toString();
+                                                tipoCarro = doc['tipoCarro'].toString();
+                                                Lavagem l = Lavagem(LoginController().idUsuarioLogado(), nomeCliente, cpfCliente, telefoneCliente, marcaCarro, modeloCarro, tipoCarro, txtData.text, txtHorario.text);
+                                                if(docId == null) {
+                                                  LavagemController().agendarLavagem(context, l);
+                                                } else {
+                                                  LavagemController().editarLavagem(context, l, docId);
+                                                }
+                                              });
                                             }
                                         }
                                       },
                                     ),
                                   ]
-                              )
+                              ),
+                              const SizedBox(height: 20),
+                              if(docId != null) Center(child: ElevatedButton(
+                                      style:  ButtonStyle(
+                                        minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
+                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                                        shadowColor: MaterialStateProperty.all<Color>(Colors.green)
+                                      ),
+                                      child: const Center(
+                                        child: Text('Cancelar Lavagem',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                      
+                                      onPressed: () {
+                                        if(formKey.currentState!.validate()) {
+                                            if(valorPadraoDropDownCarro == 'Selecione') {
+                                              dialogBox(context, 'Erro', 'Selecione o veículo');
+                                            } else {
+                                              LavagemController().cancelarLavagem(context, docId);
+                                            }
+                                        }
+                                      },
+                                    )
+                              ),
                               ],
-                        ),
+                          ),
                           );
                         }
                     }

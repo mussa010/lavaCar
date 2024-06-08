@@ -225,6 +225,7 @@ class _PrincipalView extends State<PrincipalView> {
                   ListTile(
                     leading: const Icon(Icons.home),
                     selected: true,
+                    selectedColor: Colors.blue,
                     title: const Text('Início'),
                     onTap: () {
                       Scaffold.of(context).closeDrawer();
@@ -442,12 +443,6 @@ home() {
                                     }, 
                                     icon: const Icon(Icons.mode_edit_outlined, color: Colors.white,)
                                   ),
-                                  IconButton(
-                                    onPressed: () {
-                                      // Remover cancelar lavagem
-                                    }, 
-                                    icon: const Icon(Icons.delete_outline_outlined, color: Colors.white,)
-                                  )
                                 ],
                               ),
                             ),
@@ -459,7 +454,7 @@ home() {
                 } else {
                   return const Center(
                     child: Text(
-                      'Não há carro cadastrado',
+                      'Não há lavagens',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.black,

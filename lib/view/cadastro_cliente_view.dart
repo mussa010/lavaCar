@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lava_car/controller/usuario_controller.dart';
 
 import '../controller/login_controller.dart';
 import 'package:mask/mask.dart';
@@ -50,7 +52,15 @@ class _CadastrarCliente extends State<CadastrarCliente> {
       final docId = ModalRoute.of(context)!.settings.arguments;
 
       if(docId != null) {
-        
+        Future<QuerySnapshot<Map<String, dynamic>>> future = UsuarioController().listarInformacoesClienteLogado().snapshots().first;
+
+        future.then((value) {
+          dynamic doc = value.docs.first.data();
+
+          setState(() {
+            
+          });
+        });
       }
     });
   }
@@ -201,8 +211,8 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                     return null;
                   },
                 ),
-                SizedBox(height: 15),
-                TextFormField(
+                if(docId == null)  SizedBox(height: 15),
+                if(docId == null)  TextFormField(
                   controller: txtEmail,
                   validator: (value) {
                     if(value == null) {
@@ -217,8 +227,8 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                       prefixIcon: Icon(Icons.email),
                       border: OutlineInputBorder()),
                 ),
-                SizedBox(height: 15),
-                TextFormField(
+                if(docId == null)  SizedBox(height: 15),
+                if(docId == null)  TextFormField(
                   controller: txtConfirmarEmail,
                   validator: (value) {
                     if(value == null) {
@@ -233,8 +243,8 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                       prefixIcon: Icon(Icons.email),
                       border: OutlineInputBorder()),
                 ),
-                SizedBox(height: 15),
-                TextFormField(
+                if(docId == null)  SizedBox(height: 15),
+                if(docId == null)  TextFormField(
                   controller: txtSenha,
                   obscureText: senhaNaoVisivel,
                   obscuringCharacter: '*',
@@ -275,8 +285,8 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                       border: OutlineInputBorder()
                   ),
                 ),
-                SizedBox(height: 15),
-                TextFormField(
+                if(docId == null)  SizedBox(height: 15),
+                if(docId == null)  TextFormField(
                   controller: txtConfirmarSenha,
                   obscureText: confirmarSenhaNaoVisivel,
                   obscuringCharacter: '*',
@@ -334,38 +344,40 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                       onPressed: () {
                         if(formKey.currentState!.validate()) {
                           if(txtSenha.text == txtConfirmarSenha.text && txtEmail.text == txtConfirmarEmail.text) {
-                            if(valorPadraoDropDown == 'Outro') {
-                              LoginController().criarConta(
-                                context,
-                                txtNome.text,
-                                txtEmail.text,
-                                txtSenha.text,
-                                txtDataNascimento.text,
-                                txtCpf.text,
-                                txtGenero.text,
-                                txtTelefone.text
-                              );
-                            } else {
-                              LoginController().criarConta(
-                                context, 
-                                txtNome.text, 
-                                txtEmail.text, 
-                                txtSenha.text, 
-                                txtDataNascimento.text, 
-                                txtCpf.text, 
-                                valorPadraoDropDown, 
-                                txtTelefone.text
-                              );
+                            if(docId == null) {
+                              if(valorPadraoDropDown == 'Outro') {
+                                LoginController().criarConta(
+                                  context,
+                                  txtNome.text,
+                                  txtEmail.text,
+                                  txtSenha.text,
+                                  txtDataNascimento.text,
+                                  txtCpf.text,
+                                  txtGenero.text,
+                                  txtTelefone.text
+                                );
+                              } else {
+                                LoginController().criarConta(
+                                  context, 
+                                  txtNome.text, 
+                                  txtEmail.text, 
+                                  txtSenha.text, 
+                                  txtDataNascimento.text, 
+                                  txtCpf.text, 
+                                  valorPadraoDropDown, 
+                                  txtTelefone.text
+                                );
+                              }
+                              // txtNome.clear();
+                              // txtEmail.clear();
+                              // txtSenha.clear();
+                              // txtDataNascimento.clear();
+                              // txtCpf.clear();
+                              // txtGenero.clear();
+                              // txtTelefone.clear();
+                              // txtConfirmarEmail.clear();
+                              // txtConfirmarSenha.clear();
                             }
-                            txtNome.clear();
-                            txtEmail.clear();
-                            txtSenha.clear();
-                            txtDataNascimento.clear();
-                            txtCpf.clear();
-                            txtGenero.clear();
-                            txtTelefone.clear();
-                            txtConfirmarEmail.clear();
-                            txtConfirmarSenha.clear();
                           } else {
                             dialogBox(context, 'Erro', 'As senhas não são iguais');
                             txtSenha.clear();
