@@ -46,7 +46,6 @@ class MainApp extends StatelessWidget {
         'cadastrar': (context) => const CadastrarCliente(),
         'principal': (context) => const PrincipalView(),
         'sobre' : (context) => const SobreAplicativo(),
-        'editarConta' : (context) => const EditarConta(),
         'cadastrarCarro': (context) => const CadastrarCarro(),
         'agendarlavagem' : (context) => const AgendarLavagem()
       }

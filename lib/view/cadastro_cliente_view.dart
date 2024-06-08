@@ -7,6 +7,8 @@ import 'package:lava_car/controller/usuario_controller.dart';
 import '../controller/login_controller.dart';
 import 'package:mask/mask.dart';
 
+import '../model/usuario.dart';
+
 class CadastrarCliente extends StatefulWidget {
   const CadastrarCliente({super.key});
 
@@ -56,9 +58,17 @@ class _CadastrarCliente extends State<CadastrarCliente> {
 
         future.then((value) {
           dynamic doc = value.docs.first.data();
-
           setState(() {
-            
+            txtNome.text = doc['nome'].toString();
+            txtDataNascimento.text = doc['dataNascimento'].toString();
+            txtCpf.text = doc['cpf'].toString();
+            if(doc['genero'].toString() == 'Outro') {
+              valorPadraoDropDown = 'Outro';
+              txtGenero.text = doc['genero'].toString();
+            } else {
+              valorPadraoDropDown = doc['genero'].toString();
+            }
+            txtTelefone.text = doc['telefone'].toString();
           });
         });
       }
@@ -333,7 +343,11 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, 'login');
+                        if(docId == null) {
+                          Navigator.pushReplacementNamed(context, 'login');
+                        } else {
+                          Navigator.pushReplacementNamed(context, 'principal');
+                        }
                       },
                       child: Text('cancelar'),
                     ),
@@ -377,6 +391,14 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                               // txtTelefone.clear();
                               // txtConfirmarEmail.clear();
                               // txtConfirmarSenha.clear();
+                            } else {
+                              Usuario u;
+                              if(valorPadraoDropDown == 'Outro') {
+                                u = Usuario(txtNome.text, txtDataNascimento.text, txtCpf.text, txtGenero.text, txtTelefone.text);
+                              } else {
+                                u = Usuario(txtNome.text, txtDataNascimento.text, txtCpf.text, valorPadraoDropDown, txtTelefone.text);
+                              }
+                              UsuarioController().editarInformacoesCliente(context, u, docId);
                             }
                           } else {
                             dialogBox(context, 'Erro', 'As senhas não são iguais');

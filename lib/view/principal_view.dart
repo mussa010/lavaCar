@@ -76,6 +76,7 @@ class _PrincipalView extends State<PrincipalView> {
                 default:
                 final dados = snapshot.requireData;
                 dynamic doc = dados.docs[0].data();
+                String id = dados.docs[0].id;
                 return ListView(
                   padding: EdgeInsets.zero,
                   children: [
@@ -126,7 +127,7 @@ class _PrincipalView extends State<PrincipalView> {
                       selected: false,
                       onTap: () {
                         Scaffold.of(context).closeDrawer();
-                        Navigator.of(context).push(MaterialPageRoute(builder:  ((context) => const EditarConta())));
+                        Navigator.of(context).pushNamed('cadastrar', arguments: id);
                       },
                     ),
                     const Divider(color: Colors.black,),
@@ -240,8 +241,8 @@ class _PrincipalView extends State<PrincipalView> {
                     ),
                     title: const Text('Cadastrar carro'),
                     onTap: () {
-                      Scaffold.of(context).closeDrawer();
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const CadastrarCarro()));
+                      // Scaffold.of(context).closeDrawer();
+                      // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const CadastrarCarro()));
                     },
                   ),
                   ListTile(
@@ -249,8 +250,8 @@ class _PrincipalView extends State<PrincipalView> {
                     selected: false,
                     title: const Text('Agendar lavagem'),
                     onTap: () {
-                      Scaffold.of(context).closeDrawer();
-                      Navigator.of(context).push(MaterialPageRoute(builder:  ((context) => const AgendarLavagem())));
+                      // Scaffold.of(context).closeDrawer();
+                      // Navigator.of(context).push(MaterialPageRoute(builder:  ((context) => const AgendarLavagem())));
                     },
                   ),
                   ListTile(
@@ -258,8 +259,8 @@ class _PrincipalView extends State<PrincipalView> {
                     title: const Text('Editar conta'),
                     selected: false,
                     onTap: () {
-                      Scaffold.of(context).closeDrawer();
-                      Navigator.of(context).push(MaterialPageRoute(builder:  ((context) => const EditarConta())));
+                      // Scaffold.of(context).closeDrawer();
+                      // Navigator.of(context).pushNamed('cadastrar', arguments: LoginController().idUsuarioLogado());
                     },
                   ),
                   const Divider(color: Colors.black,),
@@ -268,16 +269,16 @@ class _PrincipalView extends State<PrincipalView> {
                       title: const Text('Sobre o aplicativo'),
                       selected: false,
                       onTap: () {
-                        Scaffold.of(context).closeDrawer();
-                        Navigator.pushNamed(context, 'sobre');
+                        // Scaffold.of(context).closeDrawer();
+                        // Navigator.pushNamed(context, 'sobre');
                       },
                   ),
                   ListTile(
                     leading: const Icon(Icons.exit_to_app),
                     title: const Text('Sair'),
                     onTap: () {
-                      LoginController().logout();
-                      Navigator.pushReplacementNamed(context, 'login');
+                      // LoginController().logout();
+                      // Navigator.pushReplacementNamed(context, 'login');
                     },
                   )
                 ],
