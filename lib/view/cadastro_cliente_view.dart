@@ -95,7 +95,7 @@ class _CadastrarCliente extends State<CadastrarCliente> {
             child: Column(
               children: [
                 Text(
-                  'Criar Conta',
+                  docId == null ? 'Criar Conta' : 'Editar conta',
                   style: TextStyle(fontSize: 60),
                 ),
                 SizedBox(height: 60),
