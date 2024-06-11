@@ -8,7 +8,6 @@ import 'view/cadastro_cliente_view.dart';
 import 'view/principal_view.dart';
 import 'view/login_view.dart';
 import 'view/sobre_aplicativo_view.dart';
-import 'view/editar_conta_view.dart';
 import 'view/cadastrar_carro_view.dart';
 import 'view/agendar_lavagem_view.dart';
 

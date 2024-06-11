@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lava_car/controller/usuario_controller.dart';
 import '../controller/carro_controller.dart';
 import '../controller/lavagem_controller.dart';
-import 'package:lava_car/view/editar_conta_view.dart';
 import '../controller/login_controller.dart';
 
 import 'cadastrar_carro_view.dart';
@@ -559,5 +558,9 @@ carrosCliente() {
 
 // Consulta, em uma API, sobre o(s) carro(s) do cliente, retornando os valores de cada carro
 consultaCarroCliente() {
-  return const Text('Consultando carro');
+  return const Center(
+    child: Text('Consultando carro',
+      style: TextStyle(fontSize: 20),
+    )
+  );
 }
