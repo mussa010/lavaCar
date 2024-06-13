@@ -15,8 +15,6 @@ class PrincipalView extends StatefulWidget {
   State<PrincipalView> createState() => _PrincipalView();
 }
 
-// bool naoTemLavagemNoDia = true;
-
 class _PrincipalView extends State<PrincipalView> {
   bool inicioSelecionado = true, agendarSelecionado = false, editarContaSelecionado = false, adicionarCarro = false;
   int itemSelecionado = 0;
@@ -290,7 +288,7 @@ class _PrincipalView extends State<PrincipalView> {
 
 home() {
   bool naoTemLavagemNoDia = true, naoTemProximasLavagens = true, naoTemLavagensAnteriores = true;
-
+  
     return Center(
       child: Column(
           children: [
