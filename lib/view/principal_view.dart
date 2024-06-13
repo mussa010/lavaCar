@@ -289,7 +289,7 @@ class _PrincipalView extends State<PrincipalView> {
 
 
 home() {
-  bool naoTemLavagemNoDia = true, naoTemProximasLavagens = true;
+  bool naoTemLavagemNoDia = true, naoTemProximasLavagens = true, naoTemLavagensAnteriores = true;
 
     return Center(
       child: Column(
@@ -320,7 +320,7 @@ home() {
                                       String id = dados.docs[index].id;
                                       dynamic doc = dados.docs[index].data();
                                       DateTime data = DateTime.parse(doc['data']);
-                                      if(data.isAfter(DateTime.now()) && DateTime.parse(doc['data'].toString()).isBefore(DateTime.now().add(const Duration(days: 1)))) {
+                                      if(data.isAfter(DateTime.now().add(Duration(days: -1))) && DateTime.parse(doc['data'].toString()).isBefore(DateTime.now().add(const Duration(days: 1)))) {
                                         naoTemLavagemNoDia = false;
 
                                         return Card(
@@ -409,7 +409,6 @@ home() {
                                       dynamic doc = dados.docs[index].data();
                                       DateTime data = DateTime.parse(doc['data']);
                                       if(data.isAfter(DateTime.now().add(Duration(hours: -20)))) {
-                                        print('ok');
                                         naoTemProximasLavagens = false;
 
                                         return Card(
@@ -463,7 +462,7 @@ home() {
                         },
                       ),
 
-                      if(naoTemProximasLavagens == true) const Center(
+                      if(naoTemProximasLavagens == false) const Center(
                         child: Text(
                           'Não há lavagens',
                           style: TextStyle(
@@ -498,37 +497,40 @@ home() {
                                       String id = dados.docs[index].id;
                                       dynamic doc = dados.docs[index].data();
                                       DateTime data = DateTime.parse(doc['data']);
-                                      return Card(
-                                        color: const Color.fromARGB(255, 0, 110, 255),
-                                        child: ListTile(
-                                          title: Text('${index+1}ª lavagem',
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(color: Colors.white,
-                                              fontWeight: FontWeight.bold
+                                      if(data.isBefore(DateTime.now().add(const Duration(days: -1)))) {
+                                        naoTemLavagensAnteriores = false;
+                                        return Card(
+                                          color: const Color.fromARGB(255, 0, 110, 255),
+                                          child: ListTile(
+                                            title: Text('${index+1}ª lavagem',
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(color: Colors.white,
+                                                fontWeight: FontWeight.bold
+                                              ),
+                                            ),
+                                            subtitle: Text( data.month < 10 ? 
+                                              'Data: ${data.day}/0${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}'
+                                              : 'Data: ${data.day}/${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}',
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(color: Colors.white),
+                                            ),
+                                            trailing: SizedBox(
+                                              width: 100,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      Navigator.pushNamed(context, 'agendarlavagem', arguments: id);
+                                                    }, 
+                                                    icon: const Icon(Icons.mode_edit_outlined, color: Colors.white,)
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                          subtitle: Text( data.month < 10 ? 
-                                            'Data: ${data.day}/0${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}'
-                                            : 'Data: ${data.day}/${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}',
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(color: Colors.white),
-                                          ),
-                                          trailing: SizedBox(
-                                            width: 100,
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: [
-                                                IconButton(
-                                                  onPressed: () {
-                                                    Navigator.pushNamed(context, 'agendarlavagem', arguments: id);
-                                                  }, 
-                                                  icon: const Icon(Icons.mode_edit_outlined, color: Colors.white,)
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
+                                        );
+                                      }
                                     },
                                   );
 
@@ -546,7 +548,17 @@ home() {
                               }
                           }
                         },
-                      )
+                      ),
+                      if(naoTemLavagensAnteriores == true) const Center(
+                        child: Text(
+                          'Não há lavagens',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ]
                   )
           ],
