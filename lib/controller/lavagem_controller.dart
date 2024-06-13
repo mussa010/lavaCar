@@ -18,24 +18,29 @@ class LavagemController {
   }
 
   // Função para retornar lavagem(ns) do dia do cliente
-  listarLavagemDoDia() {
-    final db = FirebaseFirestore.instance;
-    DateTime data = DateTime.timestamp().toLocal();
-    int dia = data.day;
-    int mes = data.month;
-    int ano = data.year;
+   listarLavagensDoDia() {
+    Future<QuerySnapshot<Map<String, dynamic>>> futuro = FirebaseFirestore.instance.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado()).get();
+    print('certo');
+    futuro.then((value) {
+      Map<String,dynamic>? f;
+      for(int i = 0; i < value.size; i ++) {
+        dynamic doc = value.docs[i].data();
 
-    // final docRef = db.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado()).
-    // get().then((querySnapshot) {
+        if(DateTime.parse(doc['data'].toString()).isAfter(DateTime.now()) && DateTime.parse(doc['data'].toString()).isBefore(DateTime.now().add(const Duration(days: 1)))) {
+          f!.addAll(doc);
+        }
+      }
 
-    // }); 
-    return FirebaseFirestore.instance.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado());
+      print(f.toString());
+      return f;
+      
+    });
   }
 
    // Função para retornar lavagens anteriores do cliente
   listarLavanesAnteriores() {
     final db = FirebaseFirestore.instance;
-    DateTime data = DateTime.timestamp().toLocal();
+    DateTime data = DateTime.now();
     int dia = data.day;
     int mes = data.month;
     int ano = data.year;
@@ -44,7 +49,8 @@ class LavagemController {
   }
 
   listarTodasAsLavagens() {
-    return FirebaseFirestore.instance.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado()).snapshots();
+    return FirebaseFirestore.instance.collection('agendamento').where('uidCliente', isEqualTo: LoginController().idUsuarioLogado()).orderBy('data').snapshots();
+    
   }
 
   listarLavagemEspecifica(docId) {

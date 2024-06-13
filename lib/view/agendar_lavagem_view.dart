@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intl/date_symbol_data_file.dart';
 import 'package:lava_car/controller/lavagem_controller.dart';
 import 'package:lava_car/controller/login_controller.dart';
 import '../controller/carro_controller.dart';
@@ -31,6 +33,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
   String nomeCliente = '', cpfCliente = '', telefoneCliente = '',  marcaCarro = '', modeloCarro = '', tipoCarro = '', valorPadraoDropDownCarro = 'Selecione', uidLavagem = '';
   var uidCliente = LoginController().idUsuarioLogado();
   bool podeApagar = false;
+  DateTime data = DateTime.now();
 
   @override
   void initState() {
@@ -60,7 +63,6 @@ class _AgendarLavagem extends State<AgendarLavagem> {
           dynamic doc = value.data();
           setState(() {
             valorPadraoDropDownCarro = doc['modeloCarro'].toString();
-            txtData.text = doc['data'].toString();
             txtHorario.text = doc['horario'].toString();
             nomeCliente = doc['nomeCliente'].toString();
             cpfCliente = doc['cpfCliente'].toString();
@@ -69,6 +71,12 @@ class _AgendarLavagem extends State<AgendarLavagem> {
             modeloCarro = doc['modeloCarro'].toString();
             tipoCarro = doc['tipoCarro'].toString();
             uidLavagem = doc['uidLavagem'].toString();
+            data = DateTime.parse(doc['data'.toString()]);
+            if(data!.month < 10) {
+              txtData.text = '${data!.day}/0${data!.month}/${data!.year}';
+            } else {
+              txtData.text = '${data!.day}/${data!.month}/${data!.year}';
+            }
             // Preciso fazer a verificação da data para cancelar a lavagem ou não
             // DateTime data = DateTime.parse(txtData.text);
             // if(data.year < DateTime.now().yaer) {
@@ -93,7 +101,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Agendar lavagem', style: TextStyle(color: Colors.white)),
+          title: Text( docId == null ? 'Agendar lavagem' : 'Editar lavagem' , style: const TextStyle(color: Colors.white)),
           backgroundColor: Colors.blue,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded) ,
@@ -108,8 +116,8 @@ class _AgendarLavagem extends State<AgendarLavagem> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                StreamBuilder<QuerySnapshot>(
-                  stream: CarroController().listarCarrosCliente().snapshots(), 
+                FutureBuilder<QuerySnapshot>(
+                  future: CarroController().listarCarrosCliente().get(), 
                   builder: (context, snapshot) {
                     switch(snapshot.connectionState) {
                       case ConnectionState.none:
@@ -152,8 +160,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                   ),
                                   onTap: () {
                                     FocusScope.of(context).requestFocus(FocusNode());
-                                    data(context);
-                                    txtData.text = 'certo';
+                                   dataSelecionada();
                                   },
                                   validator: (value) {
                                     if(value == null) {
@@ -170,7 +177,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                   enabled: true,
                                   onTap: () {
                                     FocusScope.of(context).requestFocus(FocusNode());
-                                    data(context);
+                                    // data(context);
                                     setState(() {
                                       txtHorario.text = 'teste1';
                                     });
@@ -260,7 +267,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                                 marcaCarro = doc['marca'].toString();
                                                 modeloCarro = doc['modelo'].toString();
                                                 tipoCarro = doc['tipoCarro'].toString();
-                                                Lavagem l = Lavagem(LoginController().idUsuarioLogado(), nomeCliente, cpfCliente, telefoneCliente, marcaCarro, modeloCarro, tipoCarro, txtData.text, txtHorario.text);
+                                                Lavagem l = Lavagem(LoginController().idUsuarioLogado(), nomeCliente, cpfCliente, telefoneCliente, marcaCarro, modeloCarro, tipoCarro, data.toString(), txtHorario.text);
                                                 if(docId == null) {
                                                   LavagemController().agendarLavagem(context, l);
                                                 } else {
@@ -311,6 +318,56 @@ class _AgendarLavagem extends State<AgendarLavagem> {
       )
     );
   }
+
+  Future<void> dataSelecionada() async {
+    bool decidirDataSelecionar(DateTime dia) {
+    if(dia.isAfter(DateTime.now().subtract(const Duration(days: 1)))) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+      DateTime? selecionado = await showDatePicker(
+      context: context, 
+      firstDate: DateTime(DateTime.now().year), 
+      lastDate: DateTime((DateTime.now().year) + 1),
+      initialDate: data,
+      confirmText: 'Salvar',
+      cancelText: 'Cancelar',
+      helpText: 'Selecione da data desejada',
+      selectableDayPredicate: decidirDataSelecionar,
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.fromSwatch(
+              backgroundColor: Colors.lightBlue,
+              cardColor: Colors.white,
+              primarySwatch: Colors.blue,
+              accentColor: Colors.black
+            )
+          ), 
+          child: child!);
+      },
+    );
+
+    if(selecionado != null && selecionado != data) {
+      setState(() {
+        data = selecionado;
+        if(data.month < 10) {
+          txtData.text = '${data.day}/0${data.month}/${data.year}';
+        } else {
+          txtData.text = '${data.day}/${data.month}/${data.year}';
+        }
+        
+      });
+    }
+  }
+
+
+  // Future<void> horaSelecionada() {
+
+  // }
 }
 
 
@@ -334,25 +391,3 @@ dialogBox(context, titulo, mensagem) {
       ),
     );
   }
-
-  data(context) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        backgroundColor: Colors.white,
-        title: const Text('Data'),
-        content: const Text('Escolha a data'),
-        
-        actions: [
-          TextButton(
-            style: const ButtonStyle(
-              elevation: MaterialStatePropertyAll(30),
-              backgroundColor: MaterialStatePropertyAll(Colors.green),
-            ),
-            onPressed: () => Navigator.pop(context, 'ok'),
-            child: const Text('ok', style: TextStyle(color: Colors.white)),
-          ),
-        ],
-      ),
-    );
-}
