@@ -14,6 +14,12 @@ import 'view/agendar_lavagem_view.dart';
 
 
 Future main() async{
+  WidgetsFlutterBinding.ensureInitialized(); 
+
+  SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp]
+  );
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.blue

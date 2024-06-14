@@ -34,6 +34,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
   var uidCliente = LoginController().idUsuarioLogado();
   bool podeApagar = false;
   DateTime data = DateTime.now();
+  TimeOfDay horarioSelecionado = TimeOfDay.now();
 
   @override
   void initState() {
@@ -57,13 +58,13 @@ class _AgendarLavagem extends State<AgendarLavagem> {
           cpfCliente = doc['cpf'].toString();
           telefoneCliente = doc['telefone'].toString();
         });
+
       if(docId != null) {
         Future<DocumentSnapshot<Map<String, dynamic>>>futuro = LavagemController().listarLavagemEspecifica(docId);
         futuro.then((value) {
           dynamic doc = value.data();
           setState(() {
             valorPadraoDropDownCarro = doc['modeloCarro'].toString();
-            txtHorario.text = doc['horario'].toString();
             nomeCliente = doc['nomeCliente'].toString();
             cpfCliente = doc['cpfCliente'].toString();
             telefoneCliente = doc['telefoneCliente'].toString();
@@ -73,10 +74,16 @@ class _AgendarLavagem extends State<AgendarLavagem> {
             uidLavagem = doc['uidLavagem'].toString();
             data = DateTime.parse(doc['data'.toString()]);
             if(data!.month < 10) {
-              txtData.text = '${data!.day}/0${data!.month}/${data!.year}';
+              txtData.text = '${data.day}/0${data.month}/${data.year}';
             } else {
-              txtData.text = '${data!.day}/${data!.month}/${data!.year}';
+              txtData.text = '${data.day}/${data.month}/${data.year}';
             }
+
+            // horarioSelecionado = TimeOfDay(hour: int.parse(doc['horario'].toString().split("")[0][1]), minute: int.parse(doc['horario'].toString().split("")[2][3]));
+            print(doc['horario']);
+            print(doc['horario'].split("")[0]);
+            print(doc['horario'].toString().split("")[1]);
+            txtHorario.text = doc['horario'];
             // Preciso fazer a verificação da data para cancelar a lavagem ou não
             // DateTime data = DateTime.parse(txtData.text);
             // if(data.year < DateTime.now().yaer) {
@@ -160,7 +167,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                   ),
                                   onTap: () {
                                     FocusScope.of(context).requestFocus(FocusNode());
-                                   dataSelecionada();
+                                    dataSelecionada();
                                   },
                                   validator: (value) {
                                     if(value == null) {
@@ -177,14 +184,12 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                   enabled: true,
                                   onTap: () {
                                     FocusScope.of(context).requestFocus(FocusNode());
-                                    // data(context);
-                                    setState(() {
-                                      txtHorario.text = 'teste1';
-                                    });
+                                    horaSelecionada();
                                   },
                                   keyboardType: TextInputType.name,
                                   decoration: const InputDecoration(
                                     labelText: 'Horário',
+                                    suffixIcon: Icon(Icons.access_time),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(20)
@@ -320,23 +325,61 @@ class _AgendarLavagem extends State<AgendarLavagem> {
   }
 
   Future<void> dataSelecionada() async {
-    bool decidirDataSelecionar(DateTime dia) {
+    bool decidirSelecionarData(DateTime dia) {
     if(dia.isAfter(DateTime.now().subtract(const Duration(days: 1)))) {
       return true;
     } else {
       return false;
     }
+    }
+
+    DateTime? diaSelecionado = await showDatePicker(
+    context: context, 
+    firstDate: DateTime(DateTime.now().year), 
+    lastDate: DateTime((DateTime.now().year) + 1),
+    initialDate: data,
+    confirmText: 'Salvar',
+    cancelText: 'Cancelar',
+    helpText: 'Selecione a data desejada',
+    selectableDayPredicate: decidirSelecionarData,
+    initialEntryMode: DatePickerEntryMode.calendarOnly,
+    builder: (context, child) {
+      return Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: ColorScheme.fromSwatch(
+            backgroundColor: Colors.lightBlue,
+            cardColor: Colors.white,
+            primarySwatch: Colors.blue,
+            accentColor: Colors.black
+          )
+        ), 
+        child: child!);
+    },
+  );
+
+  if(diaSelecionado != null && diaSelecionado != data) {
+    setState(() {
+      data = diaSelecionado;
+      if(data.month < 10) {
+        txtData.text = '${data.day}/0${data.month}/${data.year}';
+      } else {
+        txtData.text = '${data.day}/${data.month}/${data.year}';
+      }
+      
+    });
   }
-      DateTime? selecionado = await showDatePicker(
+  }
+
+
+  Future<void> horaSelecionada() async{
+    TimeOfDay? hora = await showTimePicker(
       context: context, 
-      firstDate: DateTime(DateTime.now().year), 
-      lastDate: DateTime((DateTime.now().year) + 1),
-      initialDate: data,
+      initialTime: horarioSelecionado,
+
       confirmText: 'Salvar',
       cancelText: 'Cancelar',
-      helpText: 'Selecione da data desejada',
-      selectableDayPredicate: decidirDataSelecionar,
-      initialEntryMode: DatePickerEntryMode.calendarOnly,
+      helpText: 'Selecione o horário desejado',
+      initialEntryMode: TimePickerEntryMode.dialOnly,
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -344,30 +387,21 @@ class _AgendarLavagem extends State<AgendarLavagem> {
               backgroundColor: Colors.lightBlue,
               cardColor: Colors.white,
               primarySwatch: Colors.blue,
-              accentColor: Colors.black
+              accentColor: Colors.black,
             )
           ), 
-          child: child!);
+          child: child!
+        );
       },
     );
 
-    if(selecionado != null && selecionado != data) {
+    if(hora != null && hora != horarioSelecionado) {
       setState(() {
-        data = selecionado;
-        if(data.month < 10) {
-          txtData.text = '${data.day}/0${data.month}/${data.year}';
-        } else {
-          txtData.text = '${data.day}/${data.month}/${data.year}';
-        }
-        
+        horarioSelecionado = hora;
+        txtHorario.text = '${horarioSelecionado.hour}:${horarioSelecionado.minute}';
       });
     }
   }
-
-
-  // Future<void> horaSelecionada() {
-
-  // }
 }
 
 

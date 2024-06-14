@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Lavagem {
   final String nomeCliente;
   final String cpfCliente;
