@@ -15,11 +15,6 @@ class AgendarLavagem extends StatefulWidget {
   State<AgendarLavagem> createState() => _AgendarLavagem();
 }
 
-// 
-// Falta criar um mapa para guardar todas informações de todos os carros;
-// Quando o cliente selecionar o carro, deve-se percorrer o mapa e salvar os dados específicos do carro;
-// Tmambém falta fazer a parte de edição
-// 
 
 class _AgendarLavagem extends State<AgendarLavagem> {
   var formKey = GlobalKey<FormState>();
@@ -245,9 +240,9 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                     ),
                                     ElevatedButton(
                                       style:  ButtonStyle(
-                                        minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
-                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                                        shadowColor: MaterialStateProperty.all<Color>(Colors.green)
+                                        minimumSize: WidgetStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
+                                        backgroundColor: WidgetStateProperty.all<Color>(Colors.green),
+                                        shadowColor: WidgetStateProperty.all<Color>(Colors.green)
                                       ),
                                       child: const Center(
                                         child: Text('Salvar',
@@ -282,9 +277,9 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                               const SizedBox(height: 20),
                               if(docId != null) if(podeCancelar == true) Center(child: ElevatedButton(
                                       style:  ButtonStyle(
-                                        minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
-                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                                        shadowColor: MaterialStateProperty.all<Color>(Colors.green)
+                                        minimumSize: WidgetStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
+                                        backgroundColor: WidgetStateProperty.all<Color>(Colors.red),
+                                        shadowColor: WidgetStateProperty.all<Color>(Colors.green)
                                       ),
                                       child: const Center(
                                         child: Text('Cancelar Lavagem',
@@ -409,8 +404,8 @@ dialogBox(context, titulo, mensagem) {
         actions: [
           TextButton(
             style: const ButtonStyle(
-              elevation: MaterialStatePropertyAll(30),
-              backgroundColor: MaterialStatePropertyAll(Colors.green),
+              elevation: WidgetStatePropertyAll(30),
+              backgroundColor: WidgetStatePropertyAll(Colors.green),
             ),
             onPressed: () => Navigator.pop(context, 'ok'),
             child: const Text('ok', style: TextStyle(color: Colors.white)),
