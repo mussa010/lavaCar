@@ -287,7 +287,6 @@ class _PrincipalView extends State<PrincipalView> {
 
 
 home() {
-  bool naoTemLavagemNoDia = true, naoTemProximasLavagens = true, naoTemLavagensAnteriores = true;
   
     return Center(
       child: Column(
@@ -318,18 +317,10 @@ home() {
                                       String id = dados.docs[index].id;
                                       dynamic doc = dados.docs[index].data();
                                       DateTime data = DateTime.parse(doc['data']);
-                                      if(data.isAfter(DateTime.now().add(Duration(days: -1))) && DateTime.parse(doc['data'].toString()).isBefore(DateTime.now().add(const Duration(days: 1)))) {
-                                        naoTemLavagemNoDia = false;
-
+                                      if(data.day == DateTime.now().day && data.month == DateTime.now().month && data.year == DateTime.now().year) {
                                         return Card(
                                           color: const Color.fromARGB(255, 0, 110, 255),
                                           child: ListTile(
-                                            title: Text('${index+1}ª lavagem',
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(color: Colors.white,
-                                                fontWeight: FontWeight.bold
-                                              ),
-                                            ),
                                             subtitle: Text( data.month < 10 ? 
                                               'Data: ${data.day}/0${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}'
                                               : 'Data: ${data.day}/${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}',
@@ -352,6 +343,8 @@ home() {
                                             ),
                                           ),
                                         );
+                                      } else {
+                                        return const SizedBox.shrink();
                                       }
                                     },
                                   );
@@ -370,16 +363,6 @@ home() {
                               }
                           }
                         },
-                      ),
-                      if(naoTemLavagemNoDia == true) const Center(
-                        child: Text(
-                          'Não há lavagens',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
                       ),
                        
                       const Center(
@@ -390,86 +373,75 @@ home() {
                       StreamBuilder<QuerySnapshot>(
                         stream: LavagemController().listarTodasAsLavagens(),
                         builder: (context, snapshot) {
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.none:
-                              return const Center(child: Text('Erro de conexão'));
-                            case ConnectionState.waiting:
-                              return const CircularProgressIndicator(color: Colors.black);
-                            default:
-                              final dados = snapshot.requireData;
-                              if (dados.size > 0) {
-                                return ListView.builder(
-                                    shrinkWrap: true, // Defina shrinkWrap como true
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: dados.size,
-                                    itemBuilder: (context, index) {
-                                      String id = dados.docs[index].id;
-                                      dynamic doc = dados.docs[index].data();
-                                      DateTime data = DateTime.parse(doc['data']);
-                                      if(data.isAfter(DateTime.now().add(Duration(hours: -20)))) {
-                                        naoTemProximasLavagens = false;
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.none:
+                            return const Center(child: Text('Erro de conexão'));
+                          case ConnectionState.waiting:
+                            return const CircularProgressIndicator(color: Colors.black);
+                          default:
+                            final dados = snapshot.requireData;
+                            if (dados.size > 0) {
+                              return ListView.builder(
+                                shrinkWrap: true, // Defina shrinkWrap como true
+                                scrollDirection: Axis.vertical,
+                                itemCount: dados.size,
+                                itemBuilder: (context, index) {
+                                  String id = dados.docs[index].id;
+                                  dynamic doc = dados.docs[index].data();
+                                  DateTime data = DateTime.parse(doc['data']);
 
-                                        return Card(
-                                          color: const Color.fromARGB(255, 0, 110, 255),
-                                          child: ListTile(
-                                            title: Text('${index+1}ª lavagem',
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(color: Colors.white,
-                                                fontWeight: FontWeight.bold
-                                              ),
-                                            ),
-                                            subtitle: Text( data.month < 10 ? 
-                                              'Data: ${data.day}/0${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}'
+                                  if (data.isAfter(DateTime.now())) {
+
+                                    return Card(
+                                      color: const Color.fromARGB(255, 0, 110, 255),
+                                      child: ListTile(
+                                        subtitle: Text(
+                                          data.month < 10
+                                              ? 'Data: ${data.day}/0${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}'
                                               : 'Data: ${data.day}/${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}',
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(color: Colors.white),
-                                            ),
-                                            trailing: SizedBox(
-                                              width: 100,
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                children: [
-                                                  IconButton(
-                                                    onPressed: () {
-                                                      Navigator.pushNamed(context, 'agendarlavagem', arguments: id);
-                                                    }, 
-                                                    icon: const Icon(Icons.mode_edit_outlined, color: Colors.white,)
-                                                  ),
-                                                ],
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(color: Colors.white),
+                                        ),
+                                        trailing: SizedBox(
+                                          width: 100,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              IconButton(
+                                                onPressed: () {
+                                                  Navigator.pushNamed(context, 'agendarlavagem',
+                                                      arguments: id);
+                                                },
+                                                icon: const Icon(
+                                                  Icons.mode_edit_outlined,
+                                                  color: Colors.white,
+                                                ),
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                        );
-                                      }
-                                    },
-                                  );
-
-                              } else {
-                                return const Center(
-                                  child: Text(
-                                    'Não há lavagens',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    ),
-                                    textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    return const SizedBox.shrink();
+                                  }
+                                },
+                              );
+                            } else {
+                              return const Center(
+                                child: Text(
+                                  'Não há lavagens',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
                                   ),
-                                );
-                              }
-                          }
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                            }
+                        }
                         },
-                      ),
-
-                      if(naoTemProximasLavagens == false) const Center(
-                        child: Text(
-                          'Não há lavagens',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                          ),
-                          textAlign: TextAlign.center,
                         ),
-                      ),
 
                       const Center(
                         child: Text('Lavagens Anteriores', style: TextStyle( fontSize: 30, color: Colors.black))
@@ -496,16 +468,9 @@ home() {
                                       dynamic doc = dados.docs[index].data();
                                       DateTime data = DateTime.parse(doc['data']);
                                       if(data.isBefore(DateTime.now().add(const Duration(days: -1)))) {
-                                        naoTemLavagensAnteriores = false;
                                         return Card(
                                           color: const Color.fromARGB(255, 0, 110, 255),
                                           child: ListTile(
-                                            title: Text('${index+1}ª lavagem',
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(color: Colors.white,
-                                                fontWeight: FontWeight.bold
-                                              ),
-                                            ),
                                             subtitle: Text( data.month < 10 ? 
                                               'Data: ${data.day}/0${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}'
                                               : 'Data: ${data.day}/${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}',
@@ -528,6 +493,8 @@ home() {
                                             ),
                                           ),
                                         );
+                                      } else {
+                                        return const SizedBox.shrink();
                                       }
                                     },
                                   );
@@ -546,16 +513,6 @@ home() {
                               }
                           }
                         },
-                      ),
-                      if(naoTemLavagensAnteriores == true) const Center(
-                        child: Text(
-                          'Não há lavagens',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
                       ),
                     ]
                   )

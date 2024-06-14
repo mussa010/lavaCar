@@ -32,7 +32,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
 
   String nomeCliente = '', cpfCliente = '', telefoneCliente = '',  marcaCarro = '', modeloCarro = '', tipoCarro = '', valorPadraoDropDownCarro = 'Selecione', uidLavagem = '';
   var uidCliente = LoginController().idUsuarioLogado();
-  bool podeApagar = false;
+  bool podeCancelar = true;
   DateTime data = DateTime.now();
   TimeOfDay horarioSelecionado = TimeOfDay.now();
 
@@ -73,27 +73,21 @@ class _AgendarLavagem extends State<AgendarLavagem> {
             tipoCarro = doc['tipoCarro'].toString();
             uidLavagem = doc['uidLavagem'].toString();
             data = DateTime.parse(doc['data'.toString()]);
-            if(data!.month < 10) {
+            if(data.month < 10) {
               txtData.text = '${data.day}/0${data.month}/${data.year}';
             } else {
               txtData.text = '${data.day}/${data.month}/${data.year}';
             }
 
-            // horarioSelecionado = TimeOfDay(hour: int.parse(doc['horario'].toString().split("")[0][1]), minute: int.parse(doc['horario'].toString().split("")[2][3]));
-            print(doc['horario']);
-            print(doc['horario'].split("")[0]);
-            print(doc['horario'].toString().split("")[1]);
+            horarioSelecionado = TimeOfDay(hour: int.parse(doc['horario'].toString().split(":")[0]), minute: int.parse(doc['horario'].toString().split(":")[1]));
             txtHorario.text = doc['horario'];
-            // Preciso fazer a verificação da data para cancelar a lavagem ou não
-            // DateTime data = DateTime.parse(txtData.text);
-            // if(data.year < DateTime.now().yaer) {
-
-            // }
+            if(data.isBefore(DateTime.now())) {
+              podeCancelar = false;
+            }
           });
         });
       } 
     });
-    
   }
 
 
@@ -286,7 +280,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                   ]
                               ),
                               const SizedBox(height: 20),
-                              if(docId != null) Center(child: ElevatedButton(
+                              if(docId != null) if(podeCancelar == true) Center(child: ElevatedButton(
                                       style:  ButtonStyle(
                                         minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
                                         backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
