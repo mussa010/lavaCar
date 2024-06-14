@@ -112,8 +112,8 @@ class _AgendarLavagem extends State<AgendarLavagem> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                FutureBuilder<QuerySnapshot>(
-                  future: CarroController().listarCarrosCliente().get(), 
+                StreamBuilder<QuerySnapshot>(
+                  stream: CarroController().listarCarrosCliente().snapshots(), 
                   builder: (context, snapshot) {
                     switch(snapshot.connectionState) {
                       case ConnectionState.none:
