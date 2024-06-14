@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/date_symbol_data_file.dart';
 import 'package:lava_car/controller/lavagem_controller.dart';
 import 'package:lava_car/controller/login_controller.dart';
 import '../controller/carro_controller.dart';
