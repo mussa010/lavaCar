@@ -188,7 +188,7 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                   controller: txtOutroGenero,
                   decoration: InputDecoration(
                       labelText: 'Gênero',
-                      prefixIcon: Icon(IconData(0xed6f, fontFamily: 'MaterialIcons')),
+                      prefixIcon: Icon(const IconData(0xed6f, fontFamily: 'MaterialIcons')),
                       enabled: ativado,
                       border: OutlineInputBorder(),
                   ),
