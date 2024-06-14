@@ -274,8 +274,8 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                       labelText: 'Senha',
                       prefixIcon: Icon(Icons.password),
                       suffixIcon: IconButton(
-                        style: ButtonStyle(iconColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                          if(states.contains(MaterialState.pressed)) {
+                        style: ButtonStyle(iconColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+                          if(states.contains(WidgetState.pressed)) {
                             return Colors.blue;
                           } else {
                             return null;
@@ -316,8 +316,8 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                       labelText: 'Confirmar senha',
                       prefixIcon: Icon(Icons.password),
                       suffixIcon: IconButton(
-                        style: ButtonStyle(iconColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                          if(states.contains(MaterialState.pressed)) {
+                        style: ButtonStyle(iconColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+                          if(states.contains(WidgetState.pressed)) {
                             return Colors.blue;
                           } else {
                             return null;

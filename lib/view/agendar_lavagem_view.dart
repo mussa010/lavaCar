@@ -112,8 +112,8 @@ class _AgendarLavagem extends State<AgendarLavagem> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                StreamBuilder<QuerySnapshot>(
-                  stream: CarroController().listarCarrosCliente().snapshots(), 
+                FutureBuilder<QuerySnapshot>(
+                  future: CarroController().listarCarrosCliente().get(), 
                   builder: (context, snapshot) {
                     switch(snapshot.connectionState) {
                       case ConnectionState.none:
@@ -224,9 +224,9 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                   children: [
                                     ElevatedButton(
                                       style:  ButtonStyle(
-                                        minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
-                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                                        shadowColor: MaterialStateProperty.all<Color>(Colors.blue)
+                                        minimumSize: WidgetStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
+                                        backgroundColor: WidgetStateProperty.all<Color>(Colors.blue),
+                                        shadowColor: WidgetStateProperty.all<Color>(Colors.blue)
                                       ),
                                       child: const Center(
                                         child: Text('Voltar',

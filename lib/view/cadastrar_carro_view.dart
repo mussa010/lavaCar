@@ -244,9 +244,9 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                     children: [
                       ElevatedButton(
                         style:  ButtonStyle(
-                          minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                          shadowColor: MaterialStateProperty.all<Color>(Colors.red)
+                          minimumSize: WidgetStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
+                          backgroundColor: WidgetStateProperty.all<Color>(Colors.red),
+                          shadowColor: WidgetStateProperty.all<Color>(Colors.red)
                         ),
                         child: const Center(
                           child: Text('Cancelar',
@@ -260,9 +260,9 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                       ),
                       ElevatedButton(
                         style:  ButtonStyle(
-                          minimumSize: MaterialStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                          shadowColor: MaterialStateProperty.all<Color>(Colors.green)
+                          minimumSize: WidgetStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
+                          backgroundColor: WidgetStateProperty.all<Color>(Colors.green),
+                          shadowColor: WidgetStateProperty.all<Color>(Colors.green)
                         ),
                         child: const Center(
                           child: Text('Salvar',
@@ -308,8 +308,8 @@ dialogBox(context, titulo, mensagem) {
         actions: [
           TextButton(
             style: const ButtonStyle(
-              elevation: MaterialStatePropertyAll(30),
-              backgroundColor: MaterialStatePropertyAll(Colors.green),
+              elevation: WidgetStatePropertyAll(30),
+              backgroundColor: WidgetStatePropertyAll(Colors.green),
             ),
             onPressed: () => Navigator.pop(context, 'ok'),
             child: const Text('ok', style: TextStyle(color: Colors.white)),
