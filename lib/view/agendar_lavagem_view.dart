@@ -26,7 +26,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
 
   String nomeCliente = '', cpfCliente = '', telefoneCliente = '',  marcaCarro = '', modeloCarro = '', tipoCarro = '', valorPadraoDropDownCarro = 'Selecione', uidLavagem = '';
   var uidCliente = LoginController().idUsuarioLogado();
-  bool podeCancelar = true;
+  bool podeCancelar = true, podeSalvar = true;
   DateTime data = DateTime.now();
   TimeOfDay horarioSelecionado = TimeOfDay.now();
 
@@ -77,6 +77,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
             txtHorario.text = doc['horario'];
             if(data.isBefore(DateTime.now())) {
               podeCancelar = false;
+              podeSalvar = false;
             }
           });
         });
@@ -237,7 +238,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                         Navigator.pushReplacementNamed(context, 'principal');
                                       },
                                     ),
-                                    ElevatedButton(
+                                    if(podeSalvar == true) ElevatedButton(
                                       style:  ButtonStyle(
                                         minimumSize: WidgetStateProperty.all<Size>(Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.height * 0.05)),
                                         backgroundColor: WidgetStateProperty.all<Color>(Colors.green),

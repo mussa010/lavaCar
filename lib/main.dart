@@ -11,7 +11,7 @@ import 'view/login_view.dart';
 import 'view/sobre_aplicativo_view.dart';
 import 'view/cadastrar_carro_view.dart';
 import 'view/agendar_lavagem_view.dart';
-
+import 'view/pesquisar_view.dart';
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized(); 
@@ -59,7 +59,8 @@ class MainApp extends StatelessWidget {
         'principal': (context) => const PrincipalView(),
         'sobre' : (context) => const SobreAplicativo(),
         'cadastrarCarro': (context) => const CadastrarCarro(),
-        'agendarlavagem' : (context) => const AgendarLavagem()
+        'agendarlavagem' : (context) => const AgendarLavagem(),
+        'pesquisar' : (context) => const Pesquisar()
       }
     );
   }

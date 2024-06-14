@@ -121,6 +121,15 @@ class _PrincipalView extends State<PrincipalView> {
                       },
                     ),
                     ListTile(
+                    leading: const Icon(Icons.search),
+                    selected: false,
+                    title: const Text('Pesquisar'),
+                    onTap: () {
+                      Scaffold.of(context).closeDrawer();
+                      Navigator.pushNamed(context, 'pesquisar');
+                    },
+                  ),
+                    ListTile(
                       leading: Icon(Icons.person, color: Colors.grey.shade900),
                       title: const Text('Editar conta'),
                       selected: false,
@@ -248,6 +257,15 @@ class _PrincipalView extends State<PrincipalView> {
                     leading: const Icon(Icons.edit_calendar_outlined),
                     selected: false,
                     title: const Text('Agendar lavagem'),
+                    onTap: () {
+                      // Scaffold.of(context).closeDrawer();
+                      // Navigator.of(context).push(MaterialPageRoute(builder:  ((context) => const AgendarLavagem())));
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.search),
+                    selected: false,
+                    title: const Text('Pesquisar'),
                     onTap: () {
                       // Scaffold.of(context).closeDrawer();
                       // Navigator.of(context).push(MaterialPageRoute(builder:  ((context) => const AgendarLavagem())));
