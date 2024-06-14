@@ -174,7 +174,7 @@ class _PrincipalView extends State<PrincipalView> {
                   height: 30,
                   color: corlistarCarrosCliente,
                 ),
-                label: 'Carros do cliente',
+                label: 'Minha garagem',
               ),
               BottomNavigationBarItem(
                 icon: Image.asset('lib/images/consulta-carro.png',
@@ -526,7 +526,7 @@ carrosCliente() {
   return Center(
     child: Column(
       children: [
-        const Text('Carros do cliente', style: TextStyle(fontSize: 30, color: Colors.black)),
+        const Text('Minha garagem', style: TextStyle(fontSize: 30, color: Colors.black)),
         const SizedBox(height: 10),
         StreamBuilder<QuerySnapshot>(
           stream: CarroController().listarCarrosCliente().snapshots(),
