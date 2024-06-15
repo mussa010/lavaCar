@@ -328,7 +328,7 @@ home() {
                               final dados = snapshot.requireData;
                               if (dados.size > 0) {
                                 return ListView.builder(
-                                    shrinkWrap: true, // Defina shrinkWrap como true
+                                    shrinkWrap: true, 
                                     scrollDirection: Axis.vertical,
                                     itemCount: dados.size,
                                     itemBuilder: (context, index) {
@@ -340,8 +340,8 @@ home() {
                                           color: const Color.fromARGB(255, 0, 110, 255),
                                           child: ListTile(
                                             subtitle: Text( data.month < 10 ? 
-                                              'Data: ${data.day}/0${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}'
-                                              : 'Data: ${data.day}/${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}',
+                                              'Data: ${data.day}/0${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}\nPlaca do carro: ${doc['placaCarro']}'
+                                              : 'Data: ${data.day}/${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}\nPlaca do carro: ${doc['placaCarro']}',
                                               textAlign: TextAlign.center,
                                               style: const TextStyle(color: Colors.white),
                                             ),
@@ -400,7 +400,7 @@ home() {
                             final dados = snapshot.requireData;
                             if (dados.size > 0) {
                               return ListView.builder(
-                                shrinkWrap: true, // Defina shrinkWrap como true
+                                shrinkWrap: true, 
                                 scrollDirection: Axis.vertical,
                                 itemCount: dados.size,
                                 itemBuilder: (context, index) {
@@ -415,8 +415,8 @@ home() {
                                       child: ListTile(
                                         subtitle: Text(
                                           data.month < 10
-                                              ? 'Data: ${data.day}/0${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}'
-                                              : 'Data: ${data.day}/${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}',
+                                              ? 'Data: ${data.day}/0${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}\nPlaca do carro: ${doc['placaCarro']}'
+                                              : 'Data: ${data.day}/${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}\nPlaca do carro: ${doc['placaCarro']}',
                                           textAlign: TextAlign.center,
                                           style: const TextStyle(color: Colors.white),
                                         ),
@@ -490,8 +490,8 @@ home() {
                                           color: const Color.fromARGB(255, 0, 110, 255),
                                           child: ListTile(
                                             subtitle: Text( data.month < 10 ? 
-                                              'Data: ${data.day}/0${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}'
-                                              : 'Data: ${data.day}/${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}',
+                                              'Data: ${data.day}/0${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}\nPlaca do carro: ${doc['placaCarro']}'
+                                              : 'Data: ${data.day}/${data.month}/${data.year}\nHorário: ${doc['horario']}\nMarca do carro: ${doc['marcaCarro']}\nModelo do carro: ${doc['modeloCarro']}\nTipo do carro: ${doc['tipoCarro']}\nPlaca do carro: ${doc['placaCarro']}',
                                               textAlign: TextAlign.center,
                                               style: const TextStyle(color: Colors.white),
                                             ),
@@ -573,7 +573,7 @@ carrosCliente() {
                                 fontWeight: FontWeight.bold
                               ),
                             ),
-                            subtitle: Text('Modelo: ${doc['modelo']}\nAno: ${doc['ano']}\nCor: ${doc['cor']}\nMotorização: ${doc['motorizacao']}\nTipo: ${doc['tipoCarro']}',
+                            subtitle: Text('Modelo: ${doc['modelo']}\nAno: ${doc['ano']}\nCor: ${doc['cor']}\nMotorização: ${doc['motorizacao']}\nTipo: ${doc['tipoCarro']}\nPlaca: ${doc['placa']}',
                               textAlign: TextAlign.center,
                               style: const TextStyle(color: Colors.white),
                             ),

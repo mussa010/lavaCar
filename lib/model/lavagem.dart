@@ -8,8 +8,9 @@ class Lavagem {
   final String modeloCarro;
   final String data;
   final String horario;
+  final String placaCarro;
 
-  Lavagem(this.uidCliente, this.nomeCliente, this.cpfCliente, this.telefoneCliente, this.marcaCarro, this.modeloCarro,this.tipoCarro, this.data, this.horario);
+  Lavagem(this.uidCliente, this.nomeCliente, this.cpfCliente, this.telefoneCliente, this.marcaCarro, this.modeloCarro,this.tipoCarro, this.placaCarro,this.data, this.horario);
 
   // Transforma objeto em Json
   Map<String, dynamic> toJson() {
@@ -21,6 +22,7 @@ class Lavagem {
       'marcaCarro' : marcaCarro,
       'tipoCarro': tipoCarro,
       'modeloCarro' : modeloCarro,
+      'placaCarro' : placaCarro,
       'data': data,
       'horario' : horario
     };
@@ -36,6 +38,7 @@ class Lavagem {
       json['marcaCarro'],
       json['tipoCarro'],
       json['modeloCarro'],
+      json['placaCarro'],
       json['data'],
       json['horario']
     );

@@ -22,32 +22,32 @@ class _CadastrarCarro extends State<CadastrarCarro> {
   var formKey = GlobalKey<FormState>();
 
   var tipos = [
-    'Hatchback',
-    'Sedan',
-    'SUV',
-    'Crossover',
-    'Coupe',
-    'Conversível',
-    'Minivan',
-    'Caminhonete',
-    'Perua',
-    'Carro Esportivo',
-    'Carro de Luxo',
-    'Selecione'
+    'Hatchback'.toUpperCase(),
+    'Sedan'.toUpperCase(),
+    'SUV'.toUpperCase(),
+    'Crossover'.toUpperCase(),
+    'Coupe'.toUpperCase(),
+    'Conversível'.toUpperCase(),
+    'Minivan'.toUpperCase(),
+    'Caminhonete'.toUpperCase(),
+    'Perua'.toUpperCase(),
+    'Carro Esportivo'.toUpperCase(),
+    'Carro de Luxo'.toUpperCase(),
+    'Selecione'.toUpperCase()
   ];
   
 
   var motorizacao = [
-    'Selecione',
+    'SELECIONE'.toUpperCase(),
     '1.0',
     '1.4',
     '1.6',
     '1.8',
     '2.0',
-    'Outro'
+    'OUTRO'.toUpperCase()
   ];
 
-  String valorPadraoDropDownMotorizacao = 'Selecione', valorPadraoDropDownTipos = 'Selecione', motor = '', tipo = '';
+  String valorPadraoDropDownMotorizacao = 'Selecione'.toUpperCase(), valorPadraoDropDownTipos = 'Selecione'.toUpperCase(), motor = '', tipo = '';
 
   @override
   void initState() {
@@ -62,18 +62,19 @@ class _CadastrarCarro extends State<CadastrarCarro> {
       Future<DocumentSnapshot<Object?>> future = CarroController().listaCarroEspecifico(docId);
         future.then((value) {
           dynamic doc = value.data();
-          txtMarca.text = doc['marca'].toString();
-          txtModeloCarro.text = doc['modelo'].toString();
+          txtPlaca.text = doc['placa'].toString().toUpperCase();
+          txtMarca.text = doc['marca'].toString().toUpperCase();
+          txtModeloCarro.text = doc['modelo'].toString().toUpperCase();
           txtAno.text = doc['ano'].toString();
-          txtCor.text = doc['cor'].toString();
-          valorPadraoDropDownMotorizacao = doc['motorizacao'].toString();
-          valorPadraoDropDownTipos = doc['tipoCarro'].toString();
+          txtCor.text = doc['cor'].toString().toUpperCase();
+          valorPadraoDropDownMotorizacao = doc['motorizacao'].toString().toUpperCase();
+          valorPadraoDropDownTipos = doc['tipoCarro'].toString().toUpperCase();
         });
       
       if(docId != null) {
-        if(tipos.contains('Selecione') && valorPadraoDropDownTipos != 'Selecione' && motorizacao.contains('Selecione') && valorPadraoDropDownMotorizacao != 'Selecione') {
-          tipos.remove('Selecione');
-          motorizacao.remove('Selecione');
+        if(tipos.contains('Selecione'.toUpperCase()) && valorPadraoDropDownTipos != 'Selecione'.toUpperCase() && motorizacao.contains('Selecione'.toUpperCase()) && valorPadraoDropDownMotorizacao != 'Selecione'.toUpperCase()) {
+          tipos.remove('Selecione'.toUpperCase());
+          motorizacao.remove('Selecione'.toUpperCase());
         }
       }
     });
@@ -112,6 +113,11 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                   TextFormField(
                     controller: txtMarca,
                     keyboardType: TextInputType.name,
+                    onChanged: (value) {
+                      setState(() {
+                        txtMarca.text = value.toUpperCase();
+                      });
+                    },
                     decoration: const InputDecoration(
                       labelText: 'Marca',
                       border: OutlineInputBorder(
@@ -133,6 +139,11 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                   TextFormField(
                     controller: txtModeloCarro,
                     keyboardType: TextInputType.name,
+                    onChanged: (value) {
+                      setState(() {
+                        txtModeloCarro.text = value.toUpperCase();
+                      });
+                    },
                     decoration: const InputDecoration(
                       labelText: 'Modelo',
                       border: OutlineInputBorder(
@@ -175,6 +186,12 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: txtPlaca,
+                    keyboardType: TextInputType.text,
+                    onChanged: (value) {
+                      setState(() {
+                        txtPlaca.text = value.toUpperCase();
+                      });
+                    },
                     inputFormatters: [Mask.generic(masks: ['###-####'], hashtag: Hashtag.numbersAndLetters)],
                     decoration: const InputDecoration(
                       labelText: 'Placa',
@@ -197,6 +214,11 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                   TextFormField(
                     controller: txtCor,
                     keyboardType: TextInputType.name,
+                    onChanged: (value) {
+                      setState(() {
+                        txtCor.text = value.toUpperCase();
+                      });
+                    },
                     decoration: const InputDecoration(
                       labelText: 'Cor',
                       border: OutlineInputBorder(
@@ -296,7 +318,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                         
                         onPressed: () {
                           if(formKey.currentState!.validate()) {
-                              Carro c = Carro(txtModeloCarro.text, txtMarca.text, int.parse(txtAno.text), txtCor.text, valorPadraoDropDownMotorizacao, txtPlaca.text, valorPadraoDropDownTipos, LoginController().idUsuarioLogado());
+                              Carro c = Carro(txtModeloCarro.text.toUpperCase(), txtMarca.text.toUpperCase(), int.parse(txtAno.text), txtCor.text.toUpperCase(), valorPadraoDropDownMotorizacao.toUpperCase(), txtPlaca.text.toUpperCase(), valorPadraoDropDownTipos.toUpperCase(), LoginController().idUsuarioLogado());
                               if(docId == null) {
                                 if(valorPadraoDropDownMotorizacao == 'Selecione'|| valorPadraoDropDownTipos == 'Selecione') {
                                   dialogBox(context, 'Erro', 'Motorização ou tipo não selecionado');

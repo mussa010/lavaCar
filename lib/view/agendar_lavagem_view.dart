@@ -25,7 +25,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
     'Selecione'
   ];
 
-  String nomeCliente = '', cpfCliente = '', telefoneCliente = '',  marcaCarro = '', modeloCarro = '', tipoCarro = '', valorPadraoDropDownCarro = 'Selecione', uidLavagem = '';
+  String nomeCliente = '', cpfCliente = '', telefoneCliente = '',  marcaCarro = '', modeloCarro = '', tipoCarro = '', placaCarro = '',  valorPadraoDropDownCarro = 'Selecione', uidLavagem = '';
   var uidCliente = LoginController().idUsuarioLogado();
   bool podeCancelar = true, podeSalvar = true;
   DateTime? data;
@@ -83,6 +83,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
             telefoneCliente = doc['telefoneCliente'].toString();
             marcaCarro = doc['marcaCarro'].toString();
             modeloCarro = doc['modeloCarro'].toString();
+            placaCarro = doc['placaCarro'].toString();
             tipoCarro = doc['tipoCarro'].toString();
             uidLavagem = doc['uidLavagem'].toString();
             data = DateTime.parse(doc['data'.toString()]);
@@ -289,7 +290,8 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                                 marcaCarro = doc['marca'].toString();
                                                 modeloCarro = doc['modelo'].toString();
                                                 tipoCarro = doc['tipoCarro'].toString();
-                                                Lavagem l = Lavagem(LoginController().idUsuarioLogado(), nomeCliente, cpfCliente, telefoneCliente, marcaCarro, modeloCarro, tipoCarro, data.toString(), txtHorario.text);
+                                                placaCarro = doc['placa'].toString();
+                                                Lavagem l = Lavagem(LoginController().idUsuarioLogado(), nomeCliente, cpfCliente, telefoneCliente, marcaCarro, modeloCarro, tipoCarro, placaCarro, data.toString(), txtHorario.text);
                                                 if(docId == null) {
                                                   LavagemController().agendarLavagem(context, l);
                                                 } else {
