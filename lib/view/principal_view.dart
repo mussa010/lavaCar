@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lava_car/controller/usuario_controller.dart';
+import 'package:lava_car/service/fipe_service.dart';
 import '../controller/carro_controller.dart';
 import '../controller/lavagem_controller.dart';
 import '../controller/login_controller.dart';
 
+import '../model/carroFipe.dart';
 import 'cadastrar_carro_view.dart';
 import 'agendar_lavagem_view.dart';
 
@@ -624,9 +626,87 @@ carrosCliente() {
 
 // Consulta, em uma API, sobre o(s) carro(s) do cliente, retornando os valores de cada carro
 consultaCarroCliente() {
-  return const Center(
-    child: Text('Consultando carro',
-      style: TextStyle(fontSize: 20),
-    )
+  return Center(
+    child: SingleChildScrollView(
+      child: Column(
+        children: [
+          const Text(
+            'Consultando carro',
+            style: TextStyle(fontSize: 20),
+          ),
+          Container(
+            height: 500, // Defina uma altura adequada aqui
+            child: StreamBuilder<QuerySnapshot>(
+              stream: CarroController().listarCarrosCliente().snapshots(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                    return const Center(child: Text('Erro de conexão'));
+                  case ConnectionState.waiting:
+                    return const Center(child: CircularProgressIndicator(color: Colors.black));
+                  default:
+                    if (snapshot.hasError) {
+                      return const Center(child: Text('Erro ao carregar dados'));
+                    }
+                    final dados = snapshot.requireData;
+                    if (dados.size > 0) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: dados.size,
+                        itemBuilder: (context, index) {
+                          var doc = dados.docs[index].data() as Map<String, dynamic>;
+                          return FutureBuilder(
+                            future: FipeService().listaInformacoesCarrosCliente(
+                                doc['codigoFipe'].toString(),
+                                doc['ano'].toString()),
+                            builder: (context, futureSnapshot) {
+                              if (futureSnapshot.connectionState == ConnectionState.waiting) {
+                                return const Center(child: CircularProgressIndicator());
+                              }
+                              if (futureSnapshot.hasError) {
+                                print(futureSnapshot.error);
+                                return const Center(child: Text('Erro ao carregar dados do carro'));
+                              }
+                              if (!futureSnapshot.hasData) {
+                                return const Center(child: Text('Nenhum dado encontrado'));
+                              }
+                              var carroFipe = futureSnapshot.data;
+                              return Card(
+                                child: ListTile(
+                                  title: Text(
+                                    carroFipe!.marca,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(color: Colors.black,),
+                                  ),
+                                  subtitle: Text(
+                                    'Modelo: ${carroFipe.modelo}\nAno: ${carroFipe.ano}',
+                                    style: const TextStyle(color: Colors.black54),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      );
+                    } else {
+                      return const Center(
+                        child: Text(
+                          'Não há carro cadastrado',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    }
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    ),
   );
 }
+
