@@ -679,6 +679,7 @@ consultaCarroCliente() {
                                   subtitle: Text(
                                     'Modelo: ${carroFipe.modelo.toUpperCase()}\nAno: ${carroFipe.ano}\nCombustível: ${carroFipe.combustivel.toUpperCase()}\nPreço: ${carroFipe.preco}',
                                     style: const TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               );
