@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:lava_car/view/cadastrar_endereco.dart';
 
 import 'firebase_options.dart';
 import 'view/cadastro_cliente_view.dart';
@@ -60,7 +61,8 @@ class MainApp extends StatelessWidget {
         'sobre' : (context) => const SobreAplicativo(),
         'cadastrarCarro': (context) => const CadastrarCarro(),
         'agendarlavagem' : (context) => const AgendarLavagem(),
-        'pesquisar' : (context) => const Pesquisar()
+        'pesquisar' : (context) => const Pesquisar(),
+        'endereço' : (context) => const CadastrarEndereco()
       }
     );
   }

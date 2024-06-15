@@ -15,9 +15,10 @@ class _Pesquisar extends State<Pesquisar> {
     'Lavagens do veículo',
   ];
 
+  String valorPadraoDropDownTipos = 'Veículo';
+
   @override
   Widget build(BuildContext context) {
-    String pesquisa;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -66,6 +67,27 @@ class _Pesquisar extends State<Pesquisar> {
                         )
                       ))
                 ),
+                Row(
+                  children: [
+                    const Text('Pesquisar por:'),
+                      const SizedBox(width: 15),
+                      DropdownButton(
+                        value: valorPadraoDropDownTipos,
+                        items: opcoesPesquisa.map((String pesquisa) {
+                          return DropdownMenuItem(
+                            value: pesquisa,
+                            child: Text(pesquisa),
+                          );
+                        }).toList(), 
+                        onChanged: (String? novoValor) {
+                          setState(() {
+                            valorPadraoDropDownTipos = novoValor!;
+                          });
+                        }
+                      )
+                  ],
+                )
+
               ],
             ),
           ),

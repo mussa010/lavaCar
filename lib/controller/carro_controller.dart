@@ -45,9 +45,4 @@ class CarroController {
     doc(docId).delete().then((value) => sucesso(context, 'Carro removido com sucesso'))
     .catchError((e) => erro(context, 'Não foi possível remover o carro'));
   }
-
-  pesquisarCarro(context, String carro) {
-    return FirebaseFirestore.instance.collection('veiculo cliente')
-    .where('modelo', isGreaterThanOrEqualTo: carro).snapshots().first;
-  }
 }

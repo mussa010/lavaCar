@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:lava_car/controller/usuario_controller.dart';
-import 'package:lava_car/service/fipe_service.dart';
+import '/controller/usuario_controller.dart';
+import '/service/fipe_service.dart';
+import '../view/cadastrar_endereco.dart';
 import '../controller/carro_controller.dart';
 import '../controller/lavagem_controller.dart';
 import '../controller/login_controller.dart';
 
-import '../model/carroFipe.dart';
 import 'cadastrar_carro_view.dart';
 import 'agendar_lavagem_view.dart';
 
@@ -114,6 +114,15 @@ class _PrincipalView extends State<PrincipalView> {
                       },
                     ),
                     ListTile(
+                      selected: false,
+                      leading: Icon(Icons.location_on, color: Colors.grey.shade900,),
+                      title: const Text('Cadastrar endereço'),
+                      onTap: () {
+                        Scaffold.of(context).closeDrawer();
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const CadastrarEndereco()));
+                      },
+                    ),
+                    ListTile(
                       leading: Icon(Icons.edit_calendar_outlined, color: Colors.grey.shade900),
                       selected: false,
                       title: const Text('Agendar lavagem'),
@@ -131,6 +140,15 @@ class _PrincipalView extends State<PrincipalView> {
                       Navigator.pushNamed(context, 'pesquisar');
                     },
                   ),
+                  ListTile(
+                      leading: Icon(Icons.edit_location_sharp, color: Colors.grey.shade900),
+                      title: const Text('Editar endereço'),
+                      selected: false,
+                      onTap: () {
+                        Scaffold.of(context).closeDrawer();
+                        Navigator.of(context).pushNamed('endereço', arguments: id);
+                      },
+                    ),
                     ListTile(
                       leading: Icon(Icons.person, color: Colors.grey.shade900),
                       title: const Text('Editar conta'),
@@ -255,6 +273,15 @@ class _PrincipalView extends State<PrincipalView> {
                       // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const CadastrarCarro()));
                     },
                   ),
+                  ListTile(
+                      selected: false,
+                      leading: Icon(Icons.location_on, color: Colors.grey.shade900,),
+                      title: const Text('Cadastrar endereço'),
+                      onTap: () {
+                        Scaffold.of(context).closeDrawer();
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const CadastrarCarro()));
+                      },
+                    ),
                   ListTile(
                     leading: const Icon(Icons.edit_calendar_outlined),
                     selected: false,
