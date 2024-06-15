@@ -11,15 +11,8 @@ class _Pesquisar extends State<Pesquisar> {
   var txtPesquisa = TextEditingController();
 
   var opcoesPesquisa = [
-    'Carro',
-    'Lavagens por veículo',
-
-  ];
-
-  var ordem = [
-    'Crescente', 
-    'Decrescente',
-    
+    'Veículo',
+    'Lavagens do veículo',
   ];
 
   @override
@@ -40,24 +33,6 @@ class _Pesquisar extends State<Pesquisar> {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pushReplacementNamed(context, 'principal'),
         ),
-        actions: [
-            IconButton(
-            icon: const Icon(
-              Icons.search,
-              color: Colors.white,
-              size: 40,
-            ),
-            onPressed: () {
-              if(txtPesquisa.text.isEmpty) {
-                dialogBox(context, 'Aviso', 'Campo de pesquisa está vazio');
-              } else {
-                setState(() {
-                  // Função para pesquisar dependendo do que foi selecionado
-                });
-              }
-            }
-          ),
-        ],
       ),
       body: PopScope(
         canPop: false,
@@ -68,7 +43,30 @@ class _Pesquisar extends State<Pesquisar> {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
-
+              children: [
+                TextFormField(
+                  controller: txtPesquisa,
+                  decoration:  InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.search),
+                        color: Colors.black,
+                        onPressed: () {
+                          if(txtPesquisa.text.isEmpty) {
+                            dialogBox(context, 'Aviso', 'Campo de pesquisa está vazio');
+                          } else {
+                            setState(() {
+                              // Função para pesquisar dependendo do que foi selecionado
+                            });
+                          }
+                        },
+                      ),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20)
+                        )
+                      ))
+                ),
+              ],
             ),
           ),
         ),

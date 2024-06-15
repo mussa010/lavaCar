@@ -46,12 +46,8 @@ class CarroController {
     .catchError((e) => erro(context, 'Não foi possível remover o carro'));
   }
 
-  teste() {
-    Map<String, dynamic>? m;
-    FirebaseFirestore.instance.collection('veiculo cliente').
-      where('uidCliente', isEqualTo: LoginController().idUsuarioLogado()).
-      snapshots();
-
-    return m;
+  pesquisarCarro(context, String carro) {
+    return FirebaseFirestore.instance.collection('veiculo cliente')
+    .where('modelo', isGreaterThanOrEqualTo: carro).snapshots().first;
   }
 }
