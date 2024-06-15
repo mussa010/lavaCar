@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lava_car/controller/login_controller.dart';
 import 'package:lava_car/model/carro.dart';
+import 'package:mask/mask.dart';
+import 'package:mask/mask/mask.dart';
 import '../controller/carro_controller.dart';
 
 class CadastrarCarro extends StatefulWidget {
@@ -16,6 +18,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
   var txtModeloCarro = TextEditingController();
   var txtMarca = TextEditingController();
   var txtCor = TextEditingController();
+  var txtPlaca = TextEditingController();
   var formKey = GlobalKey<FormState>();
 
   var tipos = [
@@ -171,6 +174,27 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
+                    controller: txtPlaca,
+                    inputFormatters: [Mask.generic(masks: ['###-####'], hashtag: Hashtag.numbersAndLetters)],
+                    decoration: const InputDecoration(
+                      labelText: 'Placa',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20)
+                        )
+                      )
+                    ),
+                    validator: (value) {
+                      if(value == null) {
+                        return 'Campo vazio';
+                      } else if(value.isEmpty) {
+                        return 'Campo vazio';
+                      } 
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
                     controller: txtCor,
                     keyboardType: TextInputType.name,
                     decoration: const InputDecoration(
@@ -272,7 +296,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                         
                         onPressed: () {
                           if(formKey.currentState!.validate()) {
-                              Carro c = Carro(txtModeloCarro.text, txtMarca.text, int.parse(txtAno.text), txtCor.text, valorPadraoDropDownMotorizacao, valorPadraoDropDownTipos, LoginController().idUsuarioLogado());
+                              Carro c = Carro(txtModeloCarro.text, txtMarca.text, int.parse(txtAno.text), txtCor.text, valorPadraoDropDownMotorizacao, txtPlaca.text, valorPadraoDropDownTipos, LoginController().idUsuarioLogado());
                               if(docId == null) {
                                 if(valorPadraoDropDownMotorizacao == 'Selecione'|| valorPadraoDropDownTipos == 'Selecione') {
                                   dialogBox(context, 'Erro', 'Motorização ou tipo não selecionado');

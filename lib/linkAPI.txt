@@ -1,3 +1,5 @@
 https://deividfortuna.github.io/fipe/
 
 https://github.com/rplotze/projetos_flutter/tree/master/app_fipe_api
+
+https://platform.openai.com/docs/overview

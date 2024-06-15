@@ -41,7 +41,7 @@ class _PrincipalView extends State<PrincipalView> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Início',
+            'Tela principal',
             style: TextStyle(color: Colors.white),
           ),
           backgroundColor: Colors.blue,
