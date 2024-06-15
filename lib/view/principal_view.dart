@@ -558,7 +558,7 @@ carrosCliente() {
                 final dados = snapshot.requireData;
                 if (dados.size > 0) {
                   return ListView.builder(
-                      shrinkWrap: true, // Defina shrinkWrap como true
+                      shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       itemCount: dados.size,
                       itemBuilder: (context, index) {

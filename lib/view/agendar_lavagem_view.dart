@@ -51,7 +51,6 @@ class _AgendarLavagem extends State<AgendarLavagem> {
     }
 
     data = DateTime.parse('${DateTime.now().year}-$month-$day');
-    print(data);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final docId = ModalRoute.of(context)!.settings.arguments;
