@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lava_car/controller/lavagem_controller.dart';
 import 'package:lava_car/controller/login_controller.dart';
+import 'package:lava_car/view/util.dart';
 import '../controller/carro_controller.dart';
 import '../controller/usuario_controller.dart';
 import '../model/lavagem.dart';
@@ -27,12 +28,31 @@ class _AgendarLavagem extends State<AgendarLavagem> {
   String nomeCliente = '', cpfCliente = '', telefoneCliente = '',  marcaCarro = '', modeloCarro = '', tipoCarro = '', valorPadraoDropDownCarro = 'Selecione', uidLavagem = '';
   var uidCliente = LoginController().idUsuarioLogado();
   bool podeCancelar = true, podeSalvar = true;
-  DateTime data = DateTime.now();
+  DateTime? data;
   TimeOfDay horarioSelecionado = TimeOfDay.now();
+
+
 
   @override
   void initState() {
     super.initState();
+    String day,month;
+
+    if(DateTime.now().month < 10) {
+      month = '0${DateTime.now().month}';
+    } else {
+      month = '${DateTime.now().month}';
+    }
+
+    if(DateTime.now().day < 10) {
+      day = '0${DateTime.now().day}';
+    } else {
+      day = '${DateTime.now().day}';
+    }
+
+    data = DateTime.parse('${DateTime.now().year}-$month-$day');
+    print(data);
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final docId = ModalRoute.of(context)!.settings.arguments;
       Future<QuerySnapshot<Map<String, dynamic>>> future;
@@ -67,15 +87,15 @@ class _AgendarLavagem extends State<AgendarLavagem> {
             tipoCarro = doc['tipoCarro'].toString();
             uidLavagem = doc['uidLavagem'].toString();
             data = DateTime.parse(doc['data'.toString()]);
-            if(data.month < 10) {
-              txtData.text = '${data.day}/0${data.month}/${data.year}';
+            if(data!.month < 10) {
+              txtData.text = '${data!.day}/0${data!.month}/${data!.year}';
             } else {
-              txtData.text = '${data.day}/${data.month}/${data.year}';
+              txtData.text = '${data!.day}/${data!.month}/${data!.year}';
             }
 
             horarioSelecionado = TimeOfDay(hour: int.parse(doc['horario'].toString().split(":")[0]), minute: int.parse(doc['horario'].toString().split(":")[1]));
             txtHorario.text = doc['horario'];
-            if(data.isBefore(DateTime.now())) {
+            if(data!.isBefore(DateTime.now())) {
               podeCancelar = false;
               podeSalvar = false;
             }
@@ -89,6 +109,12 @@ class _AgendarLavagem extends State<AgendarLavagem> {
   @override
   Widget build(BuildContext context) {
     final docId = ModalRoute.of(context)!.settings.arguments;
+    bool podeEditar = true, podeIgnorar = false;
+
+    if(podeSalvar == false) {
+      podeEditar = false;
+      podeIgnorar = true;
+    }
 
     return PopScope(
       canPop: false,
@@ -143,7 +169,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                               children: [
                                 TextFormField(
                                   controller: txtData,
-                                  enabled: true,
+                                  enabled: podeEditar,
                                   keyboardType: TextInputType.name,
                                   decoration: const  InputDecoration(
                                     suffixIcon: Icon(Icons.calendar_today),
@@ -156,7 +182,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                   ),
                                   onTap: () {
                                     FocusScope.of(context).requestFocus(FocusNode());
-                                    dataSelecionada();
+                                    dataSelecionada(context);
                                   },
                                   validator: (value) {
                                     if(value == null) {
@@ -170,10 +196,10 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                 const SizedBox(height: 20),
                                 TextFormField(
                                   controller: txtHorario,
-                                  enabled: true,
+                                  enabled: podeEditar,
                                   onTap: () {
                                     FocusScope.of(context).requestFocus(FocusNode());
-                                    horaSelecionada();
+                                    horaSelecionada(context);
                                   },
                                   keyboardType: TextInputType.name,
                                   decoration: const InputDecoration(
@@ -199,22 +225,25 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                   children: [
                                     const Text('Carro:'),
                                     const SizedBox(width: 15),
-                                    DropdownButton(
-                                      value: valorPadraoDropDownCarro,
-                                      items: listaCarrosCliente.map((String carro) {
-                                        return DropdownMenuItem(
-                                          value: carro,
-                                          child: Text(carro),
-                                        );
-                                      }).toList(), 
-                                      onChanged: (String? novoValor) {
-                                        setState(() {
-                                          valorPadraoDropDownCarro = novoValor!;
-                                          if(listaCarrosCliente.contains('Selecione') && valorPadraoDropDownCarro != 'Selecione') {
-                                            listaCarrosCliente.remove('Selecione');
-                                          }
-                                        });
-                                      }
+                                    IgnorePointer(
+                                      ignoring: podeIgnorar,
+                                      child: DropdownButton(
+                                        value: valorPadraoDropDownCarro,
+                                        items: listaCarrosCliente.map((String carro) {
+                                          return DropdownMenuItem(
+                                            value: carro,
+                                            child: Text(carro),
+                                          );
+                                        }).toList(), 
+                                        onChanged: (String? novoValor) {
+                                          setState(() {
+                                            valorPadraoDropDownCarro = novoValor!;
+                                            if(listaCarrosCliente.contains('Selecione') && valorPadraoDropDownCarro != 'Selecione') {
+                                              listaCarrosCliente.remove('Selecione');
+                                            }
+                                          });
+                                        },
+                                      ),
                                     )
                                   ]
                                 ), 
@@ -313,13 +342,13 @@ class _AgendarLavagem extends State<AgendarLavagem> {
     );
   }
 
-  Future<void> dataSelecionada() async {
+  Future<void> dataSelecionada(context) async {
     bool decidirSelecionarData(DateTime dia) {
-    if(dia.isAfter(DateTime.now().subtract(const Duration(days: 1)))) {
-      return true;
-    } else {
-      return false;
-    }
+      if(dia.isAfter(DateTime.now().subtract(const Duration(days: 1)))) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     DateTime? diaSelecionado = await showDatePicker(
@@ -331,6 +360,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
     cancelText: 'Cancelar',
     helpText: 'Selecione a data desejada',
     selectableDayPredicate: decidirSelecionarData,
+    
     initialEntryMode: DatePickerEntryMode.calendarOnly,
     builder: (context, child) {
       return Theme(
@@ -348,19 +378,30 @@ class _AgendarLavagem extends State<AgendarLavagem> {
 
   if(diaSelecionado != null && diaSelecionado != data) {
     setState(() {
+      String? dia, mes;
       data = diaSelecionado;
-      if(data.month < 10) {
-        txtData.text = '${data.day}/0${data.month}/${data.year}';
+      if(diaSelecionado.day < 10) {
+        dia = '0${diaSelecionado.day}';
       } else {
-        txtData.text = '${data.day}/${data.month}/${data.year}';
+        dia = '${diaSelecionado.day}';
       }
+
+      if(diaSelecionado.month < 10) {
+        mes = '0${diaSelecionado.month}';
+      } else {
+        mes = '${diaSelecionado.month}';
+      }
+
+      txtData.text = '$dia/$mes/${data!.year}';
       
-    });
+      });
+  } else {
+    dialogBox(context, 'Erro', 'Não é possível selecionar essa data!');
   }
   }
 
 
-  Future<void> horaSelecionada() async{
+  Future<void> horaSelecionada(context) async{
     TimeOfDay? hora = await showTimePicker(
       context: context, 
       initialTime: horarioSelecionado,
@@ -386,9 +427,23 @@ class _AgendarLavagem extends State<AgendarLavagem> {
 
     if(hora != null && hora != horarioSelecionado) {
       setState(() {
+        String? m, h;
         horarioSelecionado = hora;
-        txtHorario.text = '${horarioSelecionado.hour}:${horarioSelecionado.minute}';
+        if(horarioSelecionado.minute < 10) {
+          m = '0${horarioSelecionado.minute}';
+        } else {
+          m = '${horarioSelecionado.minute}';
+        }
+        
+        if(horarioSelecionado.hour< 10) {
+          h = '0${horarioSelecionado.hour}';
+        } else {
+          h = '${horarioSelecionado.hour}';
+        }
+        txtHorario.text = '$h:$m';
       });
+    } else {
+      dialogBox(context, 'Erro', 'Não é possível selecionar esse horário!');
     }
   }
 }

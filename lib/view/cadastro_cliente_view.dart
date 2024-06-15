@@ -210,7 +210,8 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                 SizedBox(height: 15),
                 TextFormField(
                   controller: txtTelefone,
-                  inputFormatters: [Mask.generic(masks: ['(##) ####-####', '(##) #####-####'])],
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [Mask.generic(masks: ['+## (##) ####-####', '+## (##) #####-####'])],
                   decoration: InputDecoration(
                       labelText: 'Telefone',
                       prefixIcon: Icon(Icons.phone),
