@@ -7,8 +7,9 @@ class Carro {
   String motorizacao;
   String uidCliente;
   String placa;
+  String codigoFipe;
 
-  Carro(this.modelo, this.marca, this.ano, this.cor, this.motorizacao, this.placa,this.tipoCarro,this.uidCliente);
+  Carro(this.modelo, this.marca, this.ano, this.cor, this.motorizacao, this.placa, this.codigoFipe, this.tipoCarro,this.uidCliente);
 
   factory Carro.fromJson(Map<String, dynamic> json) {
     return Carro(
@@ -19,6 +20,7 @@ class Carro {
       json['motorizacao'],
       json['tipoCarro'],
       json['placa'],
+      json['codigoFipe'],
       json['uidCliente']
     );
   }
@@ -32,31 +34,8 @@ class Carro {
       'cor' : cor,
       'motorizacao' : motorizacao,
       'tipoCarro' : tipoCarro,
+      'codigoFipe' : codigoFipe,
       'placa' : placa
     };
-  }
-
-  String getModelo() {
-    return modelo;
-  }
-
-  String getCor() {
-    return cor;
-  }
-
-  String getMarca() {
-    return marca;
-  }
-
-  String getAno() {
-    return ano.toString();
-  }
-
-  String getMotorizacao() {
-    return motorizacao;
-  }
-
-  String getTipoCarro() {
-    return tipoCarro;
   }
 }

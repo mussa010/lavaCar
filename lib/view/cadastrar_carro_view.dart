@@ -19,6 +19,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
   var txtMarca = TextEditingController();
   var txtCor = TextEditingController();
   var txtPlaca = TextEditingController();
+  var txtFipe = TextEditingController();
   var formKey = GlobalKey<FormState>();
 
   var tipos = [
@@ -63,6 +64,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
         future.then((value) {
           dynamic doc = value.data();
           txtPlaca.text = doc['placa'].toString().toUpperCase();
+          txtFipe.text = doc['codigoFipe'].toString();
           txtMarca.text = doc['marca'].toString().toUpperCase();
           txtModeloCarro.text = doc['modelo'].toString().toUpperCase();
           txtAno.text = doc['ano'].toString();
@@ -212,6 +214,28 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
+                    controller: txtFipe,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [Mask.generic(masks: ['######-#'], hashtag: Hashtag.numbers)],
+                    decoration: const InputDecoration(
+                      labelText: 'Código FIPE',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20)
+                        )
+                      )
+                    ),
+                    validator: (value) {
+                      if(value == null) {
+                        return 'Campo vazio';
+                      } else if(value.isEmpty) {
+                        return 'Campo vazio';
+                      } 
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
                     controller: txtCor,
                     keyboardType: TextInputType.name,
                     onChanged: (value) {
@@ -318,7 +342,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                         
                         onPressed: () {
                           if(formKey.currentState!.validate()) {
-                              Carro c = Carro(txtModeloCarro.text.toUpperCase(), txtMarca.text.toUpperCase(), int.parse(txtAno.text), txtCor.text.toUpperCase(), valorPadraoDropDownMotorizacao.toUpperCase(), txtPlaca.text.toUpperCase(), valorPadraoDropDownTipos.toUpperCase(), LoginController().idUsuarioLogado());
+                              Carro c = Carro(txtModeloCarro.text.toUpperCase(), txtMarca.text.toUpperCase(), int.parse(txtAno.text), txtCor.text.toUpperCase(), valorPadraoDropDownMotorizacao.toUpperCase(), txtPlaca.text.toUpperCase(), txtFipe.text,valorPadraoDropDownTipos.toUpperCase(), LoginController().idUsuarioLogado());
                               if(docId == null) {
                                 if(valorPadraoDropDownMotorizacao == 'Selecione'|| valorPadraoDropDownTipos == 'Selecione') {
                                   dialogBox(context, 'Erro', 'Motorização ou tipo não selecionado');

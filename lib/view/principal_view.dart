@@ -573,7 +573,7 @@ carrosCliente() {
                                 fontWeight: FontWeight.bold
                               ),
                             ),
-                            subtitle: Text('Modelo: ${doc['modelo']}\nAno: ${doc['ano']}\nCor: ${doc['cor']}\nMotorização: ${doc['motorizacao']}\nTipo: ${doc['tipoCarro']}\nPlaca: ${doc['placa']}',
+                            subtitle: Text('Modelo: ${doc['modelo']}\nAno: ${doc['ano']}\nCor: ${doc['cor']}\nMotorização: ${doc['motorizacao']}\nTipo: ${doc['tipoCarro']}\nPlaca: ${doc['placa']}\nCódigo FIPE: ${doc['codigoFipe']}',
                               textAlign: TextAlign.center,
                               style: const TextStyle(color: Colors.white),
                             ),
