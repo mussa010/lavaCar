@@ -631,12 +631,10 @@ consultaCarroCliente() {
       child: Column(
         children: [
           const Text(
-            'Consultando carro',
-            style: TextStyle(fontSize: 20),
+            'Sobre o carro',
+            style: TextStyle(fontSize: 30, color: Colors.black),
           ),
-          Container(
-            height: 500, // Defina uma altura adequada aqui
-            child: StreamBuilder<QuerySnapshot>(
+          StreamBuilder<QuerySnapshot>(
               stream: CarroController().listarCarrosCliente().snapshots(),
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
@@ -664,7 +662,6 @@ consultaCarroCliente() {
                                 return const Center(child: CircularProgressIndicator());
                               }
                               if (futureSnapshot.hasError) {
-                                print(futureSnapshot.error);
                                 return const Center(child: Text('Erro ao carregar dados do carro'));
                               }
                               if (!futureSnapshot.hasData) {
@@ -672,15 +669,16 @@ consultaCarroCliente() {
                               }
                               var carroFipe = futureSnapshot.data;
                               return Card(
+                                color: const Color.fromARGB(255, 0, 110, 255),
                                 child: ListTile(
                                   title: Text(
-                                    carroFipe!.marca,
+                                    carroFipe!.marca.toUpperCase(),
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(color: Colors.black,),
+                                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                   ),
                                   subtitle: Text(
-                                    'Modelo: ${carroFipe.modelo}\nAno: ${carroFipe.ano}',
-                                    style: const TextStyle(color: Colors.black54),
+                                    'Modelo: ${carroFipe.modelo.toUpperCase()}\nAno: ${carroFipe.ano}\nCombustível: ${carroFipe.combustivel.toUpperCase()}\nPreço: ${carroFipe.preco}',
+                                    style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
                               );
@@ -703,10 +701,8 @@ consultaCarroCliente() {
                 }
               },
             ),
-          ),
         ],
       ),
     ),
   );
 }
-
