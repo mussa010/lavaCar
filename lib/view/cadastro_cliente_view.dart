@@ -106,6 +106,7 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                 SizedBox(height: 60),
                 TextFormField(
                   controller: txtNome,
+                  textCapitalization: TextCapitalization.sentences,
                   validator: (value) {
                     if(value == null) {
                       return 'Campo vazio';
@@ -191,6 +192,7 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                 SizedBox(height: 15),
                 TextFormField(
                   controller: txtOutroGenero,
+                  textCapitalization: TextCapitalization.sentences,
                   decoration: InputDecoration(
                       labelText: 'Gênero',
                       prefixIcon: Icon(const IconData(0xed6f, fontFamily: 'MaterialIcons')),

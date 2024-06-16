@@ -114,6 +114,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                   TextFormField(
                     controller: txtMarca,
                     keyboardType: TextInputType.name,
+                    textCapitalization: TextCapitalization.sentences,
                     decoration: const InputDecoration(
                       labelText: 'Marca',
                       border: OutlineInputBorder(
@@ -135,6 +136,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                   TextFormField(
                     controller: txtModeloCarro,
                     keyboardType: TextInputType.name,
+                    textCapitalization: TextCapitalization.sentences,
                     decoration: const InputDecoration(
                       labelText: 'Modelo',
                       border: OutlineInputBorder(
@@ -214,6 +216,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                   TextFormField(
                     controller: txtCor,
                     keyboardType: TextInputType.name,
+                    textCapitalization: TextCapitalization.sentences,
                     decoration: const InputDecoration(
                       labelText: 'Cor',
                       border: OutlineInputBorder(

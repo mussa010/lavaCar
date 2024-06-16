@@ -59,6 +59,7 @@ class _Pesquisar extends State<Pesquisar> {
               children: [
                 TextFormField(
                     controller: txtPesquisa,
+                    textCapitalization: TextCapitalization.sentences,
                     decoration: InputDecoration(
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.search),

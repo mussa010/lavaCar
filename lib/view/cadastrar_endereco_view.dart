@@ -78,6 +78,7 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
                   TextFormField(
                       controller: txtEndereco,
                       keyboardType: TextInputType.text,
+                      textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(
                         labelText: 'Endereço',
                         border: OutlineInputBorder(
@@ -120,6 +121,7 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
                     TextFormField(
                       controller: txtBairro,
                       keyboardType: TextInputType.name,
+                      textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(
                         labelText: 'Bairro',
                         border: OutlineInputBorder(
@@ -141,6 +143,7 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
                     TextFormField(
                       controller: txtComplemento,
                       keyboardType: TextInputType.name,
+                      textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(
                         labelText: 'Complemento',
                         border: OutlineInputBorder(
@@ -154,6 +157,7 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
                     TextFormField(
                       controller: txtCidade,
                       keyboardType: TextInputType.name,
+                      textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(
                         labelText: 'Cidade',
                         border: OutlineInputBorder(
@@ -175,6 +179,7 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
                     TextFormField(
                       controller: txtEstado,
                       keyboardType: TextInputType.name,
+                      textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(
                         labelText: 'Estado',
                         border: OutlineInputBorder(
