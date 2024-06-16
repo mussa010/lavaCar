@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lava_car/model/endereco.dart';
 
-import '../view/cadastrar_endereco_view.dart';
 import '../controller/login_controller.dart';
 import '../view/util.dart';
 
@@ -23,7 +22,6 @@ class EnderecoController {
     future.then(
       (value) {
         String id = value.docs[0].id;
-        print(id);
 
         return FirebaseFirestore.instance.collection('endereco').
           doc(id).update(e.toJson()).then((value) => sucesso(context, 'Endereço atualizado com sucesso'))
@@ -39,7 +37,6 @@ class EnderecoController {
     future.then(
       (value) {
         String id = value.docs[0].id;
-        print(id);
 
         return FirebaseFirestore.instance.collection('endereco').
           doc(id).delete().then((value) => sucesso(context, 'Endereço apagado com sucesso'))

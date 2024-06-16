@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lava_car/controller/login_controller.dart';
 
-import '../model/carro.dart';
 
 class PesquisaController {
 
@@ -16,10 +15,14 @@ class PesquisaController {
       return FirebaseFirestore.instance.collection('agendamento').
         where('uidCliente', isEqualTo: LoginController().idUsuarioLogado())
         .where('modeloCarroPesquisa', isEqualTo: carro).snapshots();
-    } else {
+    } else if(ordem == 'Data crescente'){
       return FirebaseFirestore.instance.collection('agendamento').
         where('uidCliente', isEqualTo: LoginController().idUsuarioLogado())
         .where('modeloCarroPesquisa', isEqualTo: carro).orderBy('data').snapshots();
+    } else {
+      return FirebaseFirestore.instance.collection('agendamento').
+        where('uidCliente', isEqualTo: LoginController().idUsuarioLogado())
+        .where('modeloCarroPesquisa', isEqualTo: carro).orderBy('data',descending: true).snapshots();
     }
   }
 }

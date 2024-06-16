@@ -461,7 +461,6 @@ dialogBox(context, titulo, mensagem) {
 
   void aSenhaEValida(String senha) {
     int tamMinimo = 8;
-    bool especial = senha.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
 
     if(senha.length >= tamMinimo) {
       maiorIgualTamMin = true;

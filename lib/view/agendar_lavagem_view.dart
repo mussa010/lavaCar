@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lava_car/controller/lavagem_controller.dart';
 import 'package:lava_car/controller/login_controller.dart';
-import 'package:lava_car/view/util.dart';
 import '../controller/carro_controller.dart';
 import '../controller/usuario_controller.dart';
 import '../model/lavagem.dart';

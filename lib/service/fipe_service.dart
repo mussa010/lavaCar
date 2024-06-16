@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-
 import '../model/carroFipe.dart';
 import 'package:dio/dio.dart'; // Utilizado para comunicação com API
 

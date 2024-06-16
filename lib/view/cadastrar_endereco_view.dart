@@ -3,7 +3,6 @@ import 'package:lava_car/controller/endereco_controller.dart';
 import 'package:lava_car/model/endereco.dart';
 import 'package:mask/mask.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import '../controller/login_controller.dart';
 
 class CadastrarEndereco extends StatefulWidget {

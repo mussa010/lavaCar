@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../model/lavagem.dart';
 
 import '../controller/carro_controller.dart';
 import '../controller/pesquisa_controller.dart';
-import '../model/carro.dart';
 
 class Pesquisar extends StatefulWidget {
   const Pesquisar({super.key});
@@ -23,7 +21,8 @@ class _Pesquisar extends State<Pesquisar> {
 
   var ordemPesquisa = [
     'Relevância',
-    'Data',
+    'Data crescente',
+    'Data decrescente'
   ];
 
   String valorPadraoDropDownOpcoesPesquisa = 'Veículo', valorPadraoDropDownOrdemPesquisa = 'Relevância';
