@@ -313,7 +313,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                         
                         onPressed: () {
                           if(formKey.currentState!.validate()) {
-                              Carro c = Carro(txtModeloCarro.text.toUpperCase(), txtMarca.text.toUpperCase(), int.parse(txtAno.text), txtCor.text.toUpperCase(), valorPadraoDropDownMotorizacao.toUpperCase(), txtPlaca.text.toUpperCase(), txtFipe.text,valorPadraoDropDownTipos.toUpperCase(), LoginController().idUsuarioLogado());
+                              Carro c = Carro(txtModeloCarro.text.toUpperCase(), txtModeloCarro.text.toUpperCase(),txtMarca.text.toUpperCase(), int.parse(txtAno.text), txtCor.text.toUpperCase(), valorPadraoDropDownMotorizacao.toUpperCase(), txtPlaca.text.toUpperCase(), txtFipe.text,valorPadraoDropDownTipos.toUpperCase(), LoginController().idUsuarioLogado());
                               if(docId == null) {
                                 if(valorPadraoDropDownMotorizacao == 'Selecione'|| valorPadraoDropDownTipos == 'Selecione') {
                                   dialogBox(context, 'Erro', 'Motorização ou tipo não selecionado');

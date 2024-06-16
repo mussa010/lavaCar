@@ -291,7 +291,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
                                                 modeloCarro = doc['modelo'].toString();
                                                 tipoCarro = doc['tipoCarro'].toString();
                                                 placaCarro = doc['placa'].toString();
-                                                Lavagem l = Lavagem(LoginController().idUsuarioLogado(), nomeCliente, cpfCliente, telefoneCliente, marcaCarro, modeloCarro, tipoCarro, placaCarro, data.toString(), txtHorario.text);
+                                                Lavagem l = Lavagem(LoginController().idUsuarioLogado(), nomeCliente, cpfCliente, telefoneCliente, marcaCarro, modeloCarro, modeloCarro.toUpperCase(), tipoCarro, placaCarro, data.toString(), txtHorario.text);
                                                 if(docId == null) {
                                                   LavagemController().agendarLavagem(context, l);
                                                 } else {
