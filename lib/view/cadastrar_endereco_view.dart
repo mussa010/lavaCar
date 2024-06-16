@@ -23,6 +23,7 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
   var formKey = GlobalKey<FormState>();
 
   bool cadastrado = false;
+  String titulo = '';
 
   @override
   void initState() {
@@ -33,7 +34,10 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
     future.then(
       (value) {
         if(value.size == 0) {
-          cadastrado = false;
+          setState(() {
+            cadastrado = false;
+            titulo = 'Cadastrar endereço';
+          });
         } else {
           dynamic doc = value.docs[0].data();
 
@@ -46,6 +50,7 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
             txtEstado.text = doc['estado'].toString();
             txtCep.text = doc['cep'].toString();
             cadastrado = true;
+            titulo = 'Editar endereço';
           });
         }
       },
@@ -58,7 +63,7 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
     return PopScope(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(cadastrado == false ? 'Cadastrar endereço' : 'Editar endereço', style: const TextStyle(color: Colors.white)),
+          title: Text(titulo, style: const TextStyle(color: Colors.white)),
           backgroundColor: Colors.blue,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded) ,
@@ -230,7 +235,7 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
                           shadowColor: WidgetStateProperty.all<Color>(Colors.blue)
                         ),
                         child: const Center(
-                          child: Text('Cancelar',
+                          child: Text('Voltar',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
