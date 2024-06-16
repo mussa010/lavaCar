@@ -11,7 +11,7 @@ class _SobreAplicativo extends State<SobreAplicativo> {
   @override
   Widget build(BuildContext context) {
     const  String about = '''
-      Nome do Criador:\nMatheus Teixeira Mussalam\n\nCódigo:\n836445\n\nTema escolhido:\nLava rápido\n\nObjetivo:\nTem como objetivo possibilitar que o usuário crie listas, podendo criar, editar e remover itens.
+      Nome do Criador:\nMatheus Teixeira Mussalam\n\nCódigo:\n836445\n\nTema escolhido:\nLava rápido\n\nObjetivo:\nTem como objetivo possibilitar que o usuário salve as informações de seu(s) carro(s), agende uma lavagem, consulte a tabela FIPE do seu veículo, visualize o histórico de lavagens e pesquise sobre seu veículo.
     ''';
 
     return PopScope(
