@@ -136,7 +136,6 @@ class _Pesquisar extends State<Pesquisar> {
                         if (dados.size > 0) {
                           return ListView.builder(
                               shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
                               itemCount: dados.size,
                               itemBuilder: (context, index) {
                                 String id = dados.docs[index].id;
@@ -206,7 +205,6 @@ class _Pesquisar extends State<Pesquisar> {
                         if (dados.size > 0) {
                           return ListView.builder(
                               shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
                               itemCount: dados.size,
                               itemBuilder: (context, index) {
                                 String id = dados.docs[index].id;

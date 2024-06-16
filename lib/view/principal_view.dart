@@ -349,7 +349,6 @@ home() {
                               if (dados.size > 0) {
                                 return ListView.builder(
                                     shrinkWrap: true, 
-                                    scrollDirection: Axis.vertical,
                                     itemCount: dados.size,
                                     itemBuilder: (context, index) {
                                       String id = dados.docs[index].id;
@@ -421,7 +420,6 @@ home() {
                             if (dados.size > 0) {
                               return ListView.builder(
                                 shrinkWrap: true, 
-                                scrollDirection: Axis.vertical,
                                 itemCount: dados.size,
                                 itemBuilder: (context, index) {
                                   String id = dados.docs[index].id;
@@ -498,8 +496,7 @@ home() {
                               final dados = snapshot.requireData;
                               if (dados.size > 0) {
                                 return ListView.builder(
-                                    shrinkWrap: true, // Defina shrinkWrap como true
-                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true, 
                                     itemCount: dados.size,
                                     itemBuilder: (context, index) {
                                       String id = dados.docs[index].id;
@@ -579,7 +576,6 @@ carrosCliente() {
                 if (dados.size > 0) {
                   return ListView.builder(
                       shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
                       itemCount: dados.size,
                       itemBuilder: (context, index) {
                         String id = dados.docs[index].id;
