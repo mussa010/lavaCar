@@ -101,7 +101,7 @@ class _Pesquisar extends State<Pesquisar> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                Row(
+                if(valorPadraoDropDownOpcoesPesquisa != 'Veículo') Row(
                   children: [
                     const Text('Classificar por:'),
                     const SizedBox(width: 15),
@@ -120,7 +120,7 @@ class _Pesquisar extends State<Pesquisar> {
                         })
                   ],
                 ),
-                const SizedBox(height: 20),
+                if(valorPadraoDropDownOpcoesPesquisa != 'Veículo') const SizedBox(height: 20),
                 if(valorPadraoDropDownOpcoesPesquisa == 'Veículo') if(veiculosPodemAparecer == true) if(txtPesquisa.text != '') StreamBuilder<QuerySnapshot>
                 (
                   stream: PesquisaController().pesquisarCarro(context, txtPesquisa.text.toUpperCase()), 
