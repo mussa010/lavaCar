@@ -478,6 +478,4 @@ dialogBox(context, titulo, mensagem) {
     if(senha.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
       temEspecial = true;
     }
-
-
   }
