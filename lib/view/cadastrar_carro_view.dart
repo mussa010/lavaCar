@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lava_car/controller/login_controller.dart';
 import 'package:lava_car/model/carro.dart';
 import 'package:mask/mask.dart';
-import 'package:mask/mask/mask.dart';
 import '../controller/carro_controller.dart';
 
 class CadastrarCarro extends StatefulWidget {
@@ -94,7 +93,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Cadastrar carro', style: TextStyle(color: Colors.white)),
+          title: Text(docId == null ? 'Cadastrar carro' : 'Editar carro', style: TextStyle(color: Colors.white)),
           backgroundColor: Colors.blue,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded) ,
@@ -115,11 +114,6 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                   TextFormField(
                     controller: txtMarca,
                     keyboardType: TextInputType.name,
-                    onChanged: (value) {
-                      setState(() {
-                        txtMarca.text = value.toUpperCase();
-                      });
-                    },
                     decoration: const InputDecoration(
                       labelText: 'Marca',
                       border: OutlineInputBorder(
@@ -141,11 +135,6 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                   TextFormField(
                     controller: txtModeloCarro,
                     keyboardType: TextInputType.name,
-                    onChanged: (value) {
-                      setState(() {
-                        txtModeloCarro.text = value.toUpperCase();
-                      });
-                    },
                     decoration: const InputDecoration(
                       labelText: 'Modelo',
                       border: OutlineInputBorder(
@@ -189,11 +178,6 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                   TextFormField(
                     controller: txtPlaca,
                     keyboardType: TextInputType.text,
-                    onChanged: (value) {
-                      setState(() {
-                        txtPlaca.text = value.toUpperCase();
-                      });
-                    },
                     inputFormatters: [Mask.generic(masks: ['###-####'], hashtag: Hashtag.numbersAndLetters)],
                     decoration: const InputDecoration(
                       labelText: 'Placa',
@@ -225,24 +209,11 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                         )
                       )
                     ),
-                    validator: (value) {
-                      if(value == null) {
-                        return 'Campo vazio';
-                      } else if(value.isEmpty) {
-                        return 'Campo vazio';
-                      } 
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: txtCor,
                     keyboardType: TextInputType.name,
-                    onChanged: (value) {
-                      setState(() {
-                        txtCor.text = value.toUpperCase();
-                      });
-                    },
                     decoration: const InputDecoration(
                       labelText: 'Cor',
                       border: OutlineInputBorder(

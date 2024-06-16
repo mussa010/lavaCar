@@ -21,7 +21,7 @@ class CarroController {
 
   listarCarrosCliente() {
     return FirebaseFirestore.instance.collection('veiculo cliente').
-      where('uidCliente', isEqualTo: LoginController().idUsuarioLogado());
+      where('uidCliente', isEqualTo: LoginController().idUsuarioLogado()).orderBy('marca');
   }
 
   listaCarroEspecifico(docId) {

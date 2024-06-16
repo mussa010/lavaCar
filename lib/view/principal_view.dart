@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '/controller/usuario_controller.dart';
 import '/service/fipe_service.dart';
-import '../view/cadastrar_endereco.dart';
+import 'cadastrar_endereco_view.dart';
 import '../controller/carro_controller.dart';
 import '../controller/lavagem_controller.dart';
 import '../controller/login_controller.dart';
@@ -115,8 +115,8 @@ class _PrincipalView extends State<PrincipalView> {
                     ),
                     ListTile(
                       selected: false,
-                      leading: Icon(Icons.location_on, color: Colors.grey.shade900,),
-                      title: const Text('Cadastrar endereço'),
+                      leading: Icon(Icons.edit_location_alt_rounded, color: Colors.grey.shade900,),
+                      title: const Text('Cadastrar/Editar endereço'),
                       onTap: () {
                         Scaffold.of(context).closeDrawer();
                         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const CadastrarEndereco()));
@@ -140,15 +140,6 @@ class _PrincipalView extends State<PrincipalView> {
                       Navigator.pushNamed(context, 'pesquisar');
                     },
                   ),
-                  ListTile(
-                      leading: Icon(Icons.edit_location_sharp, color: Colors.grey.shade900),
-                      title: const Text('Editar endereço'),
-                      selected: false,
-                      onTap: () {
-                        Scaffold.of(context).closeDrawer();
-                        Navigator.of(context).pushNamed('endereço', arguments: id);
-                      },
-                    ),
                     ListTile(
                       leading: Icon(Icons.person, color: Colors.grey.shade900),
                       title: const Text('Editar conta'),
@@ -275,11 +266,11 @@ class _PrincipalView extends State<PrincipalView> {
                   ),
                   ListTile(
                       selected: false,
-                      leading: Icon(Icons.location_on, color: Colors.grey.shade900,),
-                      title: const Text('Cadastrar endereço'),
+                      leading: Icon(Icons.edit_location_alt_rounded, color: Colors.grey.shade900,),
+                      title: const Text('Cadastrar/Editar endereço'),
                       onTap: () {
                         Scaffold.of(context).closeDrawer();
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const CadastrarCarro()));
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const CadastrarEndereco()));
                       },
                     ),
                   ListTile(
@@ -653,8 +644,8 @@ carrosCliente() {
 
 // Consulta, em uma API, sobre o(s) carro(s) do cliente, retornando os valores de cada carro
 consultaCarroCliente() {
-  return Center(
-    child: SingleChildScrollView(
+  return SingleChildScrollView(
+    child: Center(
       child: Column(
         children: [
           const Text(
@@ -680,38 +671,51 @@ consultaCarroCliente() {
                         itemCount: dados.size,
                         itemBuilder: (context, index) {
                           var doc = dados.docs[index].data() as Map<String, dynamic>;
-                          return FutureBuilder(
-                            future: FipeService().listaInformacoesCarrosCliente(
-                                doc['codigoFipe'].toString(),
-                                doc['ano'].toString()),
-                            builder: (context, futureSnapshot) {
-                              if (futureSnapshot.connectionState == ConnectionState.waiting) {
-                                return const Center(child: CircularProgressIndicator());
-                              }
-                              if (futureSnapshot.hasError) {
-                                return const Center(child: Text('Erro ao carregar dados do carro'));
-                              }
-                              if (!futureSnapshot.hasData) {
-                                return const Center(child: Text('Nenhum dado encontrado'));
-                              }
-                              var carroFipe = futureSnapshot.data;
-                              return Card(
-                                color: const Color.fromARGB(255, 0, 110, 255),
-                                child: ListTile(
-                                  title: Text(
-                                    carroFipe!.marca.toUpperCase(),
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          if(doc['codigoFipe'].toString() == '') {
+                            return Card(
+                                  color: const Color.fromARGB(255, 161, 48, 48),
+                                  child: ListTile(
+                                    subtitle: Text(
+                                      'Não foi possível encontrar informações sobre o carro ${doc['marca'].toString()} ${doc['modelo'].toString()}',
+                                      style: const TextStyle(color: Colors.white),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
-                                  subtitle: Text(
-                                    'Modelo: ${carroFipe.modelo.toUpperCase()}\nAno: ${carroFipe.ano}\nCombustível: ${carroFipe.combustivel.toUpperCase()}\nPreço: ${carroFipe.preco}',
-                                    style: const TextStyle(color: Colors.white),
-                                    textAlign: TextAlign.center,
+                                );
+                          } else {
+                            return FutureBuilder(
+                              future: FipeService().listaInformacoesCarrosCliente(
+                                  doc['codigoFipe'].toString(),
+                                  doc['ano'].toString()),
+                              builder: (context, futureSnapshot) {
+                                if (futureSnapshot.connectionState == ConnectionState.waiting) {
+                                  return const Center(child: CircularProgressIndicator());
+                                }
+                                if (futureSnapshot.hasError) {
+                                  return const Center(child: Text('Erro ao carregar dados do carro'));
+                                }
+                                if (!futureSnapshot.hasData) {
+                                  return const Center(child: Text('Nenhum dado encontrado'));
+                                }
+                                var carroFipe = futureSnapshot.data;
+                                return Card(
+                                  color: const Color.fromARGB(255, 0, 110, 255),
+                                  child: ListTile(
+                                    title: Text(
+                                      carroFipe!.marca.toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                    ),
+                                    subtitle: Text(
+                                      'Modelo: ${carroFipe.modelo.toUpperCase()}\nAno: ${carroFipe.ano}\nCombustível: ${carroFipe.combustivel.toUpperCase()}\nPreço: ${carroFipe.preco}',
+                                      style: const TextStyle(color: Colors.white),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
+                                );
+                              },
+                            );
+                          }
                         },
                       );
                     } else {

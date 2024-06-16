@@ -16,6 +16,8 @@ class CadastrarCliente extends StatefulWidget {
   State<CadastrarCliente> createState() => _CadastrarCliente();
 }
 
+bool senhaNaoVisivel = true, confirmarSenhaNaoVisivel = true, temMaiusculo = false, temMinusculo = false, temEspecial = false, maiorIgualTamMin = false;
+
 class _CadastrarCliente extends State<CadastrarCliente> {
   var txtNome = TextEditingController();
   var txtEmail = TextEditingController();
@@ -30,7 +32,6 @@ class _CadastrarCliente extends State<CadastrarCliente> {
   var formKey = GlobalKey<FormState>();
 
   var visibilidadeSenha = Icon(Icons.visibility_off_outlined), visibilidadeConfirmarSenha = Icon(Icons.visibility_off_outlined);
-  bool senhaNaoVisivel = true, confirmarSenhaNaoVisivel = true;
 
   var generos = [
     'Masculino',
@@ -363,47 +364,62 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                       onPressed: () {
                         if(formKey.currentState!.validate()) {
                           if(txtSenha.text == txtConfirmarSenha.text && txtEmail.text == txtConfirmarEmail.text) {
-                            if(docId == null) {
-                              if(valorPadraoDropDown == 'Outro') {
-                                LoginController().criarConta(
-                                  context,
-                                  txtNome.text,
-                                  txtEmail.text,
-                                  txtSenha.text,
-                                  txtDataNascimento.text,
-                                  txtCpf.text,
-                                  txtGenero.text,
-                                  txtTelefone.text
-                                );
+                            if(temEspecial == true && maiorIgualTamMin == true && temMaiusculo == true && temMinusculo == true) {
+                              if(docId == null) {
+                                if(valorPadraoDropDown == 'Outro') {
+                                  LoginController().criarConta(
+                                    context,
+                                    txtNome.text,
+                                    txtEmail.text,
+                                    txtSenha.text,
+                                    txtDataNascimento.text,
+                                    txtCpf.text,
+                                    txtGenero.text,
+                                    txtTelefone.text
+                                  );
+                                } else {
+                                  LoginController().criarConta(
+                                    context, 
+                                    txtNome.text, 
+                                    txtEmail.text, 
+                                    txtSenha.text, 
+                                    txtDataNascimento.text, 
+                                    txtCpf.text, 
+                                    valorPadraoDropDown, 
+                                    txtTelefone.text
+                                  );
+                                }
                               } else {
-                                LoginController().criarConta(
-                                  context, 
-                                  txtNome.text, 
-                                  txtEmail.text, 
-                                  txtSenha.text, 
-                                  txtDataNascimento.text, 
-                                  txtCpf.text, 
-                                  valorPadraoDropDown, 
-                                  txtTelefone.text
-                                );
+                                Usuario u;
+                                if(valorPadraoDropDown == 'Outro') {
+                                  u = Usuario(txtNome.text, txtDataNascimento.text, txtCpf.text, txtGenero.text, txtTelefone.text);
+                                } else {
+                                  u = Usuario(txtNome.text, txtDataNascimento.text, txtCpf.text, valorPadraoDropDown, txtTelefone.text);
+                                }
+                                UsuarioController().editarInformacoesCliente(context, u, docId);
                               }
-                              // txtNome.clear();
-                              // txtEmail.clear();
-                              // txtSenha.clear();
-                              // txtDataNascimento.clear();
-                              // txtCpf.clear();
-                              // txtGenero.clear();
-                              // txtTelefone.clear();
-                              // txtConfirmarEmail.clear();
-                              // txtConfirmarSenha.clear();
                             } else {
-                              Usuario u;
-                              if(valorPadraoDropDown == 'Outro') {
-                                u = Usuario(txtNome.text, txtDataNascimento.text, txtCpf.text, txtGenero.text, txtTelefone.text);
-                              } else {
-                                u = Usuario(txtNome.text, txtDataNascimento.text, txtCpf.text, valorPadraoDropDown, txtTelefone.text);
+                              String mensagem = 'A senha possui o(s) seguinte(s) erro(s):\n';
+                              int tamMinimo = 8;
+
+                              if(txtSenha.text.length < tamMinimo) {
+                                mensagem += 'Tamanho da senha é menor que 8\n';
                               }
-                              UsuarioController().editarInformacoesCliente(context, u, docId);
+
+                              if(!txtSenha.text.contains(RegExp(r'[A-Z]'))) {
+                                mensagem += 'Senha não possui caractere maiúsculo\n';
+                              }
+
+                              if(!txtSenha.text.contains(RegExp(r'[a-z]'))) {
+                                mensagem += 'Senha não possui caractere minúsculo\n';
+                              }
+
+                              if(!txtSenha.text.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+                                mensagem += 'Senha não possui caractere especial\n';
+                              }
+
+                              dialogBox(context, 'Erro', mensagem);
+
                             }
                           } else {
                             dialogBox(context, 'Erro', 'As senhas não são iguais');
@@ -440,4 +456,28 @@ dialogBox(context, titulo, mensagem) {
           child: const Text('Voltar'))
         ],
       ));
+  }
+
+
+  void aSenhaEValida(String senha) {
+    int tamMinimo = 8;
+    bool especial = senha.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+
+    if(senha.length >= tamMinimo) {
+      maiorIgualTamMin = true;
+    }
+
+    if(senha.contains(RegExp(r'[A-Z]'))) {
+      temMaiusculo = true;
+    }
+
+    if(senha.contains(RegExp(r'[a-z]'))) {
+      temMaiusculo = true;
+    }
+
+    if(senha.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      temEspecial = true;
+    }
+
+
   }

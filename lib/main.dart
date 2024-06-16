@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:lava_car/view/cadastrar_endereco.dart';
+import 'package:lava_car/view/cadastrar_endereco_view.dart';
 
 import 'firebase_options.dart';
 import 'view/cadastro_cliente_view.dart';
@@ -34,7 +34,7 @@ Future main() async{
 
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (context) => const MainApp(),
     ),
   );
