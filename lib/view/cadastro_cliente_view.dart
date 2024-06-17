@@ -70,6 +70,10 @@ class _CadastrarCliente extends State<CadastrarCliente> {
               valorPadraoDropDown = doc['genero'].toString();
             }
             txtTelefone.text = doc['telefone'].toString();
+            txtEmail.text = doc['email'].toString();
+            txtConfirmarEmail.text = doc['email'].toString();
+
+
           });
         });
       }
@@ -93,356 +97,368 @@ class _CadastrarCliente extends State<CadastrarCliente> {
         }
       },
       child: Scaffold(
-        body: SingleChildScrollView(child: Padding(
-          padding: EdgeInsets.fromLTRB(30, 50, 30, 50),
-          child: Form(
-            key: formKey,
-            child: Column(
-              children: [
-                Text(
-                  docId == null ? 'Criar Conta' : 'Editar conta',
-                  style: TextStyle(fontSize: 60),
-                ),
-                SizedBox(height: 60),
-                TextFormField(
-                  controller: txtNome,
-                  textCapitalization: TextCapitalization.sentences,
-                  validator: (value) {
-                    if(value == null) {
-                      return 'Campo vazio';
-                    } else if(value.isEmpty) {
-                      return 'Campo vazio';
-                    } 
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      labelText: 'Nome',
-                      prefixIcon: Icon(Icons.person),
-                      border: OutlineInputBorder()),
-                ),
-                SizedBox(height: 15),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    Mask.date()
-                  ],
-                  controller: txtDataNascimento,
-                  validator: (value) {
-                    if(value == null) {
-                      return 'Campo vazio';
-                    } else if(value.isEmpty) {
-                      return 'Campo vazio';
-                    } 
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      labelText: 'Data de nascimento',
-                      prefixIcon: Icon(Icons.date_range),
-                      border: OutlineInputBorder()),
-                ),
-                SizedBox(height: 15),
-                TextFormField(
-                  controller: txtCpf,
-                  inputFormatters: [Mask.cpfOrCnpj()],
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if(value == null) {
-                      return 'Campo vazio';
-                    } else if(value.isEmpty) {
-                      return 'Campo vazio';
-                    } 
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      labelText: 'CPF/CNPJ',
-                      prefixIcon: Icon(Icons.person),
-                      border: OutlineInputBorder()),
-                ),
-                SizedBox(height: 15),
-                Row(children: [
-                  Text('Gênero:'), 
-                  SizedBox(width: 15),
-                  DropdownButton(
-                    icon: Icon(Icons.arrow_drop_down_rounded),
-                    value: valorPadraoDropDown,
-                    items: generos.map((String generos) {
-                      return DropdownMenuItem( 
-                          value: generos, 
-                          child: Text(generos),
-
-                        ); 
-                    }).toList(), 
-                    onChanged: (String? novoValor) {
-                    setState(() {
-                      valorPadraoDropDown = novoValor!;
-                      if(generos.contains('Selecione') && valorPadraoDropDown != 'Selecione') {
-                              generos.remove('Selecione');
-                      }
-                      
-                      if(valorPadraoDropDown == 'Outro') {
-                        ativado = true;
-                      } else {
-                        setState(() {
-                          txtGenero.clear();
-                          ativado = false;
-                        });
-                      }
-                    });
-                }),]),
-                SizedBox(height: 15),
-                TextFormField(
-                  controller: txtOutroGenero,
-                  textCapitalization: TextCapitalization.sentences,
-                  decoration: InputDecoration(
-                      labelText: 'Gênero',
-                      prefixIcon: Icon(const IconData(0xed6f, fontFamily: 'MaterialIcons')),
-                      enabled: ativado,
-                      border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if(valorPadraoDropDown == 'Outro') {
-                      if(value == null) {
-                        return 'Campo vazio';
-                      } else if(value.isEmpty) {
-                        return 'Campo vazio';
-                      }
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 15),
-                TextFormField(
-                  controller: txtTelefone,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [Mask.generic(masks: ['+## (##) ####-####', '+## (##) #####-####'])],
-                  decoration: InputDecoration(
-                      labelText: 'Telefone',
-                      prefixIcon: Icon(Icons.phone),
-                      border: OutlineInputBorder()
-                  ),
-                  validator: (value) {
-                    if(value == null) {
-                      return 'Campo vazio';
-                    } else if(value.isEmpty) {
-                      return 'Campo vazio';
-                    } 
-                    return null;
-                  },
-                ),
-                if(docId == null)  SizedBox(height: 15),
-                if(docId == null)  TextFormField(
-                  controller: txtEmail,
-                  validator: (value) {
-                    if(value == null) {
-                      return 'Campo vazio';
-                    } else if(value.isEmpty) {
-                      return 'Campo vazio';
-                    } 
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      labelText: 'Email',
-                      prefixIcon: Icon(Icons.email),
-                      border: OutlineInputBorder()),
-                ),
-                if(docId == null)  SizedBox(height: 15),
-                if(docId == null)  TextFormField(
-                  controller: txtConfirmarEmail,
-                  validator: (value) {
-                    if(value == null) {
-                      return 'Campo vazio';
-                    } else if(value.isEmpty) {
-                      return 'Campo vazio';
-                    } 
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      labelText: 'Confirmar email',
-                      prefixIcon: Icon(Icons.email),
-                      border: OutlineInputBorder()),
-                ),
-                if(docId == null)  SizedBox(height: 15),
-                if(docId == null)  TextFormField(
-                  controller: txtSenha,
-                  obscureText: senhaNaoVisivel,
-                  obscuringCharacter: '*',
-                  validator: (value) {
-                    if(value == null) {
-                      return 'Campo vazio';
-                    } else if(value.isEmpty) {
-                      return 'Campo vazio';
-                    } 
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      labelText: 'Senha',
-                      prefixIcon: Icon(Icons.password),
-                      suffixIcon: IconButton(
-                        style: ButtonStyle(iconColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
-                          if(states.contains(WidgetState.pressed)) {
-                            return Colors.blue;
-                          } else {
-                            return null;
-                          } 
-                        })),
-                        icon: visibilidadeSenha,
-                        onPressed: () {
-                          if(senhaNaoVisivel == true) {
-                            setState(() {
-                              visibilidadeSenha = Icon(Icons.visibility_outlined);
-                              senhaNaoVisivel = false;
-                            });
-                          } else {
-                            setState(() {
-                              visibilidadeSenha = Icon(Icons.visibility_off_outlined);
-                              senhaNaoVisivel = true;
-                            });
-                          }
-                        },
-                      ),
-                      border: OutlineInputBorder()
-                  ),
-                ),
-                if(docId == null)  SizedBox(height: 15),
-                if(docId == null)  TextFormField(
-                  controller: txtConfirmarSenha,
-                  obscureText: confirmarSenhaNaoVisivel,
-                  obscuringCharacter: '*',
-                  validator: (value) {
-                    if(value == null) {
-                      return 'Campo vazio';
-                    } else if(value.isEmpty) {
-                      return 'Campo vazio';
-                    } 
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      labelText: 'Confirmar senha',
-                      prefixIcon: Icon(Icons.password),
-                      suffixIcon: IconButton(
-                        style: ButtonStyle(iconColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
-                          if(states.contains(WidgetState.pressed)) {
-                            return Colors.blue;
-                          } else {
-                            return null;
-                          } 
-                        })),
-                        icon: visibilidadeConfirmarSenha,
-                        onPressed: () {
-                          if(confirmarSenhaNaoVisivel == true) {
-                            setState(() {
-                              visibilidadeConfirmarSenha = Icon(Icons.visibility_outlined);
-                              confirmarSenhaNaoVisivel = false;
-                            });
-                          } else {
-                            setState(() {
-                              visibilidadeConfirmarSenha = Icon(Icons.visibility_off_outlined);
-                              confirmarSenhaNaoVisivel = true;
-                            });
-                          }
-                        },
-                      ),
-                      border: OutlineInputBorder()
-                  ),
-                ),
-                SizedBox(height: 40),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        if(docId == null) {
-                          Navigator.pushReplacementNamed(context, 'login');
-                        } else {
-                          Navigator.pushReplacementNamed(context, 'principal');
-                        }
-                      },
-                      child: Text('cancelar'),
-                    ),
-                    ElevatedButton(
-                      style: OutlinedButton.styleFrom(
-                        minimumSize: Size(140, 40),
-                      ),
-                      onPressed: () {
-                        if(formKey.currentState!.validate()) {
-                          if(txtSenha.text == txtConfirmarSenha.text && txtEmail.text == txtConfirmarEmail.text) {
-                            if(temEspecial == true && maiorIgualTamMin == true && temMaiusculo == true && temMinusculo == true) {
-                              if(docId == null) {
-                                if(valorPadraoDropDown == 'Outro') {
-                                  LoginController().criarConta(
-                                    context,
-                                    txtNome.text,
-                                    txtEmail.text,
-                                    txtSenha.text,
-                                    txtDataNascimento.text,
-                                    txtCpf.text,
-                                    txtGenero.text,
-                                    txtTelefone.text
-                                  );
-                                } else {
-                                  LoginController().criarConta(
-                                    context, 
-                                    txtNome.text, 
-                                    txtEmail.text, 
-                                    txtSenha.text, 
-                                    txtDataNascimento.text, 
-                                    txtCpf.text, 
-                                    valorPadraoDropDown, 
-                                    txtTelefone.text
-                                  );
-                                }
-                              } else {
-                                Usuario u;
-                                if(valorPadraoDropDown == 'Outro') {
-                                  u = Usuario(txtNome.text, txtDataNascimento.text, txtCpf.text, txtGenero.text, txtTelefone.text);
-                                } else {
-                                  u = Usuario(txtNome.text, txtDataNascimento.text, txtCpf.text, valorPadraoDropDown, txtTelefone.text);
-                                }
-                                UsuarioController().editarInformacoesCliente(context, u, docId);
-                              }
-                            } else {
-                              String mensagem = 'A senha possui o(s) seguinte(s) erro(s):\n';
-                              int tamMinimo = 8;
-
-                              if(txtSenha.text.length < tamMinimo) {
-                                mensagem += 'Tamanho da senha é menor que 8\n';
-                              }
-
-                              if(!txtSenha.text.contains(RegExp(r'[A-Z]'))) {
-                                mensagem += 'Senha não possui caractere maiúsculo\n';
-                              }
-
-                              if(!txtSenha.text.contains(RegExp(r'[a-z]'))) {
-                                mensagem += 'Senha não possui caractere minúsculo\n';
-                              }
-
-                              if(!txtSenha.text.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-                                mensagem += 'Senha não possui caractere especial\n';
-                              }
-
-                              dialogBox(context, 'Erro', mensagem);
-
-                            }
-                          } else {
-                            dialogBox(context, 'Erro', 'As senhas não são iguais');
-                            txtSenha.clear();
-                            txtConfirmarSenha.clear();
-                          }
-                        }
-                      },
-                      child: Text('salvar'),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 40),
-              ],
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          title:  Text(
+            docId == null ? 'Criar Conta' : 'Editar conta',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
             ),
-          )
-        ))
+          ),
+          backgroundColor: Colors.blue,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+                Padding(padding: EdgeInsets.all(20),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 60),
+                      TextFormField(
+                        controller: txtNome,
+                        textCapitalization: TextCapitalization.sentences,
+                        validator: (value) {
+                          if(value == null) {
+                            return 'Campo vazio';
+                          } else if(value.isEmpty) {
+                            return 'Campo vazio';
+                          } 
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Nome',
+                            prefixIcon: Icon(Icons.person),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
+                      ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          Mask.date()
+                        ],
+                        controller: txtDataNascimento,
+                        validator: (value) {
+                          if(value == null) {
+                            return 'Campo vazio';
+                          } else if(value.isEmpty) {
+                            return 'Campo vazio';
+                          } 
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Data de nascimento',
+                            prefixIcon: Icon(Icons.date_range),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
+                      ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        controller: txtCpf,
+                        inputFormatters: [Mask.cpfOrCnpj()],
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if(value == null) {
+                            return 'Campo vazio';
+                          } else if(value.isEmpty) {
+                            return 'Campo vazio';
+                          } 
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'CPF/CNPJ',
+                            prefixIcon: Icon(Icons.person),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
+                      ),
+                      SizedBox(height: 15),
+                      Row(children: [
+                        Text('Gênero:'), 
+                        SizedBox(width: 15),
+                        DropdownButton(
+                          icon: Icon(Icons.arrow_drop_down_rounded),
+                          value: valorPadraoDropDown,
+                          items: generos.map((String generos) {
+                            return DropdownMenuItem( 
+                                value: generos, 
+                                child: Text(generos),
+
+                              ); 
+                          }).toList(), 
+                          onChanged: (String? novoValor) {
+                          setState(() {
+                            valorPadraoDropDown = novoValor!;
+                            if(generos.contains('Selecione') && valorPadraoDropDown != 'Selecione') {
+                                    generos.remove('Selecione');
+                            }
+                            
+                            if(valorPadraoDropDown == 'Outro') {
+                              ativado = true;
+                            } else {
+                              setState(() {
+                                txtGenero.clear();
+                                ativado = false;
+                              });
+                            }
+                          });
+                      }),]),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        controller: txtOutroGenero,
+                        textCapitalization: TextCapitalization.sentences,
+                        decoration: InputDecoration(
+                            labelText: 'Gênero',
+                            prefixIcon: Icon(const IconData(0xed6f, fontFamily: 'MaterialIcons')),
+                            enabled: ativado,
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
+                        ),
+                        validator: (value) {
+                          if(valorPadraoDropDown == 'Outro') {
+                            if(value == null) {
+                              return 'Campo vazio';
+                            } else if(value.isEmpty) {
+                              return 'Campo vazio';
+                            }
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        controller: txtTelefone,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [Mask.generic(masks: ['+## (##) ####-####', '+## (##) #####-####'])],
+                        decoration: InputDecoration(
+                            labelText: 'Telefone',
+                            prefixIcon: Icon(Icons.phone),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))
+                        ),
+                        validator: (value) {
+                          if(value == null) {
+                            return 'Campo vazio';
+                          } else if(value.isEmpty) {
+                            return 'Campo vazio';
+                          } 
+                          return null;
+                        },
+                      ),
+                      if(docId == null)  SizedBox(height: 15),
+                      if(docId == null)  TextFormField(
+                        controller: txtEmail,
+                        validator: (value) {
+                          if(value == null) {
+                            return 'Campo vazio';
+                          } else if(value.isEmpty) {
+                            return 'Campo vazio';
+                          } 
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Email',
+                            prefixIcon: Icon(Icons.email),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
+                      ),
+                      if(docId == null)  SizedBox(height: 15),
+                      if(docId == null)  TextFormField(
+                        controller: txtConfirmarEmail,
+                        validator: (value) {
+                          if(value == null) {
+                            return 'Campo vazio';
+                          } else if(value.isEmpty) {
+                            return 'Campo vazio';
+                          } 
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Confirmar email',
+                            prefixIcon: Icon(Icons.email),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
+                      ),
+                      if(docId == null)  SizedBox(height: 15),
+                      if(docId == null)  TextFormField(
+                        controller: txtSenha,
+                        obscureText: senhaNaoVisivel,
+                        obscuringCharacter: '*',
+                        validator: (value) {
+                          if(value == null) {
+                            return 'Campo vazio';
+                          } else if(value.isEmpty) {
+                            return 'Campo vazio';
+                          } 
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Senha',
+                            prefixIcon: Icon(Icons.password),
+                            suffixIcon: IconButton(
+                              style: ButtonStyle(iconColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+                                if(states.contains(WidgetState.pressed)) {
+                                  return Colors.blue;
+                                } else {
+                                  return null;
+                                } 
+                              })),
+                              icon: visibilidadeSenha,
+                              onPressed: () {
+                                if(senhaNaoVisivel == true) {
+                                  setState(() {
+                                    visibilidadeSenha = Icon(Icons.visibility_outlined);
+                                    senhaNaoVisivel = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    visibilidadeSenha = Icon(Icons.visibility_off_outlined);
+                                    senhaNaoVisivel = true;
+                                  });
+                                }
+                              },
+                            ),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))
+                        ),
+                      ),
+                      if(docId == null)  SizedBox(height: 15),
+                      if(docId == null)  TextFormField(
+                        controller: txtConfirmarSenha,
+                        obscureText: confirmarSenhaNaoVisivel,
+                        obscuringCharacter: '*',
+                        validator: (value) {
+                          if(value == null) {
+                            return 'Campo vazio';
+                          } else if(value.isEmpty) {
+                            return 'Campo vazio';
+                          } 
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Confirmar senha',
+                            prefixIcon: Icon(Icons.password),
+                            suffixIcon: IconButton(
+                              style: ButtonStyle(iconColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+                                if(states.contains(WidgetState.pressed)) {
+                                  return Colors.blue;
+                                } else {
+                                  return null;
+                                } 
+                              })),
+                              icon: visibilidadeConfirmarSenha,
+                              onPressed: () {
+                                if(confirmarSenhaNaoVisivel == true) {
+                                  setState(() {
+                                    visibilidadeConfirmarSenha = Icon(Icons.visibility_outlined);
+                                    confirmarSenhaNaoVisivel = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    visibilidadeConfirmarSenha = Icon(Icons.visibility_off_outlined);
+                                    confirmarSenhaNaoVisivel = true;
+                                  });
+                                }
+                              },
+                            ),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))
+                        ),
+                      ),
+                      SizedBox(height: 40),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              if(docId == null) {
+                                Navigator.pushReplacementNamed(context, 'login');
+                              } else {
+                                Navigator.pushReplacementNamed(context, 'principal');
+                              }
+                            },
+                            child: Text('cancelar'),
+                          ),
+                          ElevatedButton(
+                            style: OutlinedButton.styleFrom(
+                              minimumSize: Size(140, 40),
+                            ),
+                            onPressed: () {
+                              if(formKey.currentState!.validate()) {
+                                if(docId == null) {
+                                  if(txtSenha.text == txtConfirmarSenha.text && txtEmail.text == txtConfirmarEmail.text) {
+                                    if(temEspecial == true && maiorIgualTamMin == true && temMaiusculo == true && temMinusculo == true) {
+                                      if(valorPadraoDropDown == 'Outro') {
+                                        LoginController().criarConta(
+                                          context,
+                                          txtNome.text,
+                                          txtEmail.text,
+                                          txtSenha.text,
+                                          txtDataNascimento.text,
+                                          txtCpf.text,
+                                          txtGenero.text,
+                                          txtTelefone.text
+                                        );
+                                      } else {
+                                        LoginController().criarConta(
+                                          context, 
+                                          txtNome.text, 
+                                          txtEmail.text, 
+                                          txtSenha.text, 
+                                          txtDataNascimento.text, 
+                                          txtCpf.text, 
+                                          valorPadraoDropDown, 
+                                          txtTelefone.text
+                                        );
+                                      }
+                                    } else {
+                                      String mensagem = 'A senha possui o(s) seguinte(s) erro(s):\n';
+                                      int tamMinimo = 8;
+
+                                      if(txtSenha.text.length < tamMinimo) {
+                                        mensagem += 'Tamanho da senha é menor que 8\n';
+                                      }
+
+                                      if(!txtSenha.text.contains(RegExp(r'[A-Z]'))) {
+                                        mensagem += 'Senha não possui caractere maiúsculo\n';
+                                      }
+
+                                      if(!txtSenha.text.contains(RegExp(r'[a-z]'))) {
+                                        mensagem += 'Senha não possui caractere minúsculo\n';
+                                      }
+
+                                      if(!txtSenha.text.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+                                        mensagem += 'Senha não possui caractere especial\n';
+                                      }
+
+                                      dialogBox(context, 'Erro', mensagem);
+                                    }
+                                  } else {
+                                    dialogBox(context, 'Erro', 'As senhas ou e-mails não estão iguais');
+                                    txtSenha.clear();
+                                    txtConfirmarSenha.clear();
+                                  }
+                                } else {
+                                  Usuario u;
+                                  if(valorPadraoDropDown == 'Outro') {
+                                    u = Usuario(txtNome.text, txtDataNascimento.text, txtCpf.text, txtGenero.text, txtTelefone.text);
+                                  } else {
+                                    u = Usuario(txtNome.text, txtDataNascimento.text, txtCpf.text, valorPadraoDropDown, txtTelefone.text);
+                                  }
+                                  UsuarioController().editarInformacoesCliente(context, u, docId);
+                                }
+                              }
+                            },
+                            child: Text('salvar'),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 40),
+                    ],
+                  ),
+                ),
+                  
+                )
+            ],
+          ) 
+        )
       )
     );
   }
-
 }
 
 
