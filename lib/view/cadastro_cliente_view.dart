@@ -97,7 +97,16 @@ class _CadastrarCliente extends State<CadastrarCliente> {
       },
       child: Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              if(docId == null) {
+                Navigator.pushReplacementNamed(context, 'login');
+              } else {
+                Navigator.pushReplacementNamed(context, 'principal');
+              }
+            },
+          ),
           centerTitle: true,
           title:  Text(
             docId == null ? 'Criar Conta' : 'Editar conta',
