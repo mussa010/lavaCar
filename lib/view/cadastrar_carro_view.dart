@@ -52,7 +52,6 @@ class _CadastrarCarro extends State<CadastrarCarro> {
   @override
   void initState() {
     super.initState();
-    tipos.sort();
     motorizacao.sort();
 
     // Carrega dados de carro selecionado na tela principal
