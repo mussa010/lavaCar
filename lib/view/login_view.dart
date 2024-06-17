@@ -152,10 +152,13 @@ class _LoginViewState extends State<LoginView> {
                                 actionsPadding: EdgeInsets.all(20),
                                 actions: [
                                   TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.red
+                                    ),
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: Text('cancelar'),
+                                    child: Text('Cancelar', style: TextStyle(color: Colors.white),),
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
@@ -168,7 +171,10 @@ class _LoginViewState extends State<LoginView> {
                                       );
                                       Navigator.pop(context);
                                     },
-                                    child: Text('enviar'),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.green
+                                    ),
+                                    child: Text('Enviar', style: TextStyle(color: Colors.white)),
                                   ),
                                 ],
                               );

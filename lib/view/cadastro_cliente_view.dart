@@ -117,7 +117,6 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                   key: formKey,
                   child: Column(
                     children: [
-                      SizedBox(height: 60),
                       TextFormField(
                         controller: txtNome,
                         textCapitalization: TextCapitalization.sentences,
@@ -364,6 +363,9 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.red,
+                            ),
                             onPressed: () {
                               if(docId == null) {
                                 Navigator.pushReplacementNamed(context, 'login');
@@ -371,10 +373,12 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                                 Navigator.pushReplacementNamed(context, 'principal');
                               }
                             },
-                            child: Text('cancelar'),
+                            child: Text('Cancelar', style: TextStyle(color: Colors.white)),
                           ),
+                          SizedBox(width: 15,),
                           ElevatedButton(
                             style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.green,
                               minimumSize: Size(140, 40),
                             ),
                             onPressed: () {
@@ -443,7 +447,7 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                                 }
                               }
                             },
-                            child: Text('salvar'),
+                            child: Text('Salvar', style: TextStyle(color: Colors.white)),
                           ),
                         ],
                       ),
