@@ -385,6 +385,7 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                               if(formKey.currentState!.validate()) {
                                 if(docId == null) {
                                   if(txtSenha.text == txtConfirmarSenha.text && txtEmail.text == txtConfirmarEmail.text) {
+                                    aSenhaEValida(txtSenha.text);
                                     if(temEspecial == true && maiorIgualTamMin == true && temMaiusculo == true && temMinusculo == true) {
                                       if(valorPadraoDropDown == 'Outro') {
                                         LoginController().criarConta(
