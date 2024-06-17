@@ -271,7 +271,8 @@ dialogBox(context, titulo, mensagem) {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, 'voltar'),
-          child: const Text('voltar'),
+          style: TextButton.styleFrom(backgroundColor: Colors.blue),
+          child: const Text('voltar', style: TextStyle(color: Colors.white),),
         ),
       ],
     ),
