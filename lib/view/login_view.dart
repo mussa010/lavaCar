@@ -21,13 +21,6 @@ class _LoginViewState extends State<LoginView> {
   bool naoVisivel = true;
 
   @override
-  void initState() {
-    super.initState();
-    txtEmail.text = 'math_200901@hotmail.com';
-    txtSenha.text = '1234567890';
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
