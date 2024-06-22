@@ -135,6 +135,7 @@ class _Pesquisar extends State<Pesquisar> {
                         final dados = snapshot.requireData;
                         if (dados.size > 0) {
                           return ListView.builder(
+                            physics: const BouncingScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: dados.size,
                               itemBuilder: (context, index) {
@@ -204,6 +205,7 @@ class _Pesquisar extends State<Pesquisar> {
                         final dados = snapshot.requireData;
                         if (dados.size > 0) {
                           return ListView.builder(
+                            physics: const BouncingScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: dados.size,
                               itemBuilder: (context, index) {

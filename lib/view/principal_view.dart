@@ -348,6 +348,7 @@ home() {
                               final dados = snapshot.requireData;
                               if (dados.size > 0) {
                                 return ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
                                     shrinkWrap: true, 
                                     itemCount: dados.size,
                                     itemBuilder: (context, index) {
@@ -419,6 +420,7 @@ home() {
                             final dados = snapshot.requireData;
                             if (dados.size > 0) {
                               return ListView.builder(
+                                physics: const BouncingScrollPhysics(),
                                 shrinkWrap: true, 
                                 itemCount: dados.size,
                                 itemBuilder: (context, index) {
@@ -496,6 +498,7 @@ home() {
                               final dados = snapshot.requireData;
                               if (dados.size > 0) {
                                 return ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
                                     shrinkWrap: true, 
                                     itemCount: dados.size,
                                     itemBuilder: (context, index) {
@@ -575,6 +578,7 @@ carrosCliente() {
                 final dados = snapshot.requireData;
                 if (dados.size > 0) {
                   return ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: dados.size,
                       itemBuilder: (context, index) {
@@ -663,6 +667,7 @@ consultaCarroCliente() {
                     final dados = snapshot.requireData;
                     if (dados.size > 0) {
                       return ListView.builder(
+                        physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: dados.size,
                         itemBuilder: (context, index) {
