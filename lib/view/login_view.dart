@@ -71,7 +71,7 @@ class _LoginViewState extends State<LoginView> {
                           prefixIcon: Icon(Icons.email),
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
                     ),
-                    SizedBox(height: 15),
+                    SizedBox(height: 40),
                     TextFormField(
                       controller: txtSenha,
                       obscureText: naoVisivel,
