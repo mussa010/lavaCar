@@ -422,10 +422,10 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                                         }
                                       } else {
                                         dialogBox(context, 'Erro', mensagem);
+                                        mensagem = 'A senha possui o(s) seguinte(s) erro(s):\n';
                                       }
                                     } else {
                                       dialogBox(context, 'Erro', 'As senhas ou e-mails não estão iguais');
-                                      mensagem = 'A senha possui o(s) seguinte(s) erro(s):\n';
                                       txtSenha.clear();
                                       txtConfirmarSenha.clear();
                                     }
@@ -445,11 +445,10 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                                   } else {
                                     dialogBox(context, 'Erro', 'Selecione seu gênero!');
                                   }
-                                  
                                 }
                               }
                             },
-                            child: Text('Salvar', style: TextStyle(color: Colors.white)),
+                            child: Text(docId == null ? 'Criar' : 'Salvar', style: TextStyle(color: Colors.white)),
                           ),
                         ],
                       ),
@@ -510,6 +509,7 @@ dialogBox(context, titulo, mensagem) {
       builder: (BuildContext context) => AlertDialog.adaptive(
         title: Text(titulo),
         content: Text(mensagem),
+
         actions: [
           TextButton(onPressed: () => Navigator.pop(context, 'Voltar'),
           style: TextButton.styleFrom(backgroundColor: Colors.blue),
