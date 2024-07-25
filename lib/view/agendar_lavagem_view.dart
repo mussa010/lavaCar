@@ -354,7 +354,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
     DateTime? diaSelecionado = await showDatePicker(
     context: context, 
     firstDate: DateTime(DateTime.now().year), 
-    lastDate: DateTime((DateTime.now().year) + 1),
+    lastDate: DateTime(DateTime.now().year + 1),
     initialDate: data,
     confirmText: 'Salvar',
     cancelText: 'Cancelar',

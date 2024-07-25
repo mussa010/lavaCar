@@ -20,6 +20,8 @@ class _LoginViewState extends State<LoginView> {
   var visibilidadeSenha = Icon(Icons.visibility_off_outlined);
   bool naoVisivel = true;
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +60,7 @@ class _LoginViewState extends State<LoginView> {
                     SizedBox(height: 60),
                     TextFormField(
                       controller: txtEmail,
+                      keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if(value == null) {
                           return 'Campo vazio';
@@ -67,12 +70,13 @@ class _LoginViewState extends State<LoginView> {
                         return null;
                       },
                       decoration: InputDecoration(
-                          labelText: 'Email',
+                          labelText: 'E-mail',
                           prefixIcon: Icon(Icons.email),
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
                     ),
                     SizedBox(height: 40),
                     TextFormField(
+                      keyboardType: TextInputType.text,
                       controller: txtSenha,
                       obscureText: naoVisivel,
                       obscuringCharacter: '*',

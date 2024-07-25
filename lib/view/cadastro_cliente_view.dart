@@ -72,8 +72,6 @@ class _CadastrarCliente extends State<CadastrarCliente> {
             txtTelefone.text = doc['telefone'].toString();
             txtEmail.text = doc['email'].toString();
             txtConfirmarEmail.text = doc['email'].toString();
-
-
           });
         });
       }
@@ -253,6 +251,7 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                       if(docId == null)  SizedBox(height: 15),
                       if(docId == null)  TextFormField(
                         controller: txtEmail,
+                        keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if(value == null) {
                             return 'Campo vazio';
@@ -262,13 +261,14 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                           return null;
                         },
                         decoration: InputDecoration(
-                            labelText: 'Email',
+                            labelText: 'E-mail',
                             prefixIcon: Icon(Icons.email),
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
                       ),
                       if(docId == null)  SizedBox(height: 15),
                       if(docId == null)  TextFormField(
                         controller: txtConfirmarEmail,
+                        keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if(value == null) {
                             return 'Campo vazio';
@@ -278,7 +278,7 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                           return null;
                         },
                         decoration: InputDecoration(
-                            labelText: 'Confirmar email',
+                            labelText: 'Confirmar e-mail',
                             prefixIcon: Icon(Icons.email),
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
                       ),
@@ -287,6 +287,7 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                         controller: txtSenha,
                         obscureText: senhaNaoVisivel,
                         obscuringCharacter: '*',
+                        keyboardType: TextInputType.text,
                         validator: (value) {
                           if(value == null) {
                             return 'Campo vazio';
@@ -329,6 +330,7 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                         controller: txtConfirmarSenha,
                         obscureText: confirmarSenhaNaoVisivel,
                         obscuringCharacter: '*',
+                        keyboardType: TextInputType.text,
                         validator: (value) {
                           if(value == null) {
                             return 'Campo vazio';
@@ -423,6 +425,7 @@ class _CadastrarCliente extends State<CadastrarCliente> {
                                       }
                                     } else {
                                       dialogBox(context, 'Erro', 'As senhas ou e-mails não estão iguais');
+                                      mensagem = 'A senha possui o(s) seguinte(s) erro(s):\n';
                                       txtSenha.clear();
                                       txtConfirmarSenha.clear();
                                     }

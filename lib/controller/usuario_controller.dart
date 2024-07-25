@@ -7,7 +7,7 @@ import '../view/util.dart';
 
 class UsuarioController {
   // Retorna informações do cliente logado
-  listarInformacoesClienteLogado() {
+   listarInformacoesClienteLogado() {
     return FirebaseFirestore.instance.collection('cliente').
       where('uid',isEqualTo: LoginController().idUsuarioLogado());
   }
