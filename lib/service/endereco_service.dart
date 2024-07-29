@@ -14,6 +14,8 @@ class EnderecoService {
       return Endereco.fromJsonAPI(resposta.data);
     } else if(resposta.statusCode == 400){
       return null;
+    } else {
+      return null;
     }
   }
 }
