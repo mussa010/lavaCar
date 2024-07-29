@@ -4,6 +4,7 @@ import 'package:lava_car/model/endereco.dart';
 import 'package:mask/mask.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../controller/login_controller.dart';
+import '../service/endereco_service.dart';
 
 class CadastrarEndereco extends StatefulWidget {
   const CadastrarEndereco({super.key});
@@ -81,7 +82,58 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
               child: Column(
                 children: [
                   TextFormField(
+                      controller: txtCep,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [Mask.generic(masks: ['#####-###'])],
+                      decoration: const InputDecoration(
+                        labelText: 'CEP',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20)
+                          )
+                        )
+                      ),
+                      validator: (value) {
+                        if(value == null) {
+                          return 'Campo vazio';
+                        } else if(value.isEmpty) {
+                          return 'Campo vazio';
+                        } 
+                        return null;
+                      },
+                      onChanged: (value) {
+                        if(value.length == 9) {
+                          String cepNotFormatted = '';
+
+                          for(int i = 0; i < value.length; i++) {
+                            if(value[i] != '-') {
+                              cepNotFormatted += value[i];
+                            }
+                          }
+
+                          Future<Endereco?> end = EnderecoService().listarInformacoesEnderecoPorCep(cepNotFormatted);
+                          end.then((value) {
+                            if(value != null) {
+                              setState(() {
+                                txtEndereco.text = value.getEndereco();
+                                txtBairro.text = value.getBairro();
+                                txtCidade.text = value.getCidade();
+                                txtEstado.text = value.getEstado();
+                              });
+                            } else {
+                              // Verificar aqui, não abre mensagem de erro
+                              // dialogBox(context, 'Erro', 'CEP não encontrado!');
+                            }
+                          },);
+
+
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                  TextFormField(
                       controller: txtEndereco,
+                      enabled: false,
                       keyboardType: TextInputType.text,
                       textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(
@@ -125,6 +177,7 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
                     const SizedBox(height: 20),
                     TextFormField(
                       controller: txtBairro,
+                      enabled: false,
                       keyboardType: TextInputType.name,
                       textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(
@@ -161,6 +214,7 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
                     const SizedBox(height: 20),
                     TextFormField(
                       controller: txtCidade,
+                      enabled: false,
                       keyboardType: TextInputType.name,
                       textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(
@@ -183,32 +237,11 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
                     const SizedBox(height: 20),
                     TextFormField(
                       controller: txtEstado,
+                      enabled: false,
                       keyboardType: TextInputType.name,
                       textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(
                         labelText: 'Estado',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20)
-                          )
-                        )
-                      ),
-                      validator: (value) {
-                        if(value == null) {
-                          return 'Campo vazio';
-                        } else if(value.isEmpty) {
-                          return 'Campo vazio';
-                        } 
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: txtCep,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [Mask.generic(masks: ['#####-###'])],
-                      decoration: const InputDecoration(
-                        labelText: 'CEP',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(20)
@@ -258,7 +291,7 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
                         
                         onPressed: () {
                           if(formKey.currentState!.validate()) {
-                            Endereco e = Endereco(txtEndereco.text, int.parse(txtNumero.text), txtBairro.text, txtComplemento.text, txtCep.text, txtCidade.text, txtEstado.text, LoginController().idUsuarioLogado());
+                            Endereco e = Endereco(txtEndereco.text, txtNumero.text, txtBairro.text, txtComplemento.text, txtCep.text, txtCidade.text, txtEstado.text, LoginController().idUsuarioLogado());
                               if(cadastrado == false) {
                                 EnderecoController().cadastroEndereco(context, e);
                               } else {
@@ -296,3 +329,24 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
     );
   }
 }
+
+dialogBox(context, titulo, mensagem) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text(titulo),
+        content: Text(mensagem),
+        actions: [
+          TextButton(
+            style: const ButtonStyle(
+              elevation: WidgetStatePropertyAll(30),
+              backgroundColor: WidgetStatePropertyAll(Colors.green),
+            ),
+            onPressed: () => Navigator.pop(context, 'Ok'),
+            child: const Text('Ok', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }

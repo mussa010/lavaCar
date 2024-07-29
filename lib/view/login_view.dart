@@ -20,7 +20,13 @@ class _LoginViewState extends State<LoginView> {
   var visibilidadeSenha = Icon(Icons.visibility_off_outlined);
   bool naoVisivel = true;
 
-  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    txtEmail.text = 'math_200901@hotmail.com';
+    txtSenha.text = '1234567890';
+  }
 
   @override
   Widget build(BuildContext context) {
