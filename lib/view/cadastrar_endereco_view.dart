@@ -122,7 +122,7 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
                               });
                             } else {
                               // Verificar aqui, não abre mensagem de erro
-                              // dialogBox(context, 'Erro', 'CEP não encontrado!');
+                              dialogBox(context, 'Erro', 'CEP não encontrado!');
                             }
                           },);
 
