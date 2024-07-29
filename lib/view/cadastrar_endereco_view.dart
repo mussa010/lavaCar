@@ -129,10 +129,10 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
 
                         } else {
                           setState(() {
-                                txtEndereco.clear();
-                                txtBairro.clear();
-                                txtCidade.clear();
-                                txtEstado.clear();
+                                txtEndereco.text = '';
+                                txtBairro.text = '';
+                                txtCidade.text = '';
+                                txtEstado.text = '';
                               });
                         }
                       },

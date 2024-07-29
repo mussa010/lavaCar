@@ -149,7 +149,7 @@ class Endereco {
 
     final uf = ufs.firstWhere(
       (uf) => uf.item1 == sigla,
-      orElse: () => const Tuple2('XX', 'Sigla não encontrada')
+      orElse: () => const Tuple2('XX', '')
     );
     return uf.item2;
   }
