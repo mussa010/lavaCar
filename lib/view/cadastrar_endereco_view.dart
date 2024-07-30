@@ -62,6 +62,10 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        Navigator.pushReplacementNamed(context, 'principal');
+      },
       child: Scaffold(
         appBar: AppBar(
           title: Text(titulo, style: const TextStyle(color: Colors.white)),
@@ -121,7 +125,6 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
                                 txtEstado.text = value.getEstado();
                               });
                             } else {
-                              // Verificar aqui, não abre mensagem de erro
                               dialogBox(context, 'Erro', 'CEP não encontrado!');
                             }
                           },);

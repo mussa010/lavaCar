@@ -11,11 +11,13 @@ class EnderecoService {
     );
 
     if(resposta.statusCode == 200) {
-      return Endereco.fromJsonAPI(resposta.data);
-    } else if(resposta.statusCode == 400){
-      return null;
+      if(resposta.data['erro'] == 'true') {
+        return null;
+      } else { 
+        return Endereco.fromJsonAPI(resposta.data);
+      }
     } else {
       return null;
-    }
+    } 
   }
 }
