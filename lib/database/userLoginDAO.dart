@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../model/usuarioLogin.dart';
-import '../database/connection.dart';
+import '../database/database.dart';
 import 'package:path/path.dart';
 
 
