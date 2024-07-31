@@ -1,5 +1,4 @@
 import '../model/usuarioLogin.dart';
-import 'package:sqflite/sqflite.dart';
 import '../database/script.dart';
 import '../database/connection.dart';
 
