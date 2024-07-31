@@ -17,6 +17,7 @@ dependencies:
   flutter_localization: ^0.2.0
   http: ^1.2.1
   mask: ^1.0.5
+  path_provider: ^2.1.4
   sqflite: ^2.3.3+1
   tuple: ^2.0.2
 
