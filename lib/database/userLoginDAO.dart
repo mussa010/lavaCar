@@ -1,21 +1,22 @@
+import 'package:sqflite/sqflite.dart';
+
 import '../model/usuarioLogin.dart';
-import '../database/script.dart';
 import '../database/connection.dart';
+import 'package:path/path.dart';
 
 
 class UserLoginDAO {
   static Future<void> dropTableUser() async {
-    final db = await Connection.get();
-    await db.execute(dropUserLogin);
+    await deleteDatabase(join(await getDatabasesPath(), 'Usuario.db'));
   }
 
   static Future<int> newUserLogin(Usuariologin u) async{
-    final db = await Connection.get();
+    final db = await BancoDados.abrirBanco();
     return db.insert("UserLogin", u.toJson());
   }
 
   Future<Usuariologin> getUserLogin(String email) async{
-    final db = await Connection.get();
+    final db = await BancoDados.abrirBanco();
 
     List<Map<String, dynamic>> map = await db.query("UserLogin", where: "email = ?", whereArgs: [email]);
 

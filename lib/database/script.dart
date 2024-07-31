@@ -6,8 +6,3 @@ const String criarTabelaUserLogin = '''
     senha TEXT NOT NULL
   ) 
 ''';
-
-//Excluir tabela User
-const String dropUserLogin = '''
-  DROP TABLE IF EXISTS User
-''';

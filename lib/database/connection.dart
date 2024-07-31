@@ -4,11 +4,12 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../database/script.dart';
 
-class Connection {
-  Connection._();
+class BancoDados {
+
+  Database? db;
 
   //inicializar banco de dados
-  static Future<Database> get() async {
+  static Future<Database> abrirBanco() async {
     Database db;
     var path = join(await getDatabasesPath(), 'Usuario.db');
 
