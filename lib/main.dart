@@ -15,6 +15,7 @@ import '../view/sobre_aplicativo_view.dart';
 import '../view/cadastrar_carro_view.dart';
 import '../view/agendar_lavagem_view.dart';
 import '../view/pesquisar_view.dart';
+import 'view/carregamento_view.dart';
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized(); 
@@ -50,7 +51,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'login',
+      initialRoute: 'carregamento',
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate
       ],
@@ -58,6 +59,7 @@ class MainApp extends StatelessWidget {
         Locale('pt', 'BR')
       ],
       routes: {
+        'carregamento' : (context) => const CarregamentoView(),
         'login': (context) => const LoginView(),
         'cadastrar': (context) => const CadastrarCliente(),
         'principal': (context) => const PrincipalView(),
