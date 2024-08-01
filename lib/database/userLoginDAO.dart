@@ -1,8 +1,5 @@
-import 'package:sqflite/sqflite.dart';
-
 import '../model/usuarioLogin.dart';
 import '../database/database.dart';
-import 'package:path/path.dart';
 
 
 class UserLoginDAO {
