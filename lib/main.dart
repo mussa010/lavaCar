@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -6,13 +8,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:lava_car/view/cadastrar_endereco_view.dart';
 
 import 'firebase_options.dart';
-import 'view/cadastro_cliente_view.dart';
-import 'view/principal_view.dart';
-import 'view/login_view.dart';
-import 'view/sobre_aplicativo_view.dart';
-import 'view/cadastrar_carro_view.dart';
-import 'view/agendar_lavagem_view.dart';
-import 'view/pesquisar_view.dart';
+import '../view/cadastro_cliente_view.dart';
+import '../view/principal_view.dart';
+import '../view/login_view.dart';
+import '../view/sobre_aplicativo_view.dart';
+import '../view/cadastrar_carro_view.dart';
+import '../view/agendar_lavagem_view.dart';
+import '../view/pesquisar_view.dart';
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized(); 
@@ -39,6 +41,7 @@ Future main() async{
     ),
   );
 }
+
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});

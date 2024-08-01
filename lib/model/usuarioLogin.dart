@@ -18,4 +18,12 @@ class Usuariologin {
       'senha': _senha,
     };
   }
+
+  String getEmail() {
+    return this._email;
+  }
+
+  String getSenha() {
+    return this._senha;
+  }
 }

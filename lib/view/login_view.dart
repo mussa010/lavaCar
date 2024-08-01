@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:lava_car/database/database.dart';
 
 import '../controller/login_controller.dart';
+import '../database/userLoginDAO.dart';
+import '../model/usuarioLogin.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -19,6 +22,21 @@ class _LoginViewState extends State<LoginView> {
 
   var visibilidadeSenha = Icon(Icons.visibility_off_outlined);
   bool naoVisivel = true;
+
+  Future<Usuariologin?> verificaSeBancoExiste() async{
+    bool bancoExiste = await BancoDados().existenciaBanco();
+    Usuariologin u = await UserLoginDAO().getUserLogin();
+    if(bancoExiste) {
+      await LoginController().login(context, u.getEmail(), u.getSenha());
+    }
+    return null; 
+  }
+
+  @override
+  initState() {
+    super.initState();
+    verificaSeBancoExiste();
+  }
 
   @override
   Widget build(BuildContext context) {

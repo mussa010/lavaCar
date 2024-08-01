@@ -4,10 +4,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../database/script.dart';
 
+
 class BancoDados {
-
-  Database? db;
-
   //inicializar banco de dados
   static Future<Database> abrirBanco() async {
     Database db;
@@ -30,5 +28,18 @@ class BancoDados {
   static Future<void> fecharBanco() {
     Database? db;
     return db!.close();
+  }
+
+  static Future<void> dropTableUser() async {
+    await deleteDatabase(join(await getDatabasesPath(), 'Usuario.db'));
+  }
+
+  Future<bool> existenciaBanco() async{
+    final path = join(await getDatabasesPath(), 'Usuario.db');
+    if(await databaseExists(path)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

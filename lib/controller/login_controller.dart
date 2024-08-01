@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lava_car/database/database.dart';
 
 import '../view/util.dart';
+import '../database/userLoginDAO.dart';
+import '../model/usuarioLogin.dart';
 
 class LoginController {
   // 
@@ -53,6 +56,8 @@ class LoginController {
   login(context, email, senha) {
     FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: senha)
     .then((resultado) {
+      Usuariologin u = Usuariologin(email, senha);
+      UserLoginDAO.newUserLogin(u);
       sucesso(context, 'Usuário autenticado com sucesso!');
       Navigator.pushNamed(context, 'principal');
     }).catchError((e) {
@@ -84,6 +89,7 @@ class LoginController {
   // Efetuar Logout do usuário
   // 
   logout() {
+    BancoDados.dropTableUser();
     FirebaseAuth.instance.signOut();
   }
 
