@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -6,6 +7,7 @@ import 'package:lava_car/controller/login_controller.dart';
 import 'package:lava_car/database/database.dart';
 import 'package:lava_car/database/userLoginDAO.dart';
 import 'package:lava_car/model/usuarioLogin.dart';
+import 'package:http/http.dart' as http;
 
 class CarregamentoView extends StatefulWidget {
   const CarregamentoView({super.key});
@@ -16,6 +18,14 @@ class CarregamentoView extends StatefulWidget {
 
 class _CarregamentoViewState extends State<CarregamentoView> {
   bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      entrarLoginOuPrincipal(context) ;
+    },);
+  }
 
   Future<void> _verificaBanco(context) async {
     bool verificaSeBancoExiste = await BancoDados.verificaSeBancoExiste();
@@ -35,11 +45,8 @@ class _CarregamentoViewState extends State<CarregamentoView> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (kIsWeb) {
+  void entrarLoginOuPrincipal(context) {
+    if (kIsWeb) {
       Future.delayed(const Duration(seconds: 3), () {
         setState(() {
           isLoading = false;
@@ -49,16 +56,53 @@ class _CarregamentoViewState extends State<CarregamentoView> {
     } else if (Platform.isAndroid) {
       _verificaBanco(context);
     }
-    },);
   }
+
+  Future<int> verificaConexaoInternet() async{
+      final resposta = await http.get(Uri.parse('www.google.com.br'));
+      print(resposta.statusCode);
+      if(resposta.statusCode == 200) {
+        print('ok');
+        return 0;
+      } else {
+        return 1;
+      }
+  }
+
+
+  //Mensagens Erro:
+  //0 -> Conectado com sucesso
+  //1-> Sem conexão com internet
 
   @override
   Widget build(BuildContext context) {
-      return const Scaffold(
+    String mensagem = '';
+    //Ver a partir daqui
+    while(true) {
+      verificaConexaoInternet().then((value) {
+        if(value == 0) {
+          entrarLoginOuPrincipal(context);
+        } else {
+          setState(() {
+            mensagem = 'Sem conexão com internet';
+          });
+        }
+      },);
+
+      return Scaffold(
         backgroundColor: Colors.blue,
         body: Center(
-          child: CircularProgressIndicator(color: Colors.white),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const CircularProgressIndicator(color: Colors.white),
+              const SizedBox(height: 10,),
+              Text(mensagem, style: const TextStyle(color: Colors.white, fontSize: 10),)
+            ],
+          ),
         ),
-      );
+      );  
+    }
   }
 }
