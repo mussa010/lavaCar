@@ -60,9 +60,7 @@ class _CarregamentoViewState extends State<CarregamentoView> {
 
   Future<int> verificaConexaoInternet() async{
       final resposta = await http.get(Uri.parse('www.google.com.br'));
-      print(resposta.statusCode);
       if(resposta.statusCode == 200) {
-        print('ok');
         return 0;
       } else {
         return 1;
