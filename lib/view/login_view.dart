@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lava_car/database/database.dart';
 
@@ -35,7 +38,12 @@ class _LoginViewState extends State<LoginView> {
   @override
   initState() {
     super.initState();
-    verificaSeBancoExiste();
+    if(!kIsWeb) {
+      if(Platform.isAndroid) {
+        verificaSeBancoExiste();
+      }
+    } 
+    
   }
 
   @override
