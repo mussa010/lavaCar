@@ -57,24 +57,26 @@ class _CadastrarCarro extends State<CadastrarCarro> {
     // Carrega dados de carro selecionado na tela principal
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final docId = ModalRoute.of(context)!.settings.arguments;
-
-      CarroController().listaCarroEspecifico(docId).then((value) {
-          dynamic doc = value.data();
-          txtPlaca.text = doc['placa'].toString().toUpperCase();
-          txtFipe.text = doc['codigoFipe'].toString();
-          txtMarca.text = doc['marca'].toString().toUpperCase();
-          txtModeloCarro.text = doc['modelo'].toString().toUpperCase();
-          txtAno.text = doc['ano'].toString();
-          txtCor.text = doc['cor'].toString().toUpperCase();
-          valorPadraoDropDownMotorizacao = doc['motorizacao'].toString().toUpperCase();
-          valorPadraoDropDownTipos = doc['tipoCarro'].toString().toUpperCase();
-        });
       
       if(docId != null) {
-        if(tipos.contains('Selecione'.toUpperCase()) && valorPadraoDropDownTipos != 'Selecione'.toUpperCase() && motorizacao.contains('Selecione'.toUpperCase()) && valorPadraoDropDownMotorizacao != 'Selecione'.toUpperCase()) {
-          tipos.remove('Selecione'.toUpperCase());
-          motorizacao.remove('Selecione'.toUpperCase());
-        }
+        CarroController().listaCarroEspecifico(docId).then((value) {
+          setState(() {
+            dynamic doc = value.data();
+            txtPlaca.text = doc['placa'].toString().toUpperCase();
+            txtFipe.text = doc['codigoFipe'].toString();
+            txtMarca.text = doc['marca'].toString().toUpperCase();
+            txtModeloCarro.text = doc['modelo'].toString().toUpperCase();
+            txtAno.text = doc['ano'].toString();
+            txtCor.text = doc['cor'].toString().toUpperCase();
+            valorPadraoDropDownMotorizacao = doc['motorizacao'].toString().toUpperCase();
+            valorPadraoDropDownTipos = doc['tipoCarro'].toString().toUpperCase();
+
+            if(tipos.contains('Selecione'.toUpperCase()) && valorPadraoDropDownTipos != 'Selecione'.toUpperCase() && motorizacao.contains('Selecione'.toUpperCase()) && valorPadraoDropDownMotorizacao != 'Selecione'.toUpperCase()) {
+              tipos.remove('Selecione'.toUpperCase());
+              motorizacao.remove('Selecione'.toUpperCase());
+            }
+          });
+        });
       }
     });
   }
