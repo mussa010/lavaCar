@@ -87,13 +87,11 @@ class _CadastrarCliente extends State<CadastrarCliente> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        if(didPop) {
-          if(docId == null) {
+        if(docId == null) {
             Navigator.pushReplacementNamed(context, 'login');
           } else {
             Navigator.pushReplacementNamed(context, 'principal');
           }
-        }
       },
       child: Scaffold(
         appBar: AppBar(

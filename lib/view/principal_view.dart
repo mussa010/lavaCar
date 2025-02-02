@@ -39,8 +39,6 @@ class _PrincipalView extends State<PrincipalView> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        if(didPop) {
-        }
       },
       child: Scaffold(
         appBar: AppBar(

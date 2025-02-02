@@ -89,9 +89,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        if(didPop) {
-          Navigator.pushReplacementNamed(context, 'principal');
-        }
+        Navigator.pushReplacementNamed(context, 'principal');
       },
       child: Scaffold(
         appBar: AppBar(

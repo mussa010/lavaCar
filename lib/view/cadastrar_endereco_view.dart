@@ -64,9 +64,7 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        if(didPop) {
-          Navigator.pushReplacementNamed(context, 'principal');
-        }
+        Navigator.pushReplacementNamed(context, 'principal');
       },
       child: Scaffold(
         appBar: AppBar(
