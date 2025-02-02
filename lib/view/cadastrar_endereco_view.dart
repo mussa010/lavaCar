@@ -63,8 +63,10 @@ class _CadastrarEndereco extends State<CadastrarEndereco> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
-        Navigator.pushReplacementNamed(context, 'principal');
+      onPopInvokedWithResult: (didPop, result) {
+        if(didPop) {
+          Navigator.pushReplacementNamed(context, 'principal');
+        }
       },
       child: Scaffold(
         appBar: AppBar(

@@ -86,11 +86,13 @@ class _CadastrarCliente extends State<CadastrarCliente> {
     // Cadastro de cliente
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
-        if(docId == null) {
-          Navigator.pushReplacementNamed(context, 'login');
-        } else {
-          Navigator.pushReplacementNamed(context, 'principal');
+      onPopInvokedWithResult: (didPop, result) {
+        if(didPop) {
+          if(docId == null) {
+            Navigator.pushReplacementNamed(context, 'login');
+          } else {
+            Navigator.pushReplacementNamed(context, 'principal');
+          }
         }
       },
       child: Scaffold(

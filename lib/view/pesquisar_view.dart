@@ -49,8 +49,10 @@ class _Pesquisar extends State<Pesquisar> {
       ),
       body: PopScope(
         canPop: false,
-        onPopInvoked: (didPop) {
-          Navigator.pushReplacementNamed(context, 'principal');
+        onPopInvokedWithResult: (didPop, result) {
+          if(didPop) {
+            Navigator.pushReplacementNamed(context, 'principal');
+          }
         },
         child: SingleChildScrollView(
           child: Padding(
