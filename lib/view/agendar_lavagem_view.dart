@@ -53,9 +53,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final docId = ModalRoute.of(context)!.settings.arguments;
-      Future<QuerySnapshot<Map<String, dynamic>>> future;
-      future = CarroController().listarCarrosCliente().get();
-      future.then((value) {
+      CarroController().listarCarrosCliente().get().then((value) {
         dynamic doc;
         for(int i = 0; i < value.size; i++) {
           doc = value.docs[i].data();
@@ -63,8 +61,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
         }
       });
 
-      future = UsuarioController().listarInformacoesClienteLogado().snapshots().first;
-        future.then((value) {
+      UsuarioController().listarInformacoesClienteLogado().snapshots().first.then((value) {
           dynamic doc = value.docs[0].data();
           nomeCliente = doc['nome'].toString();
           cpfCliente = doc['cpf'].toString();
@@ -72,8 +69,7 @@ class _AgendarLavagem extends State<AgendarLavagem> {
         });
 
       if(docId != null) {
-        Future<DocumentSnapshot<Map<String, dynamic>>>futuro = LavagemController().listarLavagemEspecifica(docId);
-        futuro.then((value) {
+        LavagemController().listarLavagemEspecifica(docId).then((value) {
           dynamic doc = value.data();
           setState(() {
             valorPadraoDropDownCarro = doc['modeloCarro'].toString();

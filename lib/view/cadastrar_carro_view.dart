@@ -38,13 +38,13 @@ class _CadastrarCarro extends State<CadastrarCarro> {
   
 
   var motorizacao = [
-    'SELECIONE'.toUpperCase(),
+    'Selecione'.toUpperCase(),
     '1.0',
     '1.4',
     '1.6',
     '1.8',
     '2.0',
-    'OUTRO'.toUpperCase()
+    'Outro'.toUpperCase()
   ];
 
   String valorPadraoDropDownMotorizacao = 'Selecione'.toUpperCase(), valorPadraoDropDownTipos = 'Selecione'.toUpperCase(), motor = '', tipo = '';
@@ -58,8 +58,7 @@ class _CadastrarCarro extends State<CadastrarCarro> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final docId = ModalRoute.of(context)!.settings.arguments;
 
-      Future<DocumentSnapshot<Object?>> future = CarroController().listaCarroEspecifico(docId);
-        future.then((value) {
+      CarroController().listaCarroEspecifico(docId).then((value) {
           dynamic doc = value.data();
           txtPlaca.text = doc['placa'].toString().toUpperCase();
           txtFipe.text = doc['codigoFipe'].toString();
@@ -249,8 +248,8 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                         onChanged: (String? novoValor) {
                           setState(() {
                             valorPadraoDropDownMotorizacao = novoValor!;
-                            if(motorizacao.contains('Selecione') && valorPadraoDropDownMotorizacao != 'Selecione') {
-                              motorizacao.remove('Selecione');
+                            if(motorizacao.contains('Selecione'.toUpperCase()) && valorPadraoDropDownMotorizacao != 'Selecione'.toUpperCase()) {
+                              motorizacao.remove('Selecione'.toUpperCase());
                             }
                           });
                         }
@@ -273,8 +272,8 @@ class _CadastrarCarro extends State<CadastrarCarro> {
                         onChanged: (String? novoValor) {
                           setState(() {
                             valorPadraoDropDownTipos = novoValor!;
-                            if(tipos.contains('Selecione') && valorPadraoDropDownTipos != 'Selecione') {
-                              tipos.remove('Selecione');
+                            if(tipos.contains('Selecione'.toUpperCase()) && valorPadraoDropDownTipos != 'Selecione'.toUpperCase()) {
+                              tipos.remove('Selecione'.toUpperCase());
                             }
                           });
                         }
