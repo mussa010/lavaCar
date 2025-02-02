@@ -53,8 +53,10 @@ class _AgendarLavagem extends State<AgendarLavagem> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final docId = ModalRoute.of(context)!.settings.arguments;
       CarroController().listarCarrosCliente().get().then((value) {
-        for(var doc in value.docs.data()) {
-          listaCarrosCliente.add(doc['modelo'].toString());
+        dynamic doc;
+        for(int i = 0; i < value.size; i++) {
+          doc = value.docs[i].data();
+          listaCarrosCliente.add(doc['modelo']);
         }
       });
 
