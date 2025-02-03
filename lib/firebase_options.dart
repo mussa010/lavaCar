@@ -25,15 +25,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -47,30 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBbmt5rfiGVdEsRboeja94plJFv6kDYpw8',
-    appId: '1:532179527143:web:fa35aa9ff01b2d586a0942',
-    messagingSenderId: '532179527143',
-    projectId: 'lavacar-e3c4a',
-    authDomain: 'lavacar-e3c4a.firebaseapp.com',
-    storageBucket: 'lavacar-e3c4a.appspot.com',
-    measurementId: 'G-CCRRE9GZ5T',
+    apiKey: 'AIzaSyCQ9Xiwsqo0foEVo3nGL17ZYnopIyZ0xkE',
+    appId: '1:564681181043:web:357a5c4368b34799192706',
+    messagingSenderId: '564681181043',
+    projectId: 'lavacar-c2646',
+    authDomain: 'lavacar-c2646.firebaseapp.com',
+    storageBucket: 'lavacar-c2646.firebasestorage.app',
+    measurementId: 'G-8PQZ029B10',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDZtxWEecaArfov8VMaHYeqBwsQs_-faO0',
-    appId: '1:532179527143:android:8bf913ffe362bca86a0942',
-    messagingSenderId: '532179527143',
-    projectId: 'lavacar-e3c4a',
-    storageBucket: 'lavacar-e3c4a.appspot.com',
+    apiKey: 'AIzaSyCaO9uErhRSI6ppFogWjpa3A5gnfw7GzCQ',
+    appId: '1:564681181043:android:cfc10b2cb0294b73192706',
+    messagingSenderId: '564681181043',
+    projectId: 'lavacar-c2646',
+    storageBucket: 'lavacar-c2646.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBq90Ec-8GBZRCKscQOwBtUQntmf2UletQ',
-    appId: '1:532179527143:ios:86c23c1fc3f35d476a0942',
-    messagingSenderId: '532179527143',
-    projectId: 'lavacar-e3c4a',
-    storageBucket: 'lavacar-e3c4a.appspot.com',
+    apiKey: 'AIzaSyDHSxg6U9Y6mMNHM4XoZUf-aT58jy08Lrc',
+    appId: '1:564681181043:ios:d2e28f83df97b934192706',
+    messagingSenderId: '564681181043',
+    projectId: 'lavacar-c2646',
+    storageBucket: 'lavacar-c2646.firebasestorage.app',
     iosBundleId: 'com.example.lavaCar',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyDHSxg6U9Y6mMNHM4XoZUf-aT58jy08Lrc',
+    appId: '1:564681181043:ios:d2e28f83df97b934192706',
+    messagingSenderId: '564681181043',
+    projectId: 'lavacar-c2646',
+    storageBucket: 'lavacar-c2646.firebasestorage.app',
+    iosBundleId: 'com.example.lavaCar',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyCQ9Xiwsqo0foEVo3nGL17ZYnopIyZ0xkE',
+    appId: '1:564681181043:web:1e27e2ec3fb0de21192706',
+    messagingSenderId: '564681181043',
+    projectId: 'lavacar-c2646',
+    authDomain: 'lavacar-c2646.firebaseapp.com',
+    storageBucket: 'lavacar-c2646.firebasestorage.app',
+    measurementId: 'G-JD1TQS7JTC',
   );
 
 }
